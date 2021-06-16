@@ -1,0 +1,30 @@
+{
+	"name": "timesheet",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon src/app"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Torbaz/timesheet.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Torbaz/timesheet/issues"
+	},
+	"homepage": "https://github.com/Torbaz/timesheet#readme",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"express": "^4.17.1",
+		"mongoose": "^5.12.13"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^5.0.0",
+		"@types/express": "^4.17.12"
+	}
+}
