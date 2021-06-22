@@ -7,6 +7,8 @@ const hasher_1 = require("./hasher");
 const signUp = async (name, email, dob, password) => {
     // Existence and type test done in route, bounds test done here.
     email = email.toLowerCase();
+    if (!dataValidator_1.validateEmail(email))
+        return { error: "Email not valid" };
     if (dataValidator_1.emailInUse(email))
         return { error: "Email in use" };
     if (!dataValidator_1.validatePassword(password))
