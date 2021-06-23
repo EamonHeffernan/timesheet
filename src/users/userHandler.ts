@@ -15,8 +15,11 @@ export const signUp = async (
 ): Promise<IUserHandlerResponse> => {
 	// Existence and type test done in route, bounds test done here.
 	email = email.toLowerCase();
+
 	if (!validateEmail(email)) return { error: "Email not valid" };
-	if (emailInUse(email)) return { error: "Email in use" };
+
+	if (await emailInUse(email)) return { error: "Email in use" };
+
 	if (!validatePassword(password))
 		return { error: "Password does not meet requirements" };
 
@@ -25,5 +28,8 @@ export const signUp = async (
 	user.email = email;
 	user.dob = dob;
 	user.hash = hashString(password);
+
+	user.save();
+
 	return { user: user };
 };

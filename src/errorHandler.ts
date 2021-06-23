@@ -1,8 +1,18 @@
 import { Response } from "express";
 import { returnCode } from "./httpResponses";
 
-export default (err: Error, res: Response = null) => {
-	console.error(err);
-	if (res != null) returnCode(res, 500);
+export default (
+	res: Response = null,
+	err: Error = null,
+	message: string = ""
+) => {
+	if (err) {
+		console.error(err);
+	}
+	if (message != "") {
+		console.error(message);
+	}
+
+	if (res != null) returnCode(res, 500, message);
 	// Restarting server may go here.
 };

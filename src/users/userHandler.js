@@ -9,7 +9,7 @@ const signUp = async (name, email, dob, password) => {
     email = email.toLowerCase();
     if (!dataValidator_1.validateEmail(email))
         return { error: "Email not valid" };
-    if (dataValidator_1.emailInUse(email))
+    if (await dataValidator_1.emailInUse(email))
         return { error: "Email in use" };
     if (!dataValidator_1.validatePassword(password))
         return { error: "Password does not meet requirements" };
@@ -18,6 +18,7 @@ const signUp = async (name, email, dob, password) => {
     user.email = email;
     user.dob = dob;
     user.hash = hasher_1.hashString(password);
+    user.save();
     return { user: user };
 };
 exports.signUp = signUp;

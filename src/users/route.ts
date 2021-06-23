@@ -1,17 +1,37 @@
 import express = require("express");
 import errorHandler from "../errorHandler";
+import { returnCode } from "../httpResponses";
+import { validateInput, InputType } from "../inputValidator";
 import { signUp } from "./userHandler";
 
 const router = express.Router();
 
 module.exports = router;
 
-router.post("/signUp", async (req, res) => {
-	try {
-		// Validate existence and type here
-		signUp("jim", "my", new Date(), "si");
-		res.send("Signed up");
-	} catch (err) {
-		errorHandler(err, res);
+router.post(
+	"/signUp",
+	validateInput([
+		{ name: "email", type: InputType.String },
+		{ name: "name", type: InputType.String },
+		{ name: "password", type: InputType.String },
+	]),
+	async (req, res) => {
+		try {
+			// Validate existence and type here
+			const response = await signUp(
+				req.body.name,
+				req.body.email,
+				new Date(),
+				req.body.password
+			);
+			if ("user" in response) {
+				return returnCode(res, 200, "User created", response.user);
+			} else if ("error" in response) {
+				return returnCode(res, 400, response.error);
+			}
+			return returnCode(res, 500, "An unknown error has occurred");
+		} catch (err) {
+			return errorHandler(res, err);
+		}
 	}
-});
+);
