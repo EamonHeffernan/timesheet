@@ -2,7 +2,7 @@ import express = require("express");
 import errorHandler from "../errorHandler";
 import { returnCode } from "../httpResponses";
 import { validateInput, InputType } from "../inputValidator";
-import { signUp } from "./userHandler";
+import { signUp, signIn } from "./userHandler";
 
 const router = express.Router();
 
@@ -29,7 +29,32 @@ router.post(
 			} else if ("error" in response) {
 				return returnCode(res, 400, response.error);
 			}
-			return returnCode(res, 500, "An unknown error has occurred");
+			return errorHandler(res, null, "An unknown error has occurred");
+		} catch (err) {
+			return errorHandler(res, err);
+		}
+	}
+);
+
+router.post(
+	"/signIn",
+	validateInput([
+		{ name: "email", type: InputType.String },
+		{ name: "password", type: InputType.String },
+	]),
+	async (req, res) => {
+		try {
+			// Validate existence and type here
+			const response = await signIn(
+				req.body.email,
+				req.body.password
+			);
+			if ("user" in response) {
+				return returnCode(res, 200, "Signed in", response.user);
+			} else if ("error" in response) {
+				return returnCode(res, 400, response.error);
+			}
+			return errorHandler(res, null, "An unknown error has occurred");
 		} catch (err) {
 			return errorHandler(res, err);
 		}

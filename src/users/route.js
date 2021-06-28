@@ -24,7 +24,26 @@ router.post("/signUp", inputValidator_1.validateInput([
         else if ("error" in response) {
             return httpResponses_1.returnCode(res, 400, response.error);
         }
-        return httpResponses_1.returnCode(res, 500, "An unknown error has occurred");
+        return errorHandler_1.default(res, null, "An unknown error has occurred");
+    }
+    catch (err) {
+        return errorHandler_1.default(res, err);
+    }
+});
+router.post("/signIn", inputValidator_1.validateInput([
+    { name: "email", type: inputValidator_1.InputType.String },
+    { name: "password", type: inputValidator_1.InputType.String },
+]), async (req, res) => {
+    try {
+        // Validate existence and type here
+        const response = await userHandler_1.signIn(req.body.email, req.body.password);
+        if ("user" in response) {
+            return httpResponses_1.returnCode(res, 200, "Signed in", response.user);
+        }
+        else if ("error" in response) {
+            return httpResponses_1.returnCode(res, 400, response.error);
+        }
+        return errorHandler_1.default(res, null, "An unknown error has occurred");
     }
     catch (err) {
         return errorHandler_1.default(res, err);

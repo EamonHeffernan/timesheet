@@ -5,6 +5,7 @@ export interface IUser extends Document {
 	email: string;
 	dob: Date;
 	hash: string;
+	admin: boolean;
 }
 
 const UserSchema: Schema = new Schema({
@@ -12,6 +13,7 @@ const UserSchema: Schema = new Schema({
 	name: { type: String, required: true },
 	dob: { type: Date, required: true },
 	hash: { type: String, required: true, unique: true },
+	admin: {type: Boolean, required: true,}
 });
 
 // Export the model and return your IUser interface

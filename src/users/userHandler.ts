@@ -1,6 +1,6 @@
 import { User, IUser } from "../model/user";
 import { emailInUse, validateEmail, validatePassword } from "./dataValidator";
-import { hashString } from "./hasher";
+import { hashString, checkHash } from "./hasher";
 
 export interface IUserHandlerResponse {
 	user?: IUser;
@@ -28,8 +28,26 @@ export const signUp = async (
 	user.email = email;
 	user.dob = dob;
 	user.hash = hashString(password);
+	user.admin = false;
 
 	user.save();
 
 	return { user: user };
+};
+
+export const signIn = async (
+	email: string,
+	password: string
+): Promise<IUserHandlerResponse> => {
+	// Existence and type test done in route, bounds test done here.
+	email = email.toLowerCase();
+
+	const user = await User.findOne({email: email})
+	if(user != null){
+		if(checkHash(password, user.hash)){
+			return {user: user}
+		}
+	}
+
+	return { error: "Incorrect credentials" };
 };
