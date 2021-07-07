@@ -26,7 +26,8 @@ const UserSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     dob: { type: Date, required: true },
     hash: { type: String, required: true, unique: true },
-    admin: { type: Boolean, required: true, }
+    admin: { type: Boolean, required: true },
+    sessionKey: { type: String, required: false },
 });
 // Export the model and return your IUser interface
 exports.User = mongoose_1.default.model("User", UserSchema);

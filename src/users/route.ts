@@ -2,6 +2,7 @@ import express = require("express");
 import errorHandler from "../errorHandler";
 import { returnCode } from "../httpResponses";
 import { validateInput, InputType } from "../inputValidator";
+import { saveSessionKey } from "./cookieHandler";
 import { signUp, signIn } from "./userHandler";
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.post(
 				req.body.password
 			);
 			if ("user" in response) {
+				saveSessionKey(res, response.user.id, response.sessionKey);
 				return returnCode(res, 200, "User created", response.user);
 			} else if ("error" in response) {
 				return returnCode(res, 400, response.error);
@@ -45,11 +47,9 @@ router.post(
 	async (req, res) => {
 		try {
 			// Validate existence and type here
-			const response = await signIn(
-				req.body.email,
-				req.body.password
-			);
+			const response = await signIn(req.body.email, req.body.password);
 			if ("user" in response) {
+				saveSessionKey(res, response.user.id, response.sessionKey);
 				return returnCode(res, 200, "Signed in", response.user);
 			} else if ("error" in response) {
 				return returnCode(res, 400, response.error);

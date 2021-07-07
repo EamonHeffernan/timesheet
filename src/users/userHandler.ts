@@ -1,9 +1,12 @@
+const srs = require("secure-random-string");
+
 import { User, IUser } from "../model/user";
 import { emailInUse, validateEmail, validatePassword } from "./dataValidator";
 import { hashString, checkHash } from "./hasher";
 
 export interface IUserHandlerResponse {
 	user?: IUser;
+	sessionKey?: string;
 	error?: string;
 }
 
@@ -32,7 +35,7 @@ export const signUp = async (
 
 	user.save();
 
-	return { user: user };
+	return { user: user, sessionKey: createSessionKey(user) };
 };
 
 export const signIn = async (
@@ -42,12 +45,31 @@ export const signIn = async (
 	// Existence and type test done in route, bounds test done here.
 	email = email.toLowerCase();
 
-	const user = await User.findOne({email: email})
-	if(user != null){
-		if(checkHash(password, user.hash)){
-			return {user: user}
+	const user = await User.findOne({ email: email });
+	if (user != null) {
+		if (checkHash(password, user.hash)) {
+			return { user: user, sessionKey: createSessionKey(user) };
 		}
 	}
 
 	return { error: "Incorrect credentials" };
+};
+
+const createSessionKey = (user: IUser): string => {
+	// Create user key.
+	const key = srs({ length: 256 });
+
+	// Hash the key for storage in the database.
+	const hashedKey = hashString(key);
+
+	// Store key in database.
+	user.sessionKey = hashedKey;
+	user.save();
+
+	// Return plaintext key to be sent to the user.
+	return key;
+};
+
+export const verifySessionKey = (user: IUser, key: string): boolean => {
+	return checkHash(key, user.sessionKey);
 };

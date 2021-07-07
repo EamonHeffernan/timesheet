@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signIn = exports.signUp = void 0;
+exports.verifySessionKey = exports.signIn = exports.signUp = void 0;
+const srs = require("secure-random-string");
 const user_1 = require("../model/user");
 const dataValidator_1 = require("./dataValidator");
 const hasher_1 = require("./hasher");
@@ -20,7 +21,7 @@ const signUp = async (name, email, dob, password) => {
     user.hash = hasher_1.hashString(password);
     user.admin = false;
     user.save();
-    return { user: user };
+    return { user: user, sessionKey: createSessionKey(user) };
 };
 exports.signUp = signUp;
 const signIn = async (email, password) => {
@@ -29,10 +30,25 @@ const signIn = async (email, password) => {
     const user = await user_1.User.findOne({ email: email });
     if (user != null) {
         if (hasher_1.checkHash(password, user.hash)) {
-            return { user: user };
+            return { user: user, sessionKey: createSessionKey(user) };
         }
     }
     return { error: "Incorrect credentials" };
 };
 exports.signIn = signIn;
+const createSessionKey = (user) => {
+    // Create user key.
+    const key = srs({ length: 256 });
+    // Hash the key for storage in the database.
+    const hashedKey = hasher_1.hashString(key);
+    // Store key in database.
+    user.sessionKey = hashedKey;
+    user.save();
+    // Return plaintext key to be sent to the user.
+    return key;
+};
+const verifySessionKey = (user, key) => {
+    return hasher_1.checkHash(key, user.sessionKey);
+};
+exports.verifySessionKey = verifySessionKey;
 //# sourceMappingURL=userHandler.js.map
