@@ -1,22 +1,28 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { createSchema, Type, typedModel, ExtractDoc } from "ts-mongoose";
 
-export interface IUser extends Document {
-	name: string;
-	email: string;
-	dob: Date;
-	hash: string;
-	admin: boolean;
-	sessionKey: string;
-}
+const BreakSchema = createSchema({
+	start: Type.date({ required: true }),
+	end: Type.date({ required: true }),
+});
 
-const UserSchema: Schema = new Schema({
-	email: { type: String, required: true, unique: true },
-	name: { type: String, required: true },
-	dob: { type: Date, required: true },
-	hash: { type: String, required: true, unique: true },
-	admin: { type: Boolean, required: true },
-	sessionKey: { type: String, required: false },
+const DaySchema = createSchema({
+	start: Type.date({ required: true }),
+	end: Type.date({ required: true }),
+	breaks: Type.array({ required: false }).of(BreakSchema),
+});
+
+const UserSchema = createSchema({
+	email: Type.string({ required: true, unique: true }),
+	name: Type.string({ required: true, unique: false }),
+	dob: Type.date({ required: true, unique: false }),
+	hash: Type.string({ required: true, unique: true }),
+	admin: Type.boolean({ required: true, unique: false }),
+	sessionKey: Type.string({ required: false, unique: false }),
+	days: Type.array({ required: false }).of(DaySchema),
 });
 
 // Export the model and return your IUser interface
-export const User = mongoose.model<IUser>("User", UserSchema);
+export const User = typedModel("User", UserSchema);
+export type IUser = ExtractDoc<typeof UserSchema>;
+export type IDay = ExtractDoc<typeof DaySchema>;
+export type IBreak = ExtractDoc<typeof BreakSchema>;

@@ -70,6 +70,9 @@ const createSessionKey = (user: IUser): string => {
 	return key;
 };
 
-export const verifySessionKey = (user: IUser, key: string): boolean => {
-	return checkHash(key, user.sessionKey);
+export const verifySessionKey = (
+	plaintextKey: string,
+	user: IUser
+): boolean => {
+	return checkHash(plaintextKey, user.sessionKey);
 };

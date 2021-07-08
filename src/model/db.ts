@@ -1,11 +1,17 @@
 // Bring Mongoose into the app
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-// Build the connection string
-var dbURI = "mongodb://localhost:27017/timesheet";
+const dbURI = process.env.DATABASEURI;
 
 // Create the database connection
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
+if (dbURI) {
+	mongoose.connect(dbURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	});
+} else {
+	console.error("Mongoose did not open a connection.");
+}
 
 // CONNECTION EVENTS
 // When successfully connected
