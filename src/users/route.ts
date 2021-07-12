@@ -1,7 +1,7 @@
-import express = require("express");
+import express from "express";
 import errorHandler from "../errorHandler";
 import { returnCode } from "../httpResponses";
-import { validateInput, InputType } from "../inputValidator";
+import { validateInput, InputType } from "../dataValidation/inputValidator";
 import { saveSessionKey } from "./cookieHandler";
 import { signUp, signIn } from "./userHandler";
 

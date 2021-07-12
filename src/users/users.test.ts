@@ -1,18 +1,21 @@
 import "mocha";
 import { User, IUser } from "../model/user";
 import { expect } from "chai";
-import { signIn, signUp, verifySessionKey } from "./userHandler";
+import { authenticateUser, signIn, signUp } from "./userHandler";
+import { initMongoConnection } from "../model/db";
 
 require("../model/db");
 
-describe("Create and find user.", () => {
+describe("Create, find and authenticate user.", () => {
+	before("connect", initMongoConnection);
+
 	let backupUser: IUser;
 
-	const name: string = "Jim" + Math.floor(Math.random() * 10).toString();
+	const name: string = "Jim" + Math.floor(Math.random() * 100).toString();
 	const email: string =
-		Math.floor(Math.random() * 10).toString() + "jimmy@example.com";
+		Math.floor(Math.random() * 100).toString() + "jimmy@example.com";
 	const password: string =
-		"Jim'sGreatPassword123" + Math.floor(Math.random() * 10).toString();
+		"Jim'sGreatPassword123" + Math.floor(Math.random() * 100).toString();
 
 	let sessionKey: string;
 	let newSessionKey: string;
@@ -57,14 +60,15 @@ describe("Create and find user.", () => {
 	it("should authenticate with correct sessionKey", async () => {
 		const user = await User.findOne({ email: email });
 
-		expect(verifySessionKey(newSessionKey, user)).to.equal(true);
-		expect(verifySessionKey(sessionKey, user)).to.equal(false);
+		expect(authenticateUser(user, newSessionKey, user.admin)).to.equal(true);
+		expect(authenticateUser(user, sessionKey, user.admin)).to.not.equal(true);
 	});
 	it("should delete a user", async () => {
 		const user = await User.findOne({ email: email });
 		user.remove();
 
 		const newUser = await User.findOne({ email: email });
+
 		expect(newUser).to.equal(null);
 	});
 

@@ -1,7 +1,11 @@
-const srs = require("secure-random-string");
+import srs from "secure-random-string";
 
 import { User, IUser } from "../model/user";
-import { emailInUse, validateEmail, validatePassword } from "./dataValidator";
+import {
+	emailInUse,
+	validateEmail,
+	validatePassword,
+} from "../dataValidation/dataValidator";
 import { hashString, checkHash } from "./hasher";
 
 export interface IUserHandlerResponse {
@@ -57,7 +61,7 @@ export const signIn = async (
 
 const createSessionKey = (user: IUser): string => {
 	// Create user key.
-	const key = srs({ length: 256 });
+	const key = srs({ length: 72 });
 
 	// Hash the key for storage in the database.
 	const hashedKey = hashString(key);
@@ -70,9 +74,10 @@ const createSessionKey = (user: IUser): string => {
 	return key;
 };
 
-export const verifySessionKey = (
-	plaintextKey: string,
-	user: IUser
-): boolean => {
-	return checkHash(plaintextKey, user.sessionKey);
+export const authenticateUser = (
+	user: IUser,
+	sessionKey: string,
+	admin: boolean
+) => {
+	return user.admin == admin && checkHash(sessionKey, user.sessionKey);
 };

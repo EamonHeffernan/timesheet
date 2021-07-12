@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "cross-env DATABASEURI=mongodb://localhost:27017/timesheet ts-mocha src/**/*.test.ts --reporter spec --exit",
-		"dev": "cross-env DATABASEURI=mongodb://localhost:27017/timesheet nodemon src/app"
+		"dev": "cross-env DATABASEURI=mongodb://localhost:27017/timesheet nodemon src/bin/www"
 	},
 	"repository": {
 		"type": "git",

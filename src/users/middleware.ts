@@ -1,9 +1,9 @@
-import express = require("express");
+import express from "express";
 import { returnCode } from "../httpResponses";
 import { IUser, User } from "../model/user";
-import { verifySessionKey } from "./userHandler";
+import { authenticateUser } from "./userHandler";
 
-export const authenticate = async (admin: boolean) => {
+export const authenticate = (admin: boolean) => {
 	return async function (
 		req: express.Request,
 		res: express.Response,
@@ -16,15 +16,13 @@ export const authenticate = async (admin: boolean) => {
 			) {
 				const user: IUser = await User.findById(req.body.accountId);
 				if (user != null) {
-					if (user.admin == admin) {
-						if (verifySessionKey(req.body.sessionKey, user)) {
-							res.locals.user = user;
-							next();
-						}
+					if (authenticateUser(user, req.body.sessionKey, admin)) {
+						res.locals.user = user;
+						return next();
 					}
 				}
 			}
 		}
-		return returnCode(res, 404, "Authentication failed");
+		return returnCode(res, 401, "Authentication failed");
 	};
 };

@@ -1,4 +1,4 @@
-import express = require("express");
+import express from "express";
 import cookieParser from "cookie-parser";
 require("./model/db");
 
@@ -9,7 +9,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", require("./users/route"));
+app.use("/api/staff", require("./staff/route"));
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => console.log(`Server started on ${PORT}`));
+export default app;
