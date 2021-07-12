@@ -3,11 +3,15 @@ import { stringToDate } from "../dataValidation/dataValidator";
 import { returnCode } from "../httpResponses";
 import { InputType, validateInput } from "../dataValidation/inputValidator";
 import { authenticate } from "../users/middleware";
-import { addDay } from "./staffHandler";
+import { addDay, getDays } from "./staffHandler";
 
 const router = express.Router();
 
 module.exports = router;
+
+router.get("/", authenticate(false), (req, res) => {
+	return returnCode(res, 200, "", res.locals.user);
+});
 
 router.post(
 	"/submitDay",
@@ -43,14 +47,23 @@ router.post(
 		if (addDay(res.locals.user, req.body.start, req.body.end, validBreaks)) {
 			return returnCode(res, 200);
 		} else {
-			return returnCode(res, 400, "Breaks not formatted correctly");
+			return returnCode(res, 400, "Day not formatted correctly");
 		}
 	}
 );
 
 router.get(
-	"/getDays",
+	"/days",
 	authenticate(false),
 	validateInput([{ name: "duration", type: InputType.Number }]),
-	() => {}
+	(req, res) => {
+		if (req.body.duration <= 30)
+			return returnCode(
+				res,
+				200,
+				"",
+				getDays(res.locals.user, req.body.duration)
+			);
+		return returnCode(res, 400, "Duration size is greater than allowed.");
+	}
 );

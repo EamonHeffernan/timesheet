@@ -7,14 +7,15 @@ export const addDay = (
 	end: Date,
 	breaks: Array<any>
 ): boolean => {
-	const duration = (end.getTime() - start.getTime()) / 1000;
+	// TODO: Update old day if day is in array, while maintaining order.
+	let duration = (end.getTime() - start.getTime()) / 1000;
 
 	if (duration > 0) {
 		for (let i = 0; i < breaks.length; i++) {
-			const duration =
+			const breakDuration =
 				(breaks[i].end.getTime() - breaks[i].start.getTime()) / 1000;
-			if (duration <= 0) {
-				console.log(duration);
+			if (breakDuration <= 0) {
+				duration -= breakDuration;
 				return false;
 			}
 		}
@@ -37,7 +38,7 @@ export const addDay = (
 
 export const getDays = (user: IUser, duration: number) => {
 	const days = user.days;
-	let validDays: number;
+	let validDays: number = 0;
 	for (var i = days.length - 1; i >= 0; i--) {
 		const day = days[i];
 		if (fullDaysSinceDate(day.start) < duration) {
@@ -46,5 +47,6 @@ export const getDays = (user: IUser, duration: number) => {
 			break;
 		}
 	}
-	return days.slice(-validDays);
+	if (validDays > 0) return days.slice(-validDays);
+	return [];
 };
