@@ -3,7 +3,7 @@ import { returnCode } from "../httpResponses";
 import { IUser, User } from "../model/user";
 import { authenticateUser } from "./userHandler";
 
-export const authenticate = (admin: boolean) => {
+export const authenticate = (staff: boolean, admin: boolean) => {
 	return async function (
 		req: express.Request,
 		res: express.Response,
@@ -16,7 +16,7 @@ export const authenticate = (admin: boolean) => {
 			) {
 				const user: IUser = await User.findById(req.body.accountId);
 				if (user != null) {
-					if (authenticateUser(user, req.body.sessionKey, admin)) {
+					if (authenticateUser(user, req.body.sessionKey, staff, admin)) {
 						res.locals.user = user;
 						return next();
 					}

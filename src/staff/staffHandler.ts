@@ -1,4 +1,5 @@
 import { dateToDay, fullDaysSinceDate } from "../dataValidation/dataValidator";
+import { ChangeRequest } from "../model/changeRequest";
 import { IUser } from "../model/user";
 
 export const addDay = (
@@ -28,7 +29,17 @@ export const addDay = (
 		if (user.days == undefined) {
 			user.days = [day];
 		} else {
-			user.days.push(day);
+			const index = user.days.findIndex(
+				(d) => d.start.getTime() == day.start.getTime()
+			);
+			if (index != -1) {
+				const changeRequest = new ChangeRequest();
+				changeRequest.staffId = user.id;
+				changeRequest.newDay = user.days[index];
+				changeRequest.save();
+			} else {
+				user.days.push(day);
+			}
 		}
 		user.save();
 		return true;

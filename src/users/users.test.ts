@@ -31,7 +31,7 @@ describe("Create, find and authenticate user.", () => {
 		expect(user.name).to.equal(name);
 		expect(user.email).to.equal(email);
 		expect(user.hash).to.not.equal(password);
-		expect(user.sessionKey).to.not.equal("");
+		expect(user.sessionKey).to.not.equal(sessionKey);
 	});
 	it("should find user in database", async () => {
 		const user = await User.findOne({ email: email });
@@ -52,7 +52,8 @@ describe("Create, find and authenticate user.", () => {
 		expect(user.name).to.equal(name);
 		expect(user.email).to.equal(email);
 		expect(user.hash).to.not.equal(password);
-		expect(user.sessionKey).to.not.equal("");
+		expect(user.sessionKey).to.not.equal(newSessionKey);
+		expect(newSessionKey).to.not.equal(sessionKey);
 
 		const info = await signIn(email, password.toLowerCase());
 		expect(info.user).to.equal(undefined);
@@ -60,8 +61,12 @@ describe("Create, find and authenticate user.", () => {
 	it("should authenticate with correct sessionKey", async () => {
 		const user = await User.findOne({ email: email });
 
-		expect(authenticateUser(user, newSessionKey, user.admin)).to.equal(true);
-		expect(authenticateUser(user, sessionKey, user.admin)).to.not.equal(true);
+		expect(
+			authenticateUser(user, newSessionKey, !user.admin, user.admin)
+		).to.equal(true);
+		expect(
+			authenticateUser(user, sessionKey, !user.admin, user.admin)
+		).to.not.equal(true);
 	});
 	it("should delete a user", async () => {
 		const user = await User.findOne({ email: email });

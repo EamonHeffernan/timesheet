@@ -10,5 +10,6 @@ app.use(cookieParser());
 
 app.use("/api/users", require("./users/route"));
 app.use("/api/staff", require("./staff/route"));
+app.use("/api/admin", require("./admin/route"));
 
 export default app;

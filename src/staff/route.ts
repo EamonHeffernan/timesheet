@@ -4,18 +4,19 @@ import { returnCode } from "../httpResponses";
 import { InputType, validateInput } from "../dataValidation/inputValidator";
 import { authenticate } from "../users/middleware";
 import { addDay, getDays } from "./staffHandler";
+import { sendableUser } from "../model/user";
 
 const router = express.Router();
 
 module.exports = router;
 
-router.get("/", authenticate(false), (req, res) => {
-	return returnCode(res, 200, "", res.locals.user);
+router.get("/", authenticate(true, false), (req, res) => {
+	return returnCode(res, 200, "", sendableUser(res.locals.user));
 });
 
 router.post(
 	"/submitDay",
-	authenticate(false),
+	authenticate(true, false),
 	validateInput([
 		{ name: "start", type: InputType.Date },
 		{ name: "end", type: InputType.Date },
@@ -54,7 +55,7 @@ router.post(
 
 router.get(
 	"/days",
-	authenticate(false),
+	authenticate(true, false),
 	validateInput([{ name: "duration", type: InputType.Number }]),
 	(req, res) => {
 		if (req.body.duration <= 30)

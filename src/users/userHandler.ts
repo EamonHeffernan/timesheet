@@ -77,7 +77,11 @@ const createSessionKey = (user: IUser): string => {
 export const authenticateUser = (
 	user: IUser,
 	sessionKey: string,
+	staff: boolean,
 	admin: boolean
 ) => {
-	return user.admin == admin && checkHash(sessionKey, user.sessionKey);
+	return (
+		((user.admin && admin) || (!user.admin && staff)) &&
+		checkHash(sessionKey, user.sessionKey)
+	);
 };
