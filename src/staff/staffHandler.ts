@@ -1,12 +1,12 @@
 import { dateToDay, fullDaysSinceDate } from "../dataValidation/dataValidator";
 import { ChangeRequest } from "../model/changeRequest";
-import { IUser } from "../model/user";
+import { Day, IBreak, IDay, IUser } from "../model/user";
 
 export const addDay = (
 	user: IUser,
 	start: Date,
 	end: Date,
-	breaks: Array<any>
+	breaks: Array<IBreak>
 ): boolean => {
 	// TODO: Update old day if day is in array, while maintaining order.
 	let duration = (end.getTime() - start.getTime()) / 1000;
@@ -20,12 +20,13 @@ export const addDay = (
 				return false;
 			}
 		}
-		const day = {
-			start: start,
-			end: end,
-			breaks: breaks,
-			duration: duration,
-		};
+		const day: IDay = new Day();
+
+		day.start = start;
+		day.end = end;
+		day.breaks = breaks;
+		day.duration = duration;
+
 		if (user.days == undefined) {
 			user.days = [day];
 		} else {

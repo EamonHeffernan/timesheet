@@ -4,7 +4,7 @@ import { returnCode } from "../httpResponses";
 import { InputType, validateInput } from "../dataValidation/inputValidator";
 import { authenticate } from "../users/middleware";
 import { addDay, getDays } from "./staffHandler";
-import { sendableUser } from "../model/user";
+import { IBreak, sendableUser } from "../model/user";
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.post(
 	]),
 	async (req, res) => {
 		//Check and validate breaks
-		let validBreaks: Array<any> = [];
+		let validBreaks: Array<IBreak> = [];
 		if ("breaks" in req.body && Array.isArray(req.body.breaks)) {
 			const breaks: Array<any> = req.body.breaks;
 			for (let i = 0; i < breaks.length; i++) {

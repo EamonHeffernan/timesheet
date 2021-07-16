@@ -40,7 +40,7 @@ export const initMongoConnection = (): Promise<typeof mongoose> => {
 		});
 
 		// BRING IN SCHEMAS & MODELS
-		require("../model/user");
+		require("./user");
 
 		return connectionPromise;
 	} else {
