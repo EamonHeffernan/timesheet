@@ -1,8 +1,17 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+
 require("./model/db");
 
 const app = express();
+
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

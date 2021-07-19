@@ -37,9 +37,12 @@ export const signUp = async (
 	user.hash = hashString(password);
 	user.admin = false;
 
+	// has to be called before save otherwise the session key is not saved.
+	const sessionKey = createSessionKey(user);
+
 	user.save();
 
-	return { user: user, sessionKey: createSessionKey(user) };
+	return { user: user, sessionKey: sessionKey };
 };
 
 export const signIn = async (
@@ -52,7 +55,9 @@ export const signIn = async (
 	const user = await User.findOne({ email: email });
 	if (user != null) {
 		if (checkHash(password, user.hash)) {
-			return { user: user, sessionKey: createSessionKey(user) };
+			const sessionKey = createSessionKey(user);
+			user.save();
+			return { user: user, sessionKey: sessionKey };
 		}
 	}
 
@@ -68,7 +73,6 @@ const createSessionKey = (user: IUser): string => {
 
 	// Store key in database.
 	user.sessionKey = hashedKey;
-	user.save();
 
 	// Return plaintext key to be sent to the user.
 	return key;

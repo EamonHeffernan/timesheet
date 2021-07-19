@@ -9,14 +9,15 @@ export const authenticate = (staff: boolean, admin: boolean) => {
 		res: express.Response,
 		next: express.NextFunction
 	) {
-		if ("accountId" in req.body && "sessionKey" in req.body) {
+		console.log(req.cookies);
+		if ("accountId" in req.cookies && "sessionKey" in req.cookies) {
 			if (
-				typeof req.body.accountId == "string" &&
-				typeof req.body.sessionKey == "string"
+				typeof req.cookies.accountId == "string" &&
+				typeof req.cookies.sessionKey == "string"
 			) {
-				const user: IUser = await User.findById(req.body.accountId);
+				const user: IUser = await User.findById(req.cookies.accountId);
 				if (user != null) {
-					if (authenticateUser(user, req.body.sessionKey, staff, admin)) {
+					if (authenticateUser(user, req.cookies.sessionKey, staff, admin)) {
 						res.locals.user = user;
 						return next();
 					}
