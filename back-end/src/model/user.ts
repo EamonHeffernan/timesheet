@@ -39,11 +39,16 @@ export class UserClass {
 	public sessionKey?: string;
 	@prop({ type: () => DayClass })
 	public days?: DayClass[];
-}
 
-export const sendableUser = (user: IUser) => {
-	return { email: user.email, name: user.name, dob: user.dob };
-};
+	public sendableUser(this: IUser) {
+		return {
+			email: this.email,
+			name: this.name,
+			dob: this.dob,
+			admin: this.admin,
+		};
+	}
+}
 
 // Export the model
 export const User = getModelForClass(UserClass);

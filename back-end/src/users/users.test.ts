@@ -1,7 +1,7 @@
 import "mocha";
 import { User, IUser } from "../model/user";
 import { expect } from "chai";
-import { authenticateUser, signIn, signUp } from "./userHandler";
+import { AllowedGroups, authenticateUser, signIn, signUp } from "./userHandler";
 import { initMongoConnection } from "../model/db";
 
 require("../model/db");
@@ -61,12 +61,12 @@ describe("Create, find and authenticate user.", () => {
 	it("should authenticate with correct sessionKey", async () => {
 		const user = await User.findOne({ email: email });
 
-		expect(
-			authenticateUser(user, newSessionKey, !user.admin, user.admin)
-		).to.equal(true);
-		expect(
-			authenticateUser(user, sessionKey, !user.admin, user.admin)
-		).to.not.equal(true);
+		expect(authenticateUser(user, newSessionKey, AllowedGroups.Both)).to.equal(
+			true
+		);
+		expect(authenticateUser(user, sessionKey, AllowedGroups.Both)).to.not.equal(
+			true
+		);
 	});
 	it("should delete a user", async () => {
 		const user = await User.findOne({ email: email });

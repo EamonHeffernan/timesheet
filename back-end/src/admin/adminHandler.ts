@@ -4,13 +4,13 @@ import {
 	validateEmail,
 } from "../dataValidation/dataValidator";
 import { validateType } from "../dataValidation/inputValidator";
-import { sendableUser, User, IUser } from "../model/user";
+import { User, IUser } from "../model/user";
 
 export const getStaff = async () => {
 	const staff = await User.find({ admin: false });
 	const sendableStaff = [];
 	for (const s of staff) {
-		sendableStaff.push(sendableUser(s));
+		sendableStaff.push(s.sendableUser());
 	}
 	return sendableStaff;
 };

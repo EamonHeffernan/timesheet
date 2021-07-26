@@ -1,23 +1,23 @@
 import express from "express";
 import { returnCode } from "../httpResponses";
 import { IUser, User } from "../model/user";
-import { authenticateUser } from "./userHandler";
+import { AllowedGroups, authenticateUser } from "./userHandler";
 
-export const authenticate = (staff: boolean, admin: boolean) => {
+export const authenticate = (allowedGroups: AllowedGroups) => {
 	return async function (
 		req: express.Request,
 		res: express.Response,
 		next: express.NextFunction
 	) {
-		console.log(req.cookies);
-		if ("accountId" in req.cookies && "sessionKey" in req.cookies) {
-			if (
-				typeof req.cookies.accountId == "string" &&
-				typeof req.cookies.sessionKey == "string"
-			) {
-				const user: IUser = await User.findById(req.cookies.accountId);
+		if ("sessionKey" in req.signedCookies) {
+			if (typeof req.signedCookies.sessionKey == "string") {
+				const user: IUser = await User.findOne({
+					sessionKey: req.signedCookies.sessionKey,
+				});
 				if (user != null) {
-					if (authenticateUser(user, req.cookies.sessionKey, staff, admin)) {
+					if (
+						authenticateUser(user, req.signedCookies.sessionKey, allowedGroups)
+					) {
 						res.locals.user = user;
 						return next();
 					}

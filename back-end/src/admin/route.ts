@@ -1,7 +1,7 @@
 import express from "express";
 import errorHandler from "../errorHandler";
 import { returnCode } from "../httpResponses";
-import { sendableUser, User } from "../model/user";
+import { User } from "../model/user";
 import { authenticate } from "../users/middleware";
 import { getStaff, updateStaff } from "./adminHandler";
 import {
@@ -11,37 +11,42 @@ import {
 	validateType,
 } from "../dataValidation/inputValidator";
 import { ChangeRequest } from "../model/changeRequest";
+import { AllowedGroups } from "../users/userHandler";
 
 const router = express.Router();
 
 module.exports = router;
 
-router.get("/staff", authenticate(false, true), async (req, res) => {
+router.get("/staff", authenticate(AllowedGroups.Admin), async (req, res) => {
 	const staff = await getStaff();
 	return returnCode(res, 200, "", staff);
 });
 
-router.get("/staff/:id", authenticate(false, true), async (req, res) => {
-	try {
-		if (req.params.id.length < 12) {
-			return returnCode(res, 400, "Invalid id");
+router.get(
+	"/staff/:id",
+	authenticate(AllowedGroups.Admin),
+	async (req, res) => {
+		try {
+			if (req.params.id.length < 12) {
+				return returnCode(res, 400, "Invalid id");
+			}
+			const staff = await User.findById(req.params.id);
+			if (staff == null) {
+				return returnCode(res, 400, "Staff not found");
+			}
+			if (staff.admin) {
+				return returnCode(res, 401);
+			}
+			return returnCode(res, 200, "Staff found", staff.sendableUser());
+		} catch (err) {
+			errorHandler(res, err);
 		}
-		const staff = await User.findById(req.params.id);
-		if (staff == null) {
-			return returnCode(res, 400, "Staff not found");
-		}
-		if (staff.admin) {
-			return returnCode(res, 401);
-		}
-		return returnCode(res, 200, "Staff found", sendableUser(staff));
-	} catch (err) {
-		errorHandler(res, err);
 	}
-});
+);
 
 router.put(
 	"/staff/:id",
-	/*authenticate(false, true),*/ async (req, res) => {
+	/*authenticate(AllowedGroups.Admin),*/ async (req, res) => {
 		try {
 			if (req.params.id.length < 12) {
 				return returnCode(res, 400, "Invalid id");
@@ -80,7 +85,7 @@ router.put(
 			if (valuesToChange.length != 0) {
 				const response = await updateStaff(staff, valuesToChange);
 				if (response === true) {
-					return returnCode(res, 200, "Staff updated.", sendableUser(staff));
+					return returnCode(res, 200, "Staff updated.", staff.sendableUser());
 				} else {
 					return returnCode(res, 400, response + " was not correctly set.");
 				}
@@ -95,7 +100,7 @@ router.put(
 
 router.get(
 	"/pendingChangeRequests",
-	authenticate(false, true),
+	authenticate(AllowedGroups.Admin),
 	async (req, res) => {
 		const changeRequests = await ChangeRequest.find({});
 		return returnCode(res, 200, "", changeRequests);
@@ -104,7 +109,7 @@ router.get(
 
 router.post(
 	"/closePendingRequest",
-	authenticate(false, true),
+	authenticate(AllowedGroups.Admin),
 	validateInput([
 		{ name: "id", type: InputType.String },
 		{ name: "acceptRequest", type: InputType.Boolean },

@@ -11,6 +11,7 @@ export default (
 	}
 	if (message != "") {
 		console.error(message);
+		throw message;
 	}
 
 	if (res != null) returnCode(res, 500, message);

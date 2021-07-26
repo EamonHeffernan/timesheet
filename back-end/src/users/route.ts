@@ -2,8 +2,9 @@ import express from "express";
 import errorHandler from "../errorHandler";
 import { returnCode } from "../httpResponses";
 import { validateInput, InputType } from "../dataValidation/inputValidator";
-import { saveSessionKey } from "./cookieHandler";
-import { signUp, signIn } from "./userHandler";
+import { clearSessionKey, saveSessionKey } from "./cookieHandler";
+import { signUp, signIn, AllowedGroups, signOut } from "./userHandler";
+import { authenticate } from "./middleware";
 
 const router = express.Router();
 
@@ -27,7 +28,12 @@ router.post(
 			);
 			if ("user" in response) {
 				saveSessionKey(res, response.user.id, response.sessionKey);
-				return returnCode(res, 200, "User created", response.user);
+				return returnCode(
+					res,
+					200,
+					"User created",
+					response.user.sendableUser()
+				);
 			} else if ("error" in response) {
 				return returnCode(res, 400, response.error);
 			}
@@ -50,7 +56,7 @@ router.post(
 			const response = await signIn(req.body.email, req.body.password);
 			if ("user" in response) {
 				saveSessionKey(res, response.user.id, response.sessionKey);
-				return returnCode(res, 200, "Signed in", response.user);
+				return returnCode(res, 200, "Signed in", response.user.sendableUser());
 			} else if ("error" in response) {
 				return returnCode(res, 400, response.error);
 			}
@@ -60,3 +66,9 @@ router.post(
 		}
 	}
 );
+
+router.post("/signOut", authenticate(AllowedGroups.Both), (req, res) => {
+	signOut(res.locals.user);
+	clearSessionKey(res);
+	return returnCode(res, 200, "Signed out.");
+});

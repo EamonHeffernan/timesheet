@@ -68,11 +68,8 @@ const createSessionKey = (user: IUser): string => {
 	// Create user key.
 	const key = srs({ length: 72 });
 
-	// Hash the key for storage in the database.
-	const hashedKey = hashString(key);
-
 	// Store key in database.
-	user.sessionKey = hashedKey;
+	user.sessionKey = key;
 
 	// Return plaintext key to be sent to the user.
 	return key;
@@ -81,11 +78,27 @@ const createSessionKey = (user: IUser): string => {
 export const authenticateUser = (
 	user: IUser,
 	sessionKey: string,
-	staff: boolean,
-	admin: boolean
+	allowedGroups: AllowedGroups
 ) => {
+	const admin =
+		allowedGroups === AllowedGroups.Admin ||
+		allowedGroups === AllowedGroups.Both;
+	const staff =
+		allowedGroups === AllowedGroups.Staff ||
+		allowedGroups === AllowedGroups.Both;
 	return (
 		((user.admin && admin) || (!user.admin && staff)) &&
-		checkHash(sessionKey, user.sessionKey)
+		sessionKey == user.sessionKey
 	);
+};
+
+export enum AllowedGroups {
+	Staff,
+	Admin,
+	Both,
+}
+
+export const signOut = (user: IUser) => {
+	user.sessionKey = undefined;
+	user.save();
 };
