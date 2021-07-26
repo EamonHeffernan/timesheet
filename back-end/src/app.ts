@@ -16,7 +16,7 @@ export const cookieOptions: CookieOptions = {
 	signed: true,
 	sameSite: "strict",
 	maxAge: maxSessionLength,
-	secure: process.env.NODE_ENV === "production",
+	secure: !dev,
 };
 
 nextApp.prepare().then(() => {
