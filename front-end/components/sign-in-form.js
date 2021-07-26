@@ -1,12 +1,17 @@
+import { useState } from "react";
+
 export default function SignInForm() {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
 	const signIn = async (event) => {
 		try {
 			event.preventDefault();
 
-			const res = await fetch("http://localhost:5000/api/users/signin", {
+			const res = await fetch("http://localhost:5000/api/users/signin/", {
 				body: JSON.stringify({
-					email: event.target.email.value,
-					password: event.target.password.value,
+					email: email,
+					password: password,
 				}),
 				headers: {
 					"Content-Type": "application/json",
@@ -19,7 +24,6 @@ export default function SignInForm() {
 
 			alert(result.message);
 		} catch (err) {
-			console.error(err);
 			alert("Unknown error occurred");
 		}
 	};
@@ -28,15 +32,18 @@ export default function SignInForm() {
 		<form onSubmit={signIn}>
 			<label htmlFor='email'>Email: </label>
 			<input
-				id='email'
-				name='email'
+				onInput={(e) => setEmail(e.target.value)}
 				type='email'
 				autoComplete='email'
 				required
 			/>
 			<br />
 			<label htmlFor='password'>Password: </label>
-			<input id='password' name='password' type='password' required />
+			<input
+				onInput={(e) => setPassword(e.target.value)}
+				type='password'
+				required
+			/>
 			<br />
 			<button type='submit'>Sign In</button>
 		</form>

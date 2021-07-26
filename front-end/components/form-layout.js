@@ -6,9 +6,8 @@ export default function FormLayout({ children, pageName }) {
 	return (
 		<BaseLayout pageName={pageName}>
 			<Title />
-			<br />{" "}
+			<br />
 			<main className={styles["form-box"]}>
-				{" "}
 				<h1 className={`${styles["center-text"]} ${styles["title"]}`}>
 					{pageName}
 				</h1>

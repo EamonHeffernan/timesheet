@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 export default function ForgotPasswordForm() {
+	const [email, setEmail] = useState("");
 	const forgotPassword = async (event) => {
 		try {
 			event.preventDefault();
@@ -7,7 +10,7 @@ export default function ForgotPasswordForm() {
 				"http://localhost:5000/api/users/forgotPassword",
 				{
 					body: JSON.stringify({
-						email: event.target.email.value,
+						email: email,
 					}),
 					headers: {
 						"Content-Type": "application/json",
@@ -30,8 +33,7 @@ export default function ForgotPasswordForm() {
 		<form onSubmit={forgotPassword}>
 			<label htmlFor='email'>Email: </label>
 			<input
-				id='email'
-				name='email'
+				onInput={(e) => setEmail(e.target.value)}
 				type='email'
 				autoComplete='email'
 				required

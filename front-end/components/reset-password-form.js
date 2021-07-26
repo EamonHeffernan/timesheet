@@ -1,11 +1,14 @@
+import { useState } from "react";
+
 export default function ResetPasswordForm() {
+	const [password, setPassword] = useState("");
 	const resetPassword = async (event) => {
 		try {
 			event.preventDefault();
 
 			const res = await fetch("http://localhost:5000/api/users/resetPassword", {
 				body: JSON.stringify({
-					password: event.target.password.value,
+					password: password,
 				}),
 				headers: {
 					"Content-Type": "application/json",
@@ -27,8 +30,7 @@ export default function ResetPasswordForm() {
 		<form onSubmit={resetPassword}>
 			<label htmlFor='password'>Password: </label>
 			<input
-				id='password'
-				name='password'
+				onInput={(e) => setPassword(e.target.value)}
 				type='password'
 				autoComplete='password'
 				required

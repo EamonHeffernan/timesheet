@@ -5,7 +5,7 @@ import FormLayout from "../components/form-layout";
 
 export default function Index() {
 	return (
-		<FormLayout pageName={"Sign In"}>
+		<FormLayout pageName='Sign In'>
 			<h2 className={styles["no-margin"]}>
 				<SignInForm />
 			</h2>
