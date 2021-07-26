@@ -1,5 +1,5 @@
 // Bring Mongoose into the app
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const dbURI = process.env.DATABASEURI;
 
