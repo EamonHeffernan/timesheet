@@ -10,7 +10,7 @@ describe("Validate date inputs", () => {
 			dateString,
 			InputType.Date
 		);
-
+		console.log(dateString);
 		expect(returnedValue.passed).to.equal(true);
 		expect(returnedValue.modifiedValue).to.eql(new Date(dateString));
 	});
@@ -41,12 +41,13 @@ describe("Validate date inputs", () => {
 });
 
 const randomDateString = (): string => {
-	const month = Math.floor(Math.random() * 12);
+	const month = Math.floor(Math.random() * 12) + 1; // 1 - 12
 	// 28 to ensure no issues with months that have less days.
-	const day = Math.floor(Math.random() * 28);
-	const hour = Math.floor(Math.random() * 24);
-	const minute = Math.floor(Math.random() * 60);
-	const second = Math.floor(Math.random() * 60);
+	const day = Math.floor(Math.random() * 28) + 1; // 1 - 28
+	const hour = Math.floor(Math.random() * 24); // 0 - 23
+	const minute = Math.floor(Math.random() * 60); // 0 - 59
+	const second = Math.floor(Math.random() * 60); // 0 - 59
+
 	return (
 		"2021-" +
 		String(month).padStart(2, "0") +
