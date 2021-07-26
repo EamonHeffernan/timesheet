@@ -3,9 +3,14 @@ import styles from "./base-layout.module.css";
 
 export const siteTitle = "Next.js Sample Website";
 
-export default function BaseLayout({ children, pageName }) {
+export default function BaseLayout({
+	children,
+	pageName,
+	mainContainerStyle = styles["main-container"],
+	backgroundStyle = styles["background"],
+}) {
 	return (
-		<div className={styles["background"]}>
+		<div className={backgroundStyle + " " + styles["background"]}>
 			<Head>
 				<title>{pageName}</title>
 				<link rel='icon' href='/favicon.ico' />
@@ -22,7 +27,9 @@ export default function BaseLayout({ children, pageName }) {
 				<meta name='og:title' content={siteTitle} />
 				<meta name='twitter:card' content='summary_large_image' />
 			</Head>
-			<div className={styles["main-container"]}>{children}</div>
+			<div className={mainContainerStyle + " " + styles["main-container"]}>
+				{children}
+			</div>
 		</div>
 	);
 }

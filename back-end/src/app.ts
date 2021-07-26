@@ -1,4 +1,4 @@
-import express from "express";
+import express, { CookieOptions } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -15,7 +15,18 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+
+const cookieSecret = process.env.COOKIE_SECRET || "DefaultCookieSecret";
+export const maxSessionLength = 86400000;
+export const cookieOptions: CookieOptions = {
+	httpOnly: true,
+	signed: true,
+	sameSite: "strict",
+	maxAge: maxSessionLength,
+	secure: process.env.NODE_ENV === "production",
+};
+
+app.use(cookieParser(cookieSecret));
 
 app.use("/api/users", require("./users/route"));
 app.use("/api/staff", require("./staff/route"));

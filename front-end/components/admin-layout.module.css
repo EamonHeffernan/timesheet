@@ -1,0 +1,23 @@
+.main-container {
+	background-color: pink !important;
+	height: 100% !important;
+	justify-content: flex-start !important;
+}
+.background {
+	background-image: none !important;
+	padding: 0% !important;
+}
+
+.header {
+	background-color: rgb(91, 255, 206);
+	height: 8%;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+}
+
+.header-items {
+	margin: 1%;
+}
