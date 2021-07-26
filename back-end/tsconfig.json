@@ -3,10 +3,10 @@
 		"module": "commonjs",
 		"target": "esnext",
 		"sourceMap": true,
-		"watch": true,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true
+		"emitDecoratorMetadata": true,
+		"outDir": "build"
 	},
 	"exclude": ["node_modules"]
 }
