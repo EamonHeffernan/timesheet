@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"sourceMap": false,
-		"noEmit": false
+		"noEmit": false,
+		"allowJs": false
 	},
 	"include": ["server/**/*.ts"]
 }

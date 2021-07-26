@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import styles from "./base-layout.module.css";
 
 export const siteTitle = "Next.js Sample Website";
@@ -26,7 +27,15 @@ export default function BaseLayout({
 				/>
 				<meta name='og:title' content={siteTitle} />
 				<meta name='twitter:card' content='summary_large_image' />
-			</Head>
+			</Head>{" "}
+			<div className={styles["background-image"]}>
+				<Image
+					src='/images/background.jpg'
+					layout='fill'
+					objectFit='cover'
+					quality={100}
+				/>
+			</div>
 			<div className={mainContainerStyle + " " + styles["main-container"]}>
 				{children}
 			</div>
