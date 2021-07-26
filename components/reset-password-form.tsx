@@ -30,7 +30,7 @@ export default function ResetPasswordForm() {
 		<form onSubmit={resetPassword}>
 			<label htmlFor='password'>Password: </label>
 			<input
-				onInput={(e) => setPassword(e.target.value)}
+				onInput={(e) => setPassword(e.currentTarget.value)}
 				type='password'
 				autoComplete='password'
 				required

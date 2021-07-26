@@ -32,7 +32,7 @@ export default function SignInForm() {
 		<form onSubmit={signIn}>
 			<label htmlFor='email'>Email: </label>
 			<input
-				onInput={(e) => setEmail(e.target.value)}
+				onInput={(e) => setEmail(e.currentTarget.value)}
 				type='email'
 				autoComplete='email'
 				required
@@ -40,7 +40,7 @@ export default function SignInForm() {
 			<br />
 			<label htmlFor='password'>Password: </label>
 			<input
-				onInput={(e) => setPassword(e.target.value)}
+				onInput={(e) => setPassword(e.currentTarget.value)}
 				type='password'
 				required
 			/>

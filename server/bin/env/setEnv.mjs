@@ -21,6 +21,8 @@ export const runServer = (args) => {
 					"NODE_ENV=development DATABASEURI=mongodb://127.0.0.1:27017/testTimesheet COOKIE_SECRET=TESTCOOKIESECRET";
 				break;
 			case "production":
+				envVars =
+					"NODE_ENV=production DATABASEURI=mongodb://127.0.0.1:27017/testTimesheet COOKIE_SECRET=PRODCOOKIESECRET";
 				break;
 			default:
 				if (log)

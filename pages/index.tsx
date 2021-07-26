@@ -11,7 +11,7 @@ export default function Index() {
 			</h2>
 			<h6 className={styles["no-margin"]}>
 				<Link href='/user/forgot-password'>
-					<a>Forgot password</a>
+					<a>Forgot Password</a>
 				</Link>
 			</h6>
 		</FormLayout>

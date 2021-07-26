@@ -33,7 +33,7 @@ export default function ForgotPasswordForm() {
 		<form onSubmit={forgotPassword}>
 			<label htmlFor='email'>Email: </label>
 			<input
-				onInput={(e) => setEmail(e.target.value)}
+				onInput={(e) => setEmail(e.currentTarget.value)}
 				type='email'
 				autoComplete='email'
 				required
