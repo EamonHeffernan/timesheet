@@ -1,18 +1,35 @@
-import { fullDaysSinceDate } from "../../dataValidation/otherValidation";
+import {
+	fullDaysSinceDate,
+	startOfDay,
+} from "../../dataValidation/otherValidation";
 import { ChangeRequest } from "../../model/changeRequest";
-import { Day, IBreak, IDay, IUser } from "../../model/user";
+import { IDay, IUser } from "../../model/user";
 
-export const addDay = (user: IUser, day: IDay): boolean => {
+export const addDay = async (user: IUser, day: IDay): Promise<boolean> => {
 	if (user.days == undefined) {
 		user.days = [day];
 	} else {
 		const index = user.days.findIndex(
-			(d) => d.start.getTime() == day.start.getTime()
+			(d) => startOfDay(d.start).getTime() == startOfDay(day.start).getTime()
 		);
 		if (index != -1) {
+			const currentChangeRequests = await ChangeRequest.find({
+				staffId: user.id,
+			});
+			for (const request of currentChangeRequests) {
+				if (
+					startOfDay(request.newDay.start).getTime() ===
+					startOfDay(day.start).getTime()
+				) {
+					request.newDay = day;
+					request.save();
+					return true;
+				}
+			}
+
 			const changeRequest = new ChangeRequest();
 			changeRequest.staffId = user.id;
-			changeRequest.newDay = user.days[index];
+			changeRequest.newDay = day;
 			changeRequest.save();
 		} else {
 			user.days.push(day);

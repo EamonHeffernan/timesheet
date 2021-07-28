@@ -23,3 +23,9 @@ export const fullDaysSinceDate = (input: Date): number => {
 	const difference = timeNow.getTime() - input.getTime();
 	return Math.floor(difference / dayDuration);
 };
+
+export const startOfDay = (input: Date): Date => {
+	const newDate = new Date(input.getTime());
+	newDate.setHours(0, 0, 0, 0);
+	return newDate;
+};

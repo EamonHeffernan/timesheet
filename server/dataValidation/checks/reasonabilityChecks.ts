@@ -17,8 +17,7 @@ export const validateDay = (value: IDay): ValidationResult => {
 	if (fullDaysSinceDate(value.start) > 7 || fullDaysSinceDate(value.end) > 7) {
 		return validationResult(false);
 	}
-	let duration = (value.end.getTime() - value.start.getTime()) / 1000;
-	value.duration = duration;
+	let duration = value.end.getTime() - value.start.getTime();
 
 	for (const b of value.breaks) {
 		const checkResults = reasonabilityCheck(b, "Break");
@@ -34,7 +33,11 @@ export const validateDay = (value: IDay): ValidationResult => {
 		) {
 			return validationResult(false);
 		}
+		duration -= b.end.getTime() - b.start.getTime();
 	}
+
+	duration /= 60000;
+	value.duration = duration;
 	return validationResult(duration > 0, value);
 };
 
