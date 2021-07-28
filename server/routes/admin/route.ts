@@ -1,17 +1,14 @@
 import express from "express";
-import errorHandler from "../errorHandler";
-import { returnCode } from "../httpResponses";
-import { User } from "../model/user";
+import errorHandler from "../../errorHandler";
+import { returnCode } from "../../httpResponses";
+import { User } from "../../model/user";
 import { authenticate } from "../users/middleware";
 import { getStaff, updateStaff } from "./adminHandler";
-import {
-	InputInfo,
-	InputType,
-	validateInput,
-	validateType,
-} from "../dataValidation/inputValidator";
-import { ChangeRequest } from "../model/changeRequest";
+import { ChangeRequest } from "../../model/changeRequest";
 import { AllowedGroups } from "../users/userHandler";
+import { ValidationData } from "../../dataValidation/validateData";
+import validateInput from "../../dataValidation/validateInput";
+import { DataType } from "../../dataValidation/typeCheck";
 
 const router = express.Router();
 
@@ -44,9 +41,10 @@ router.get(
 	}
 );
 
-router.put(
+//Needs fixing
+/*router.put(
 	"/staff/:id",
-	/*authenticate(AllowedGroups.Admin),*/ async (req, res) => {
+	authenticate(AllowedGroups.Admin), async (req, res) => {
 		try {
 			if (req.params.id.length < 12) {
 				return returnCode(res, 400, "Invalid id");
@@ -59,7 +57,7 @@ router.put(
 				return returnCode(res, 401);
 			}
 
-			const modifiableInformation: InputInfo[] = [
+			const modifiableInformation: { name: string } = [
 				{ name: "email", type: InputType.String },
 				{ name: "name", type: InputType.String },
 				{ name: "dob", type: InputType.Date },
@@ -96,7 +94,7 @@ router.put(
 			errorHandler(res, err);
 		}
 	}
-);
+);*/
 
 router.get(
 	"/pendingChangeRequests",
@@ -111,8 +109,8 @@ router.post(
 	"/closePendingRequest",
 	authenticate(AllowedGroups.Admin),
 	validateInput([
-		{ name: "id", type: InputType.String },
-		{ name: "acceptRequest", type: InputType.Boolean },
+		{ name: "id", level: "Format", type: "Id" },
+		{ name: "acceptRequest", level: "Type", type: DataType.Boolean },
 	]),
 	async (req, res) => {
 		if (req.body.id.length < 12) {

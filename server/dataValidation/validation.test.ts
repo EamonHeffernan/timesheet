@@ -1,42 +1,39 @@
 import "mocha";
-
 import { expect } from "chai";
-import { InputType, validateType, ValidationResult } from "./inputValidator";
+import typeCheck, { DataType } from "./typeCheck";
+import reasonabilityCheck, { ValidDataType } from "./reasonabilityCheck";
 
 describe("Validate date inputs", () => {
 	it("should allow a correct date string", () => {
 		const dateString = randomDateString();
-		const returnedValue: ValidationResult = validateType(
-			dateString,
-			InputType.Date
-		);
-		console.log(dateString);
-		expect(returnedValue.passed).to.equal(true);
-		expect(returnedValue.modifiedValue).to.eql(new Date(dateString));
+		const inputInfo = { value: dateString, dataType: DataType.Date };
+
+		const passed = typeCheck(inputInfo);
+
+		expect(passed).to.equal(true);
+		expect(inputInfo.value).to.eql(new Date(dateString));
 	});
 	it("should not allow an incorrect date string", () => {
-		// TODO: Increase boundaries tested here.
-		const dateString = "2021-01-01T99:99:99Z";
-		const returnedValue: ValidationResult = validateType(
-			dateString,
-			InputType.Date
-		);
+		const dateString = "Not a date";
+		const inputInfo = { value: dateString, dataType: DataType.Date };
 
-		expect(returnedValue.passed).to.equal(false);
-		expect(returnedValue.modifiedValue).to.equal(undefined);
+		const passed = typeCheck(inputInfo);
+
+		expect(passed).to.equal(false);
 	});
-	it("should set dates to days correctly", () => {
-		const dateString = randomDateString();
-		const expectedResult = new Date(dateString);
-		expectedResult.setUTCHours(0, 0, 0, 0);
+});
 
-		const returnedValue: ValidationResult = validateType(
-			dateString,
-			InputType.Day
-		);
+describe("Validate Days", () => {
+	it("should validate a correct day", () => {
+		const dataType: ValidDataType = "Break";
+		const input = {
+			value: { start: new Date(new Date().getTime() - 1), end: new Date() },
+			dataType,
+		};
 
-		expect(returnedValue.passed).to.equal(true);
-		expect(returnedValue.modifiedValue).to.eql(expectedResult);
+		const passed = reasonabilityCheck(input);
+
+		expect(passed).to.equal(true);
 	});
 });
 

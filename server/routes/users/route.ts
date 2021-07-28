@@ -1,10 +1,11 @@
 import express from "express";
-import errorHandler from "../errorHandler";
-import { returnCode } from "../httpResponses";
-import { validateInput, InputType } from "../dataValidation/inputValidator";
+import errorHandler from "../../errorHandler";
+import { returnCode } from "../../httpResponses";
+import validateInput from "../../dataValidation/validateInput";
 import { clearSessionKey, saveSessionKey } from "./cookieHandler";
 import { signUp, signIn, AllowedGroups, signOut } from "./userHandler";
 import { authenticate } from "./middleware";
+import { DataType } from "../../dataValidation/typeCheck";
 
 const router = express.Router();
 
@@ -13,13 +14,12 @@ module.exports = router;
 router.post(
 	"/signUp",
 	validateInput([
-		{ name: "email", type: InputType.String },
-		{ name: "name", type: InputType.String },
-		{ name: "password", type: InputType.String },
+		{ name: "email", level: "Format", type: "Email" },
+		{ name: "name", level: "Format", type: "Name" },
+		{ name: "password", level: "Format", type: "Password" },
 	]),
 	async (req, res) => {
 		try {
-			// Validate existence and type here
 			const response = await signUp(
 				req.body.name,
 				req.body.email,
@@ -47,8 +47,8 @@ router.post(
 router.post(
 	"/signIn",
 	validateInput([
-		{ name: "email", type: InputType.String },
-		{ name: "password", type: InputType.String },
+		{ name: "email", level: "Type", type: DataType.String },
+		{ name: "password", level: "Type", type: DataType.String },
 	]),
 	async (req, res) => {
 		try {

@@ -1,8 +1,8 @@
 import "mocha";
-import { User, IUser } from "../model/user";
+import { User, IUser } from "../../model/user";
 import { expect } from "chai";
 import { AllowedGroups, authenticateUser, signIn, signUp } from "./userHandler";
-import { initMongoConnection } from "../model/db";
+import { initMongoConnection } from "../../model/db";
 
 require("../model/db");
 

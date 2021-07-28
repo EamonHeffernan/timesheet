@@ -1,4 +1,9 @@
 import "../styles/global.css";
+import path from "path";
+
+export const serverFiles = path.resolve(
+	path.join("../", process.env.NODE_ENV === "production" ? "dist" : "server")
+);
 
 export default function App({ Component, pageProps }) {
 	return <Component {...pageProps} />;

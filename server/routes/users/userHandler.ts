@@ -1,11 +1,7 @@
 import srs from "secure-random-string";
+import { emailInUse } from "../../dataValidation/otherValidation";
 
-import { User, IUser } from "../model/user";
-import {
-	emailInUse,
-	validateEmail,
-	validatePassword,
-} from "../dataValidation/dataValidator";
+import { User, IUser } from "../../model/user";
 import { hashString, checkHash } from "./hasher";
 
 export interface IUserHandlerResponse {
@@ -23,12 +19,7 @@ export const signUp = async (
 	// Existence and type test done in route, bounds test done here.
 	email = email.toLowerCase();
 
-	if (!validateEmail(email)) return { error: "Email not valid" };
-
 	if (await emailInUse(email)) return { error: "Email in use" };
-
-	if (!validatePassword(password))
-		return { error: "Password does not meet requirements" };
 
 	const user = new User();
 	user.name = name;

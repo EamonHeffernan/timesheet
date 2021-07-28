@@ -20,24 +20,23 @@ export const cookieOptions: CookieOptions = {
 };
 
 nextApp.prepare().then(() => {
-	app.use(
-		cors({
-			origin: "http://localhost:3000",
-			credentials: true,
-		})
-	);
+	app.use(cors());
 
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
 
 	app.use(cookieParser(cookieSecret));
 
-	app.use("/api/users", require("./users/route"));
-	app.use("/api/staff", require("./staff/route"));
-	app.use("/api/admin", require("./admin/route"));
+	app.use("/api/users", require("./routes/users/route"));
+	app.use("/api/staff", require("./routes/staff/route"));
+	app.use("/api/admin", require("./routes/admin/route"));
 
 	app.get("*", (req, res) => {
 		return handle(req, res);
+	});
+
+	app.get("*", (req, res) => {
+		return res.send("Error, please refresh the page.");
 	});
 });
 

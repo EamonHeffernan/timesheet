@@ -1,7 +1,12 @@
 import { useState } from "react";
+import BreakForm from "./break-form";
 
 export default function DateForm() {
-	const [email, setEmail] = useState("");
+	const [date, setDate] = useState("");
+	const [start, setStart] = useState("");
+	const [end, setEnd] = useState("");
+	const [breaks, setBreaks] = useState(4);
+
 	const forgotPassword = async (event) => {
 		try {
 			event.preventDefault();
@@ -10,7 +15,7 @@ export default function DateForm() {
 				"http://localhost:5000/api/users/forgotPassword",
 				{
 					body: JSON.stringify({
-						email: email,
+						email: start,
 					}),
 					headers: {
 						"Content-Type": "application/json",
@@ -31,14 +36,29 @@ export default function DateForm() {
 
 	return (
 		<form onSubmit={forgotPassword}>
-			<label htmlFor='email'>Email: </label>
+			<label htmlFor='date'>Date: </label>
 			<input
-				onInput={(e) => setEmail(e.currentTarget.value)}
-				type='email'
-				autoComplete='email'
+				onInput={(e) => setDate(e.currentTarget.value)}
+				type='date'
 				required
 			/>
 			<br />
+			<label htmlFor='start'>Start: </label>
+			<input
+				onInput={(e) => setStart(e.currentTarget.value)}
+				type='time'
+				required
+			/>
+			<label htmlFor='end'>End: </label>
+			<input
+				onInput={(e) => setEnd(e.currentTarget.value)}
+				type='time'
+				required
+			/>
+			<br />
+			{[...Array(breaks)].map((e, i) => (
+				<BreakForm />
+			))}
 			<button type='submit'>Reset Password</button>
 		</form>
 	);

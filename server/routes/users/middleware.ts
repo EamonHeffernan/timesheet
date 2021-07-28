@@ -1,6 +1,6 @@
 import express from "express";
-import { returnCode } from "../httpResponses";
-import { IUser, User } from "../model/user";
+import { returnCode } from "../../httpResponses";
+import { IUser, User } from "../../model/user";
 import { AllowedGroups, authenticateUser } from "./userHandler";
 
 export const authenticate = (allowedGroups: AllowedGroups) => {

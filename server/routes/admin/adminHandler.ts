@@ -1,10 +1,4 @@
-import {
-	emailInUse,
-	validateDate,
-	validateEmail,
-} from "../dataValidation/dataValidator";
-import { validateType } from "../dataValidation/inputValidator";
-import { User, IUser } from "../model/user";
+import { User, IUser } from "../../model/user";
 
 export const getStaff = async () => {
 	const staff = await User.find({ admin: false });
@@ -19,7 +13,7 @@ export const updateStaff = async (
 	staff: IUser,
 	changes: { name: string; value: any }[]
 ) => {
-	for (const change of changes) {
+	/*for (const change of changes) {
 		if (change.name == "email") {
 			if (!validateEmail(change.value) || (await emailInUse(change.value))) {
 				return change.name;
@@ -39,5 +33,5 @@ export const updateStaff = async (
 		staff[change.name] = change.value;
 	}
 	staff.save();
-	return true;
+	return true;*/
 };

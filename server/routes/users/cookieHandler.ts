@@ -1,5 +1,5 @@
 import express from "express";
-import { cookieOptions } from "../app";
+import { cookieOptions } from "../../app";
 
 export const saveSessionKey = (
 	res: express.Response,

@@ -4,7 +4,8 @@
 		"module": "commonjs",
 		"sourceMap": false,
 		"noEmit": false,
-		"allowJs": false
+		"allowJs": false,
+		"outDir": "dist"
 	},
 	"include": ["server/**/*.ts"]
 }
