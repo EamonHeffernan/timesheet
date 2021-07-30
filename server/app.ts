@@ -3,10 +3,14 @@ import cors from "cors";
 import express, { CookieOptions } from "express";
 import next from "next";
 
-require("./model/db");
+import router from "./routes/router";
+
 export const prod = process.env.NODE_ENV === "production";
 export const test = process.env.NODE_ENV === "test";
-const nextApp = next({ dev: !prod });
+
+const nodePackage = require("../package.json");
+
+const nextApp = next({ dev: !prod, dir: "./" + nodePackage.dirs.next });
 const handle = nextApp.getRequestHandler();
 const app = express();
 
@@ -28,9 +32,7 @@ nextApp.prepare().then(() => {
 
 	app.use(cookieParser(cookieSecret));
 
-	app.use("/api/users", require("./routes/users/route"));
-	app.use("/api/staff", require("./routes/staff/route"));
-	app.use("/api/admin", require("./routes/admin/route"));
+	router(app);
 
 	app.get("*", (req, res) => {
 		return handle(req, res);

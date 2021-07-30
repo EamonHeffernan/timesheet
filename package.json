@@ -3,14 +3,19 @@
 	"version": "1.0.0",
 	"description": "Timesheet",
 	"main": "index.js",
+	"dirs": {
+		"server": "server",
+		"build": "build",
+		"next": "public"
+	},
 	"bin": {
 		"setEnv": "server/bin/env/setEnv.mjs"
 	},
 	"scripts": {
-		"build": "next build && tsc --project server.tsconfig.json",
-		"start": "setEnv production node dist/bin/www.js",
-		"test": "setEnv test ts-mocha server/**/*.test.ts --reporter spec --exit",
-		"dev": "setEnv development nodemon server/bin/www --config ./config/nodemon.json"
+		"build": "tsc && cd %npm_package_dirs_next% && next build",
+		"start": "setEnv production node %npm_package_dirs_build%/bin/www.js",
+		"test": "setEnv test ts-mocha %npm_package_dirs_server%/**/*.test.ts --reporter spec --exit",
+		"dev": "setEnv development nodemon %npm_package_dirs_server%/bin/www"
 	},
 	"repository": {
 		"type": "git",
