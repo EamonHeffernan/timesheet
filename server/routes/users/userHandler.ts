@@ -1,8 +1,12 @@
 import srs from "secure-random-string";
-import { emailInUse } from "../../dataValidation/otherValidation";
 
-import { User, IUser } from "../../model/user";
-import { hashString, checkHash } from "./hasher";
+import { prod, test } from "../../app";
+import { emailInUse } from "../../dataValidation/otherValidation";
+import { IUser, User } from "../../model/user";
+import { checkHash, hashString } from "./hasher";
+
+// By adding check for dev mode, removes chances of leaving this off in prod.
+const removeAdminAuthentication = true && !prod && !test;
 
 export interface IUserHandlerResponse {
 	user?: IUser;
@@ -40,9 +44,6 @@ export const signIn = async (
 	email: string,
 	password: string
 ): Promise<IUserHandlerResponse> => {
-	// Existence and type test done in route, bounds test done here.
-	email = email.toLowerCase();
-
 	const user = await User.findOne({ email: email });
 	if (user != null) {
 		if (checkHash(password, user.hash)) {
@@ -71,6 +72,14 @@ export const authenticateUser = (
 	sessionKey: string,
 	allowedGroups: AllowedGroups
 ) => {
+	if (
+		removeAdminAuthentication &&
+		(allowedGroups === AllowedGroups.Admin ||
+			allowedGroups === AllowedGroups.Both)
+	) {
+		return true;
+	}
+
 	const admin =
 		allowedGroups === AllowedGroups.Admin ||
 		allowedGroups === AllowedGroups.Both;

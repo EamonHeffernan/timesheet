@@ -1,6 +1,6 @@
 import { IBreak, IDay } from "../../model/user";
 import { fullDaysSinceDate } from "../otherValidation";
-import reasonabilityCheck from "../reasonabilityCheck";
+import { reasonabilityCheck } from "../reasonabilityCheck";
 import { validationResult, ValidationResult } from "../validateData";
 
 export const validateBreak = (value: IBreak): ValidationResult => {

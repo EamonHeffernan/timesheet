@@ -1,11 +1,12 @@
-import express, { CookieOptions } from "express";
-import next from "next";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import express, { CookieOptions } from "express";
+import next from "next";
 
 require("./model/db");
-const dev = process.env.NODE_ENV !== "production";
-const nextApp = next({ dev });
+export const prod = process.env.NODE_ENV === "production";
+export const test = process.env.NODE_ENV === "test";
+const nextApp = next({ dev: !prod });
 const handle = nextApp.getRequestHandler();
 const app = express();
 
@@ -16,7 +17,7 @@ export const cookieOptions: CookieOptions = {
 	signed: true,
 	sameSite: "strict",
 	maxAge: maxSessionLength,
-	secure: !dev,
+	secure: prod,
 };
 
 nextApp.prepare().then(() => {

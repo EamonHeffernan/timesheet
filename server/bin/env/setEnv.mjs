@@ -18,11 +18,12 @@ export const runServer = (args) => {
 				break;
 			case "test":
 				envVars =
-					"NODE_ENV=development DATABASEURI=mongodb://127.0.0.1:27017/testTimesheet COOKIE_SECRET=TESTCOOKIESECRET";
+					"NODE_ENV=test DATABASEURI=mongodb://127.0.0.1:27017/testTimesheet COOKIE_SECRET=TESTCOOKIESECRET";
 				break;
 			case "production":
+				// Used for testing production mode, when launching in production this will not be used.
 				envVars =
-					"NODE_ENV=production DATABASEURI=mongodb://127.0.0.1:27017/testTimesheet COOKIE_SECRET=PRODCOOKIESECRET";
+					"NODE_ENV=production DATABASEURI=mongodb://127.0.0.1:27017/timesheet COOKIE_SECRET=PRODCOOKIESECRET";
 				break;
 			default:
 				if (log)

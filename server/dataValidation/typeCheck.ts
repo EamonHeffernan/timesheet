@@ -1,11 +1,8 @@
-import existenceCheck from "./existenceCheck";
-import {
-	checkBreakType,
-	checkDateType,
-	checkDayType,
-} from "./checks/typeChecks";
-import { ValidationResult, validationResult } from "./validateData";
+import { checkBreakType, checkDateType, checkDayType } from "./checks/typeChecks";
+import { existenceCheck } from "./existenceCheck";
+import { validationResult, ValidationResult } from "./validateData";
 
+export * from "./checks/typeChecks";
 export enum DataType {
 	String = "string",
 	Boolean = "boolean",
@@ -15,7 +12,7 @@ export enum DataType {
 	Break = "break",
 }
 
-const typeCheck = (value: any, dataType: DataType): ValidationResult => {
+export const typeCheck = (value: any, dataType: DataType): ValidationResult => {
 	if (!existenceCheck(value)) {
 		return validationResult(false);
 	}
@@ -27,8 +24,6 @@ const typeCheck = (value: any, dataType: DataType): ValidationResult => {
 		case DataType.Break:
 			return checkBreakType(value);
 		default:
-			return validationResult(typeof value === dataType);
+			return validationResult(typeof value === dataType, value);
 	}
 };
-
-export default typeCheck;

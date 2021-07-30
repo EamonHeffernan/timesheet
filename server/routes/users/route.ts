@@ -1,11 +1,11 @@
 import express from "express";
+
+import { DataType, validateInput } from "../../dataValidation/validateInput";
 import errorHandler from "../../errorHandler";
 import { returnCode } from "../../httpResponses";
-import validateInput from "../../dataValidation/validateInput";
 import { clearSessionKey, saveSessionKey } from "./cookieHandler";
-import { signUp, signIn, AllowedGroups, signOut } from "./userHandler";
 import { authenticate } from "./middleware";
-import { DataType } from "../../dataValidation/typeCheck";
+import { AllowedGroups, signIn, signOut, signUp } from "./userHandler";
 
 const router = express.Router();
 
@@ -14,9 +14,9 @@ module.exports = router;
 router.post(
 	"/signUp",
 	validateInput([
-		{ name: "email", level: "Format", type: "Email" },
-		{ name: "name", level: "Format", type: "Name" },
-		{ name: "password", level: "Format", type: "Password" },
+		{ name: "email", level: "Format", format: "Name" },
+		{ name: "name", level: "Format", format: "Name" },
+		{ name: "password", level: "Format", format: "Password" },
 	]),
 	async (req, res) => {
 		try {
@@ -47,8 +47,8 @@ router.post(
 router.post(
 	"/signIn",
 	validateInput([
-		{ name: "email", level: "Type", type: DataType.String },
-		{ name: "password", level: "Type", type: DataType.String },
+		{ name: "email", level: "Format", format: "Email" },
+		{ name: "password", level: "Type", dataType: DataType.String },
 	]),
 	async (req, res) => {
 		try {

@@ -4,9 +4,8 @@ import { authenticate } from "../users/middleware";
 import { addDay, getDays } from "./staffHandler";
 import { IDay, IUser } from "../../model/user";
 import { AllowedGroups } from "../users/userHandler";
-import validateInput from "../../dataValidation/validateInput";
-import { DataType } from "../../dataValidation/typeCheck";
 import errorHandler from "../../errorHandler";
+import { DataType, validateInput } from "../../dataValidation/validateInput";
 
 const router = express.Router();
 
@@ -24,7 +23,9 @@ router.get("/", authenticate(AllowedGroups.Staff), (req, res) => {
 router.post(
 	"/submitDay",
 	authenticate(AllowedGroups.Staff),
-	validateInput([{ name: "day", level: "Reasonability", type: "Day" }]),
+	validateInput([
+		{ name: "day", level: "Reasonability", validDataType: "Day" },
+	]),
 	async (req, res) => {
 		try {
 			const day = req.body.day as IDay;
@@ -42,7 +43,9 @@ router.post(
 router.get(
 	"/days",
 	authenticate(AllowedGroups.Staff),
-	validateInput([{ name: "duration", level: "Type", type: DataType.Number }]),
+	validateInput([
+		{ name: "duration", level: "Type", dataType: DataType.Number },
+	]),
 	(req, res) => {
 		try {
 			if (req.body.duration <= 30)

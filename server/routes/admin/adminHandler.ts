@@ -1,3 +1,4 @@
+import { ChangeRequest } from "../../model/changeRequest";
 import { User, IUser } from "../../model/user";
 
 export const getStaff = async () => {
@@ -9,29 +10,17 @@ export const getStaff = async () => {
 	return sendableStaff;
 };
 
-export const updateStaff = async (
+export const updateStaff = (
 	staff: IUser,
 	changes: { name: string; value: any }[]
-) => {
-	/*for (const change of changes) {
-		if (change.name == "email") {
-			if (!validateEmail(change.value) || (await emailInUse(change.value))) {
-				return change.name;
-			}
-			change.value = change.value.toLowerCase();
-		} else if (change.name == "name") {
-		} else if (change.name == "dob") {
-			const date = change.value;
-			if (date != undefined && date != null) {
-				if (!validateDate(date)) {
-					return change.name;
-				}
-			}
-		} else {
-			return change.name;
-		}
+): boolean => {
+	for (const change of changes) {
 		staff[change.name] = change.value;
 	}
 	staff.save();
-	return true;*/
+	return true;
+};
+
+export const getPendingChangeRequests = async () => {
+	return ChangeRequest.find({});
 };

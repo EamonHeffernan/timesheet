@@ -1,7 +1,8 @@
 import { start } from "repl";
+
 import { validationResult, ValidationResult } from "../validateData";
 import { stringToDate } from "./../otherValidation";
-import typeCheck, { DataType } from "./../typeCheck";
+import { DataType, typeCheck } from "./../typeCheck";
 
 export const checkDateType = (value: any): ValidationResult => {
 	if (value instanceof Date) return validationResult(true, value);
@@ -29,6 +30,8 @@ export const checkDayType = (value: any): ValidationResult => {
 					}
 					value.breaks[i] = breakObject.value;
 				}
+			} else {
+				value.breaks = [];
 			}
 			return validationResult(true, value);
 		}

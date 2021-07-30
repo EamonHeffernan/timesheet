@@ -1,15 +1,12 @@
-import {
-	validateDay,
-	validateDate,
-	validateBreak,
-} from "./checks/reasonabilityChecks";
-import typeCheck, { DataType } from "./typeCheck";
+import { validateBreak, validateDate, validateDay } from "./checks/reasonabilityChecks";
+import { DataType, typeCheck } from "./typeCheck";
 import { validationResult, ValidationResult } from "./validateData";
 
 const noCheckImplemented = (input: any) => {
 	return true;
 };
 
+export * from "./checks/reasonabilityChecks";
 export type ValidDataType = "DateOfBirth" | "Day" | "Break";
 
 interface ValidDataInfo {
@@ -23,7 +20,10 @@ const dataTypes: Record<ValidDataType, ValidDataInfo> = {
 	Break: { type: DataType.Break, valid: validateBreak },
 };
 
-export default (value: any, dataType: ValidDataType): ValidationResult => {
+export const reasonabilityCheck = (
+	value: any,
+	dataType: ValidDataType
+): ValidationResult => {
 	if (!(dataType in dataTypes)) {
 		return validationResult(false);
 	}

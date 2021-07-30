@@ -9,7 +9,7 @@
 	"scripts": {
 		"build": "next build && tsc --project server.tsconfig.json",
 		"start": "setEnv production node dist/bin/www.js",
-		"test": "setEnv test ts-mocha server/**/validation.test.ts --reporter spec --exit",
+		"test": "setEnv test ts-mocha server/**/*.test.ts --reporter spec --exit",
 		"dev": "setEnv development nodemon server/bin/www --config ./config/nodemon.json"
 	},
 	"repository": {

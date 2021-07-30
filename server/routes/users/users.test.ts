@@ -1,13 +1,23 @@
-import "mocha";
-import { User, IUser } from "../../model/user";
 import { expect } from "chai";
-import { AllowedGroups, authenticateUser, signIn, signUp } from "./userHandler";
+
 import { initMongoConnection } from "../../model/db";
+import { IUser, User } from "../../model/user";
+import { AllowedGroups, authenticateUser, signIn, signUp } from "./userHandler";
 
-require("../model/db");
+import "mocha";
 
-describe("Create, find and authenticate user.", () => {
+describe("Validate User", () => {
 	before("connect", initMongoConnection);
+	afterEach(function () {
+		if (this.currentTest.state === "failed") {
+			console.log(backupUser);
+			console.log(name);
+			console.log(email);
+			console.log(password);
+			console.log(sessionKey);
+			console.log(newSessionKey);
+		}
+	});
 
 	let backupUser: IUser;
 
@@ -31,7 +41,7 @@ describe("Create, find and authenticate user.", () => {
 		expect(user.name).to.equal(name);
 		expect(user.email).to.equal(email);
 		expect(user.hash).to.not.equal(password);
-		expect(user.sessionKey).to.not.equal(sessionKey);
+		expect(user.sessionKey).to.equal(sessionKey);
 	});
 	it("should find user in database", async () => {
 		const user = await User.findOne({ email: email });
@@ -40,9 +50,9 @@ describe("Create, find and authenticate user.", () => {
 		expect(user.name).to.equal(name);
 		expect(user.email).to.equal(email);
 		expect(user.hash).to.not.equal(password);
-		expect(user.sessionKey).to.not.equal("");
+		expect(user.sessionKey).to.equal(sessionKey);
 	});
-	it("should allow signing in with the correct credentials", async () => {
+	it("should allow signing in only with the correct credentials", async () => {
 		const userInfo = await signIn(email, password);
 		const user = userInfo.user;
 
@@ -52,9 +62,9 @@ describe("Create, find and authenticate user.", () => {
 		expect(user.name).to.equal(name);
 		expect(user.email).to.equal(email);
 		expect(user.hash).to.not.equal(password);
-		expect(user.sessionKey).to.not.equal(newSessionKey);
 		expect(newSessionKey).to.not.equal(sessionKey);
-
+	});
+	it("should not allow signing in with incorrect credentials", async () => {
 		const info = await signIn(email, password.toLowerCase());
 		expect(info.user).to.equal(undefined);
 	});
@@ -70,7 +80,7 @@ describe("Create, find and authenticate user.", () => {
 	});
 	it("should delete a user", async () => {
 		const user = await User.findOne({ email: email });
-		user.remove();
+		await user.remove();
 
 		const newUser = await User.findOne({ email: email });
 

@@ -1,10 +1,5 @@
-import {
-	validEmail,
-	validId,
-	validName,
-	validPassword,
-} from "./checks/formatChecks";
-import typeCheck, { DataType } from "./typeCheck";
+import { validEmail, validId, validName, validPassword } from "./checks/formatChecks";
+import { DataType, typeCheck } from "./typeCheck";
 import { validationResult, ValidationResult } from "./validateData";
 
 const noCheckImplemented = (input: any) => {
@@ -12,6 +7,7 @@ const noCheckImplemented = (input: any) => {
 	return true;
 };
 
+export * from "./checks/formatChecks";
 export type Format = "Email" | "Password" | "Name" | "Id";
 
 interface FormatInfo {
@@ -26,7 +22,7 @@ const formats: Record<Format, FormatInfo> = {
 	Id: { type: DataType.String, valid: validId },
 };
 
-export default (value: any, format: Format): ValidationResult => {
+export const formatCheck = (value: any, format: Format): ValidationResult => {
 	if (!(format in formats)) {
 		return validationResult(false);
 	}

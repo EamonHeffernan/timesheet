@@ -1,7 +1,4 @@
-import {
-	fullDaysSinceDate,
-	startOfDay,
-} from "../../dataValidation/otherValidation";
+import { fullDaysSinceDate, startOfDay } from "../../dataValidation/otherValidation";
 import { ChangeRequest } from "../../model/changeRequest";
 import { IDay, IUser } from "../../model/user";
 

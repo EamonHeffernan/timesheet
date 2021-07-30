@@ -1,39 +1,35 @@
-import "mocha";
 import { expect } from "chai";
-import typeCheck, { DataType } from "./typeCheck";
-import reasonabilityCheck, { ValidDataType } from "./reasonabilityCheck";
 
-describe("Validate date inputs", () => {
+import { DataType, reasonabilityCheck, typeCheck, ValidDataType } from "./validateData";
+
+import "mocha";
+
+describe("Validate Dates", () => {
 	it("should allow a correct date string", () => {
 		const dateString = randomDateString();
-		const inputInfo = { value: dateString, dataType: DataType.Date };
 
-		const passed = typeCheck(inputInfo);
+		const result = typeCheck(dateString, DataType.Date);
 
-		expect(passed).to.equal(true);
-		expect(inputInfo.value).to.eql(new Date(dateString));
+		expect(result.passed).to.equal(true);
+		expect(result.value).to.eql(new Date(dateString));
 	});
 	it("should not allow an incorrect date string", () => {
 		const dateString = "Not a date";
-		const inputInfo = { value: dateString, dataType: DataType.Date };
 
-		const passed = typeCheck(inputInfo);
+		const result = typeCheck(dateString, DataType.Date);
 
-		expect(passed).to.equal(false);
+		expect(result.passed).to.equal(false);
 	});
 });
 
 describe("Validate Days", () => {
 	it("should validate a correct day", () => {
-		const dataType: ValidDataType = "Break";
-		const input = {
-			value: { start: new Date(new Date().getTime() - 1), end: new Date() },
-			dataType,
-		};
+		const result = reasonabilityCheck(
+			{ start: new Date(new Date().getTime() - 1), end: new Date() },
+			"Break"
+		);
 
-		const passed = reasonabilityCheck(input);
-
-		expect(passed).to.equal(true);
+		expect(result.passed).to.equal(true);
 	});
 });
 
