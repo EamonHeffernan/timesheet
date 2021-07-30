@@ -1,215 +1,33 @@
+import express from "express";
+
+declare global {
+	namespace Express {
+		export interface Response {
+			returnCode?: (code: number, message?: string, data?: object) => void;
+		}
+	}
+}
+
 /**
  * Takes response information and formats and sends it
- * @param res res object from a router function
  * @param code Http response status code.
  * @param message String of message to send user. If blank will be set to the default message for the status code
  * @param data Json object of data to send
  * @returns Void
  */
-export const returnCode = (
-	res,
+express.response["returnCode"] = function (
 	code: number,
 	message: string = "",
 	data: object = {}
-) => {
-	let statusMessage = "";
-	switch (code) {
-		case 100:
-			statusMessage = "CONTINUE";
-			break;
-		case 101:
-			statusMessage = "SWITCHING PROTOCOLS";
-			break;
-		case 102:
-			statusMessage = "PROCESSING";
-			break;
-		case 103:
-			statusMessage = "EARLY HINTS";
-			break;
-		case 200:
-			statusMessage = "OK";
-			break;
-		case 201:
-			statusMessage = "CREATED";
-			break;
-		case 202:
-			statusMessage = "ACCEPTED";
-			break;
-		case 203:
-			statusMessage = "NON-AUTHORITATIVE INFORMATION";
-			break;
-		case 204:
-			statusMessage = "NO CONTENT";
-			break;
-		case 205:
-			statusMessage = "RESET CONTENT";
-			break;
-		case 206:
-			statusMessage = "PARTIAL CONTENT";
-			break;
-		case 207:
-			statusMessage = "MULTI-STATUS";
-			break;
-		case 208:
-			statusMessage = "ALREADY REPORTED";
-			break;
-		case 226:
-			statusMessage = "IM USED";
-			break;
-		case 300:
-			statusMessage = "MULTIPLE CHOICES";
-			break;
-		case 301:
-			statusMessage = "MOVED PERMANENTLY";
-			break;
-		case 302:
-			statusMessage = "FOUND";
-			break;
-		case 303:
-			statusMessage = "SEE OTHER";
-			break;
-		case 304:
-			statusMessage = "NOT MODIFIED";
-			break;
-		case 307:
-			statusMessage = "TEMPORARY REDIRECT";
-			break;
-		case 308:
-			statusMessage = "PERMANENT REDIRECT";
-			break;
-		case 400:
-			statusMessage = "BAD REQUEST";
-			break;
-		case 401:
-			statusMessage = "UNAUTHORIZED";
-			break;
-		case 402:
-			statusMessage = "PAYMENT REQUIRED";
-			break;
-		case 403:
-			statusMessage = "FORBIDDEN";
-			break;
-		case 404:
-			statusMessage = "NOT FOUND";
-			break;
-		case 405:
-			statusMessage = "METHOD NOT ALLOWED";
-			break;
-		case 405:
-			statusMessage = "NOT ACCEPTABLE";
-			break;
-		case 407:
-			statusMessage = "PROXY AUTHENTICATION REQUIRED";
-			break;
-		case 408:
-			statusMessage = "REQUEST TIMEOUT";
-			break;
-		case 409:
-			statusMessage = "CONFLICT";
-			break;
-		case 410:
-			statusMessage = "GONE";
-			break;
-		case 411:
-			statusMessage = "LENGTH REQUIRED";
-			break;
-		case 412:
-			statusMessage = "PRECONDITION FAILED";
-			break;
-		case 413:
-			statusMessage = "PAYLOAD TOO LARGE";
-			break;
-		case 414:
-			statusMessage = "URI TOO LONG";
-			break;
-		case 415:
-			statusMessage = "UNSUPPORTED MEDIA TYPE";
-			break;
-		case 416:
-			statusMessage = "RANGE NOT SATISFIABLE";
-			break;
-		case 417:
-			statusMessage = "EXPECTATION FAILED";
-			break;
-		case 418:
-			statusMessage = "I'M A TEAPOT";
-			break;
-		case 421:
-			statusMessage = "MISDIRECTED REQUEST";
-			break;
-		case 422:
-			statusMessage = "UNPROCESSABLE ENTITY";
-			break;
-		case 423:
-			statusMessage = "LOCKED";
-			break;
-		case 424:
-			statusMessage = "FAILED DEPENDENCY";
-			break;
-		case 425:
-			statusMessage = "TOO EARLY";
-			break;
-		case 426:
-			statusMessage = "UPGRADE REQUIRED";
-			break;
-		case 428:
-			statusMessage = "PRECONDITION REQUIRED";
-			break;
-		case 429:
-			statusMessage = "TOO MANY REQUESTS";
-			break;
-		case 431:
-			statusMessage = "REQUEST HEADER FIELDS TOO LARGE";
-			break;
-		case 451:
-			statusMessage = "UNAVAILABLE FOR LEGAL REASONS";
-			break;
-		case 500:
-			statusMessage = "INTERNAL SERVER ERROR";
-			break;
-		case 501:
-			statusMessage = "NOT IMPLEMENTED";
-			break;
-		case 502:
-			statusMessage = "BAD GATEWAY";
-			break;
-		case 503:
-			statusMessage = "SERVICE UNAVAILABLE";
-			break;
-		case 504:
-			statusMessage = "GATEWAY TIMEOUT";
-			break;
-		case 505:
-			statusMessage = "HTTP VERSION NOT SUPPORTED";
-			break;
-		case 506:
-			statusMessage = "VARIANT ALSO NEGOTIATES";
-			break;
-		case 507:
-			statusMessage = "INSUFFICIENT STORAGE";
-			break;
-		case 508:
-			statusMessage = "LOOP DETECTED";
-			break;
-		case 510:
-			statusMessage = "NOT EXTENDED";
-			break;
-		case 511:
-			statusMessage = "CONTINUE";
-			break;
-		default:
-			statusMessage = "NETWORK AUTHENTICATION REQUIRED";
-			break;
-	}
-
+): void {
 	if (message != "") {
 		message = ": " + message;
 	}
 
 	let sendData: any = {
-		statusCode: code,
-		message: statusMessage + message,
 		timeStamp: new Date().toUTCString(),
+		statusCode: code,
+		message: statusCodeToMessage(code) + message,
 	};
 
 	// Checks if there is data
@@ -217,5 +35,195 @@ export const returnCode = (
 		sendData.data = data;
 	}
 
-	return res.status(code).json(sendData);
+	return this.status(code).json(sendData);
+};
+
+const statusCodeToMessage = (code: number): string => {
+	switch (code) {
+		case 100:
+			return "CONTINUE";
+
+		case 101:
+			return "SWITCHING PROTOCOLS";
+
+		case 102:
+			return "PROCESSING";
+
+		case 103:
+			return "EARLY HINTS";
+
+		case 200:
+			return "OK";
+
+		case 201:
+			return "CREATED";
+
+		case 202:
+			return "ACCEPTED";
+
+		case 203:
+			return "NON-AUTHORITATIVE INFORMATION";
+
+		case 204:
+			return "NO CONTENT";
+
+		case 205:
+			return "RESET CONTENT";
+
+		case 206:
+			return "PARTIAL CONTENT";
+
+		case 207:
+			return "MULTI-STATUS";
+
+		case 208:
+			return "ALREADY REPORTED";
+
+		case 226:
+			return "IM USED";
+
+		case 300:
+			return "MULTIPLE CHOICES";
+
+		case 301:
+			return "MOVED PERMANENTLY";
+
+		case 302:
+			return "FOUND";
+
+		case 303:
+			return "SEE OTHER";
+
+		case 304:
+			return "NOT MODIFIED";
+
+		case 307:
+			return "TEMPORARY REDIRECT";
+
+		case 308:
+			return "PERMANENT REDIRECT";
+
+		case 400:
+			return "BAD REQUEST";
+
+		case 401:
+			return "UNAUTHORIZED";
+
+		case 402:
+			return "PAYMENT REQUIRED";
+
+		case 403:
+			return "FORBIDDEN";
+
+		case 404:
+			return "NOT FOUND";
+
+		case 405:
+			return "METHOD NOT ALLOWED";
+
+		case 405:
+			return "NOT ACCEPTABLE";
+
+		case 407:
+			return "PROXY AUTHENTICATION REQUIRED";
+
+		case 408:
+			return "REQUEST TIMEOUT";
+
+		case 409:
+			return "CONFLICT";
+
+		case 410:
+			return "GONE";
+
+		case 411:
+			return "LENGTH REQUIRED";
+
+		case 412:
+			return "PRECONDITION FAILED";
+
+		case 413:
+			return "PAYLOAD TOO LARGE";
+
+		case 414:
+			return "URI TOO LONG";
+
+		case 415:
+			return "UNSUPPORTED MEDIA TYPE";
+
+		case 416:
+			return "RANGE NOT SATISFIABLE";
+
+		case 417:
+			return "EXPECTATION FAILED";
+
+		case 418:
+			return "I'M A TEAPOT";
+
+		case 421:
+			return "MISDIRECTED REQUEST";
+
+		case 422:
+			return "UNPROCESSABLE ENTITY";
+
+		case 423:
+			return "LOCKED";
+
+		case 424:
+			return "FAILED DEPENDENCY";
+
+		case 425:
+			return "TOO EARLY";
+
+		case 426:
+			return "UPGRADE REQUIRED";
+
+		case 428:
+			return "PRECONDITION REQUIRED";
+
+		case 429:
+			return "TOO MANY REQUESTS";
+
+		case 431:
+			return "REQUEST HEADER FIELDS TOO LARGE";
+
+		case 451:
+			return "UNAVAILABLE FOR LEGAL REASONS";
+
+		case 500:
+			return "INTERNAL SERVER ERROR";
+
+		case 501:
+			return "NOT IMPLEMENTED";
+
+		case 502:
+			return "BAD GATEWAY";
+
+		case 503:
+			return "SERVICE UNAVAILABLE";
+
+		case 504:
+			return "GATEWAY TIMEOUT";
+
+		case 505:
+			return "HTTP VERSION NOT SUPPORTED";
+
+		case 506:
+			return "VARIANT ALSO NEGOTIATES";
+
+		case 507:
+			return "INSUFFICIENT STORAGE";
+
+		case 508:
+			return "LOOP DETECTED";
+
+		case 510:
+			return "NOT EXTENDED";
+
+		case 511:
+			return "NETWORK AUTHENTICATION REQUIRED";
+
+		default:
+			return "";
+	}
 };

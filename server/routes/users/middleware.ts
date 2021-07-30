@@ -1,6 +1,5 @@
 import express from "express";
 
-import { returnCode } from "../../httpResponses";
 import { IUser, User } from "../../model/user";
 import { AllowedGroups, authenticateUser } from "./userHandler";
 
@@ -27,6 +26,6 @@ export const authenticate = (allowedGroups: AllowedGroups) => {
 				}
 			}
 		}
-		return returnCode(res, 401, "Authentication failed");
+		return res.returnCode(401, "Authentication failed");
 	};
 };

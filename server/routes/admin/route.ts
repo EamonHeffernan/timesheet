@@ -1,12 +1,23 @@
 import express from "express";
 
-import { DataType, emailInUse, InputData, startOfDay, validateBody, validateInput } from "../../dataValidation/validateInput";
+import {
+	DataType,
+	emailInUse,
+	InputData,
+	startOfDay,
+	validateBody,
+	validateInput,
+} from "../../dataValidation/validateInput";
 import errorHandler from "../../errorHandler";
-import { returnCode } from "../../httpResponses";
 import { ChangeRequest } from "../../model/changeRequest";
 import { User } from "../../model/user";
 import { AllowedGroups, authenticate } from "../users/middleware";
-import { getPendingChangeRequests, getStaff, updateStaff } from "./adminHandler";
+import {
+	getPendingChangeRequests,
+	getStaff,
+	resolveChangeRequest,
+	updateStaff,
+} from "./adminHandler";
 
 const router = express.Router();
 
@@ -14,7 +25,7 @@ module.exports = router;
 
 router.get("/staff", authenticate(AllowedGroups.Admin), async (req, res) => {
 	const staff = await getStaff();
-	return returnCode(res, 200, "", staff);
+	return res.returnCode(200, "", staff);
 });
 
 router.get(
@@ -23,16 +34,16 @@ router.get(
 	async (req, res) => {
 		try {
 			if (req.params.id.length < 12) {
-				return returnCode(res, 400, "Invalid id");
+				return res.returnCode(400, "Invalid id");
 			}
 			const staff = await User.findById(req.params.id);
 			if (staff == null) {
-				return returnCode(res, 400, "Staff not found");
+				return res.returnCode(400, "Staff not found");
 			}
 			if (staff.admin) {
-				return returnCode(res, 401);
+				return res.returnCode(401);
 			}
-			return returnCode(res, 200, "Staff found", staff.sendableUser());
+			return res.returnCode(200, "Staff found", staff.sendableUser());
 		} catch (err) {
 			errorHandler(res, err);
 		}
@@ -46,7 +57,7 @@ router.put(
 		try {
 			const staff = await User.findById(req.params.id);
 			if (staff == null) {
-				return returnCode(res, 400, "Staff not found");
+				return res.returnCode(400, "Staff not found");
 			}
 
 			const modifiableInformation: InputData[] = [
@@ -61,8 +72,7 @@ router.put(
 				const validationResult = validateBody(req, info);
 
 				if (!validationResult.passed) {
-					return returnCode(
-						res,
+					return res.returnCode(
 						400,
 						info.name + " was not correctly formatted."
 					);
@@ -70,7 +80,7 @@ router.put(
 
 				if (info.name === "email") {
 					if (await emailInUse(req.body["email"])) {
-						return returnCode(res, 400, "Email in use.");
+						return res.returnCode(400, "Email in use.");
 					}
 				}
 
@@ -82,12 +92,12 @@ router.put(
 			if (valuesToChange.length != 0) {
 				const response = updateStaff(staff, valuesToChange);
 				if (response === true) {
-					return returnCode(res, 200, "Staff updated.", staff.sendableUser());
+					return res.returnCode(200, "Staff updated.", staff.sendableUser());
 				} else {
-					return returnCode(res, 400, response + " was not correctly set.");
+					return res.returnCode(400, response + " was not correctly set.");
 				}
 			} else {
-				return returnCode(res, 400, "No values to update were entered.");
+				return res.returnCode(400, "No values to update were entered.");
 			}
 		} catch (err) {
 			errorHandler(res, err);
@@ -100,7 +110,7 @@ router.get(
 	authenticate(AllowedGroups.Admin),
 	async (req, res) => {
 		const changeRequests = await getPendingChangeRequests();
-		return returnCode(res, 200, "", changeRequests);
+		return res.returnCode(200, "", changeRequests);
 	}
 );
 
@@ -113,36 +123,17 @@ router.post(
 	]),
 	async (req, res) => {
 		try {
-			console.log(req.body.id);
 			const changeRequest = await ChangeRequest.findById(req.body.id);
 			if (changeRequest == null) {
-				return returnCode(res, 400, "Change request not found.");
+				return res.returnCode(400, "Change request not found.");
 			}
 
-			if (req.body.acceptRequest) {
-				// Update user here.
-				const staff = await User.findById(changeRequest.staffId);
-
-				if (staff == null) {
-					return errorHandler(res, null, "Staff not found for change request");
-				}
-
-				for (let i = 0; i < staff.days.length; i++) {
-					if (
-						startOfDay(staff.days[i].start).getTime() ==
-						startOfDay(changeRequest.newDay.start).getTime()
-					) {
-						staff.days[i] = changeRequest.newDay;
-						staff.save();
-						changeRequest.remove();
-						return returnCode(res, 200, "Applied change request.");
-					}
-				}
-				//changeRequest.remove();
-				return errorHandler(res, null, "Day not found for change request");
-			} else {
-				changeRequest.remove();
-				return returnCode(res, 200, "Removed change request.");
+			const result = await resolveChangeRequest(
+				changeRequest,
+				req.body.acceptRequest
+			);
+			if (result != null) {
+				return res.returnCode(200, result);
 			}
 		} catch (error) {
 			return errorHandler(res, error);

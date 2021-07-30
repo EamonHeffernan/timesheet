@@ -1,5 +1,5 @@
 import express from "express";
-import { returnCode } from "../httpResponses";
+
 import validateData, { ValidationData, ValidationResult } from "./validateData";
 
 export * from "./validateData";
@@ -16,7 +16,7 @@ export const validateInput = (inputs: InputData[]) => {
 		for (const input of inputs) {
 			const result = validateBody(req, input);
 			if (!result.passed) {
-				return returnCode(res, 400, `${input.name} is not valid.`);
+				return res.returnCode(400, `${input.name} is not valid.`);
 			}
 		}
 		return next();

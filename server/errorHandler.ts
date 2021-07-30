@@ -1,7 +1,5 @@
 import { Response } from "express";
 
-import { returnCode } from "./httpResponses";
-
 export default (
 	res: Response = null,
 	err: Error = null,
@@ -14,6 +12,6 @@ export default (
 		throw "ERROR: " + message;
 	}
 
-	if (res != null) returnCode(res, 500, message);
+	if (res != null) res.returnCode(500, message);
 	// Restarting server may go here.
 };

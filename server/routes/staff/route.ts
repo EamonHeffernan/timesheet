@@ -2,7 +2,6 @@ import express from "express";
 
 import { DataType, validateInput } from "../../dataValidation/validateInput";
 import errorHandler from "../../errorHandler";
-import { returnCode } from "../../httpResponses";
 import { IDay, IUser } from "../../model/user";
 import { authenticate } from "../users/middleware";
 import { AllowedGroups } from "../users/userHandler";
@@ -15,7 +14,7 @@ module.exports = router;
 router.get("/", authenticate(AllowedGroups.Staff), (req, res) => {
 	try {
 		const user: IUser = res.locals.user;
-		return returnCode(res, 200, "", user.sendableUser());
+		return res.returnCode(200, "", user.sendableUser());
 	} catch (err) {
 		return errorHandler(res, err);
 	}
@@ -31,7 +30,7 @@ router.post(
 		try {
 			const day = req.body.day as IDay;
 			const response = await addDay(res.locals.user, day);
-			return returnCode(res, 200, response);
+			return res.returnCode(200, response);
 		} catch (err) {
 			return errorHandler(res, err);
 		}
@@ -47,13 +46,12 @@ router.get(
 	(req, res) => {
 		try {
 			if (req.body.duration <= 30)
-				return returnCode(
-					res,
+				return res.returnCode(
 					200,
 					"",
 					getDays(res.locals.user, req.body.duration)
 				);
-			return returnCode(res, 400, "Duration size is greater than allowed.");
+			return res.returnCode(400, "Duration size is greater than allowed.");
 		} catch (err) {
 			return errorHandler(res, err);
 		}

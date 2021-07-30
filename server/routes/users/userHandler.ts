@@ -1,7 +1,7 @@
 import srs from "secure-random-string";
 
 import { prod, test } from "../../app";
-import { emailInUse } from "../../dataValidation/otherValidation";
+import { emailInUse } from "../../dataValidation/validateData";
 import { IUser, User } from "../../model/user";
 import { checkHash, hashString } from "./hasher";
 
@@ -12,6 +12,12 @@ export interface IUserHandlerResponse {
 	user?: IUser;
 	sessionKey?: string;
 	error?: string;
+}
+
+export enum AllowedGroups {
+	Staff,
+	Admin,
+	Both,
 }
 
 export const signUp = async (
@@ -91,12 +97,6 @@ export const authenticateUser = (
 		sessionKey == user.sessionKey
 	);
 };
-
-export enum AllowedGroups {
-	Staff,
-	Admin,
-	Both,
-}
 
 export const signOut = (user: IUser) => {
 	user.sessionKey = undefined;
