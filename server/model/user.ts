@@ -1,9 +1,4 @@
-import {
-	getModelForClass,
-	prop,
-	DocumentType,
-	modelOptions,
-} from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
 export class BreakClass {
 	@prop()
@@ -12,6 +7,7 @@ export class BreakClass {
 	public end: Date;
 }
 
+@modelOptions({ schemaOptions: { _id: false } })
 export class DayClass {
 	@prop()
 	public start: Date;
@@ -38,7 +34,7 @@ export class UserClass {
 	@prop()
 	public sessionKey?: string;
 	@prop({ type: () => DayClass })
-	public days?: DayClass[];
+	public days: DayClass[];
 
 	public sendableUser(this: IUser) {
 		return {
@@ -53,7 +49,5 @@ export class UserClass {
 // Export the model
 export const User = getModelForClass(UserClass);
 export type IUser = DocumentType<UserClass>;
-export const Day = DayClass;
 export type IDay = DayClass;
-export const Break = BreakClass;
 export type IBreak = BreakClass;

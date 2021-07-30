@@ -34,11 +34,12 @@ export const runServer = (args) => {
 		let envVars;
 		if (args[0] in config) {
 			const info = config[args[0]];
-			let others = " " + info.others;
-			if (others === " ") {
-				others = "";
-			}
-			envVars = `NODE_ENV=${info.NODE_ENV} DATABASEURI=mongodb://${info.DATABASEURI} COOKIE_SECRET=${info.COOKIE_SECRET}${others}`;
+
+			envVars = `NODE_ENV=${info.NODE_ENV} DATABASEURI=mongodb://${
+				info.DATABASEURI
+			} COOKIE_SECRET=${info.COOKIE_SECRET}${
+				info.others !== "" ? " " + info.others : ""
+			}`;
 		} else {
 			console.warn("No environment variables found, proceeding with start.");
 		}

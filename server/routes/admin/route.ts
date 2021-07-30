@@ -1,6 +1,6 @@
 import express from "express";
 
-import { DataType, emailInUse, InputData, validateBody, validateInput } from "../../dataValidation/validateInput";
+import { DataType, emailInUse, InputData, startOfDay, validateBody, validateInput } from "../../dataValidation/validateInput";
 import errorHandler from "../../errorHandler";
 import { returnCode } from "../../httpResponses";
 import { ChangeRequest } from "../../model/changeRequest";
@@ -112,28 +112,40 @@ router.post(
 		{ name: "acceptRequest", level: "Type", dataType: DataType.Boolean },
 	]),
 	async (req, res) => {
-		const changeRequest = await ChangeRequest.findById(req.body.id);
-		if (changeRequest == null) {
-			return returnCode(res, 400, "Change request not found.");
-		}
-
-		if (req.body.acceptRequest) {
-			// Update user here.
-			const staff = await User.findById(changeRequest.staffId);
-
-			const index = staff.days.findIndex(
-				(day) => day.start.getTime() == changeRequest.newDay.start.getTime()
-			);
-			if (index == -1) {
-				return returnCode(res, 500);
+		try {
+			console.log(req.body.id);
+			const changeRequest = await ChangeRequest.findById(req.body.id);
+			if (changeRequest == null) {
+				return returnCode(res, 400, "Change request not found.");
 			}
-			staff.days[index] = changeRequest.newDay;
-			staff.save();
-			changeRequest.remove();
-			return returnCode(res, 200, "Applied change request.");
-		} else {
-			changeRequest.remove();
-			return returnCode(res, 200, "Removed change request.");
+
+			if (req.body.acceptRequest) {
+				// Update user here.
+				const staff = await User.findById(changeRequest.staffId);
+
+				if (staff == null) {
+					return errorHandler(res, null, "Staff not found for change request");
+				}
+
+				for (let i = 0; i < staff.days.length; i++) {
+					if (
+						startOfDay(staff.days[i].start).getTime() ==
+						startOfDay(changeRequest.newDay.start).getTime()
+					) {
+						staff.days[i] = changeRequest.newDay;
+						staff.save();
+						changeRequest.remove();
+						return returnCode(res, 200, "Applied change request.");
+					}
+				}
+				//changeRequest.remove();
+				return errorHandler(res, null, "Day not found for change request");
+			} else {
+				changeRequest.remove();
+				return returnCode(res, 200, "Removed change request.");
+			}
+		} catch (error) {
+			return errorHandler(res, error);
 		}
 	}
 );

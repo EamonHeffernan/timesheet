@@ -1,11 +1,12 @@
 import express from "express";
-import { returnCode } from "../../httpResponses";
-import { authenticate } from "../users/middleware";
-import { addDay, getDays } from "./staffHandler";
-import { IDay, IUser } from "../../model/user";
-import { AllowedGroups } from "../users/userHandler";
-import errorHandler from "../../errorHandler";
+
 import { DataType, validateInput } from "../../dataValidation/validateInput";
+import errorHandler from "../../errorHandler";
+import { returnCode } from "../../httpResponses";
+import { IDay, IUser } from "../../model/user";
+import { authenticate } from "../users/middleware";
+import { AllowedGroups } from "../users/userHandler";
+import { addDay, getDays } from "./staffHandler";
 
 const router = express.Router();
 
@@ -29,11 +30,8 @@ router.post(
 	async (req, res) => {
 		try {
 			const day = req.body.day as IDay;
-			if (addDay(res.locals.user, day)) {
-				return returnCode(res, 200);
-			} else {
-				return returnCode(res, 400, "Day not formatted correctly");
-			}
+			const response = await addDay(res.locals.user, day);
+			return returnCode(res, 200, response);
 		} catch (err) {
 			return errorHandler(res, err);
 		}

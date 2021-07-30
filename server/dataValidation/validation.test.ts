@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { DataType, reasonabilityCheck, typeCheck, ValidDataType } from "./validateData";
+import { DataType, reasonabilityCheck, typeCheck } from "./validateData";
 
 import "mocha";
 

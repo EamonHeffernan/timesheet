@@ -2,38 +2,34 @@ import { fullDaysSinceDate, startOfDay } from "../../dataValidation/otherValidat
 import { ChangeRequest } from "../../model/changeRequest";
 import { IDay, IUser } from "../../model/user";
 
-export const addDay = async (user: IUser, day: IDay): Promise<boolean> => {
-	if (user.days == undefined) {
-		user.days = [day];
-	} else {
-		const index = user.days.findIndex(
-			(d) => startOfDay(d.start).getTime() == startOfDay(day.start).getTime()
-		);
-		if (index != -1) {
-			const currentChangeRequests = await ChangeRequest.find({
+export const addDay = async (user: IUser, newDay: IDay): Promise<string> => {
+	for (const day of user.days) {
+		if (
+			startOfDay(day.start).getTime() === startOfDay(newDay.start).getTime()
+		) {
+			const pendingChangeRequests = await ChangeRequest.find({
 				staffId: user.id,
 			});
-			for (const request of currentChangeRequests) {
+			for (const request of pendingChangeRequests) {
 				if (
 					startOfDay(request.newDay.start).getTime() ===
-					startOfDay(day.start).getTime()
+					startOfDay(newDay.start).getTime()
 				) {
-					request.newDay = day;
+					request.newDay = newDay;
 					request.save();
-					return true;
+					return "Updated existing change request.";
 				}
 			}
-
 			const changeRequest = new ChangeRequest();
 			changeRequest.staffId = user.id;
-			changeRequest.newDay = day;
+			changeRequest.newDay = newDay;
 			changeRequest.save();
-		} else {
-			user.days.push(day);
+			return "Created new change request.";
 		}
 	}
+	user.days.push(newDay);
 	user.save();
-	return true;
+	return "Saved new day.";
 };
 
 export const getDays = (user: IUser, duration: number) => {

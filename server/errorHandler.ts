@@ -1,4 +1,5 @@
 import { Response } from "express";
+
 import { returnCode } from "./httpResponses";
 
 export default (
@@ -10,8 +11,7 @@ export default (
 		console.error(err);
 	}
 	if (message != "") {
-		console.error(message);
-		throw message;
+		throw "ERROR: " + message;
 	}
 
 	if (res != null) returnCode(res, 500, message);
