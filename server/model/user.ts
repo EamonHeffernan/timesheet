@@ -24,6 +24,7 @@ export class DayClass {
 class TokenClass {
 	@prop()
 	public key: string;
+	@prop()
 	public timeStamp: Date;
 }
 

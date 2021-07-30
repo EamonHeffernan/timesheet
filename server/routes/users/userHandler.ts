@@ -67,7 +67,7 @@ const createSessionKey = (user: IUser): string => {
 	const key = srs({ length: 72 });
 
 	// Store key in database.
-	user.sessionKey = { key, timeStamp: new Date() };
+	user.sessionKey = { key, timeStamp: new Date() };	
 
 	// Return plaintext key to be sent to the user.
 	return key;
