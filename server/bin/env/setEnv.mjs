@@ -3,6 +3,27 @@ import shell from "shelljs";
 
 const [, , ...processArgs] = process.argv;
 
+const config = {
+	development: {
+		NODE_ENV: "development",
+		DATABASEURI: "localhost:27017/timesheet",
+		COOKIE_SECRET: "DEVELOPMENTCOOKIESECRET",
+		others: "",
+	},
+	test: {
+		NODE_ENV: "test",
+		DATABASEURI: "localhost:27017/testTimesheet",
+		COOKIE_SECRET: "TESTCOOKIESECRET",
+		others: "",
+	},
+	production: {
+		NODE_ENV: "production",
+		DATABASEURI: "localhost:27017/timesheet",
+		COOKIE_SECRET: "PRODCOOKIESECRET",
+		others: "PORT=5000",
+	},
+};
+
 export const runServer = (args) => {
 	const log = args[0] === "true";
 	if (args[0] === "true" || args[0] === "false") {
@@ -11,29 +32,21 @@ export const runServer = (args) => {
 
 	if (args.length > 1) {
 		let envVars;
-		switch (args[0]) {
-			case "development":
-				envVars =
-					"NODE_ENV=development DATABASEURI=mongodb://127.0.0.1:27017/timesheet COOKIE_SECRET=DEVELOPMENTCOOKIESECRET";
-				break;
-			case "test":
-				envVars =
-					"NODE_ENV=test DATABASEURI=mongodb://127.0.0.1:27017/testTimesheet COOKIE_SECRET=TESTCOOKIESECRET";
-				break;
-			case "production":
-				// Used for testing production mode, when launching in production this will not be used.
-				envVars =
-					"NODE_ENV=production DATABASEURI=mongodb://127.0.0.1:27017/timesheet COOKIE_SECRET=PRODCOOKIESECRET";
-				break;
-			default:
-				if (log)
-					console.log("No environment variables found, proceeding with start.");
-				break;
+		if (args[0] in config) {
+			const info = config[args[0]];
+			let others = " " + info.others;
+			if (others === " ") {
+				others = "";
+			}
+			envVars = `NODE_ENV=${info.NODE_ENV} DATABASEURI=mongodb://${info.DATABASEURI} COOKIE_SECRET=${info.COOKIE_SECRET}${others}`;
+		} else {
+			console.warn("No environment variables found, proceeding with start.");
 		}
-		if (envVars != undefined) {
+
+		if (envVars !== undefined) {
 			if (log) {
 				console.log(`Loaded "${args[0]}" environment`);
-				console.log(`Loaded ENV variables: ${envVars}`);
+				console.log(`Loaded ENV variables: "${envVars}"`);
 			}
 			args.splice(0, 1);
 

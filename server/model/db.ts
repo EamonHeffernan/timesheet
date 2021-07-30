@@ -30,14 +30,7 @@ export const initMongoConnection = (): Promise<typeof mongoose> => {
 		});
 
 		// If the Node process ends, close the Mongoose connection
-		process.on("SIGINT", function () {
-			mongoose.connection.close(function () {
-				console.log(
-					"Mongoose default connection disconnected through app termination"
-				);
-				process.exit(0);
-			});
-		});
+		process.once("SIGINT", close("SIGINT"));
 
 		// BRING IN SCHEMAS & MODELS
 		require("./user");
@@ -47,4 +40,15 @@ export const initMongoConnection = (): Promise<typeof mongoose> => {
 		console.error("Mongoose did not open a connection.");
 		return;
 	}
+};
+
+const close = (code) => {
+	return () => {
+		mongoose.connection.close(() => {
+			console.log(
+				"Mongoose default connection disconnected through app termination"
+			);
+			process.kill(process.pid, code);
+		});
+	};
 };
