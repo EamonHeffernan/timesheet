@@ -1,5 +1,4 @@
 import { expect } from "chai";
-
 import { initMongoConnection } from "../../model/db";
 import { IUser, User } from "../../model/user";
 import { AllowedGroups, authenticateUser, signIn, signUp } from "./userHandler";
@@ -41,7 +40,7 @@ describe("Validate User", () => {
 		expect(user.name).to.equal(name);
 		expect(user.email).to.equal(email);
 		expect(user.hash).to.not.equal(password);
-		expect(user.sessionKey).to.equal(sessionKey);
+		expect(user.sessionKey.key).to.equal(sessionKey);
 	});
 	it("should find user in database", async () => {
 		const user = await User.findOne({ email: email });
@@ -50,7 +49,7 @@ describe("Validate User", () => {
 		expect(user.name).to.equal(name);
 		expect(user.email).to.equal(email);
 		expect(user.hash).to.not.equal(password);
-		expect(user.sessionKey).to.equal(sessionKey);
+		expect(user.sessionKey.key).to.equal(sessionKey);
 	});
 	it("should allow signing in only with the correct credentials", async () => {
 		const userInfo = await signIn(email, password);

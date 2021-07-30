@@ -14,7 +14,7 @@ export const authenticate = (allowedGroups: AllowedGroups) => {
 		if ("sessionKey" in req.signedCookies) {
 			if (typeof req.signedCookies.sessionKey == "string") {
 				const user: IUser = await User.findOne({
-					sessionKey: req.signedCookies.sessionKey,
+					"sessionKey.key": req.signedCookies.sessionKey,
 				});
 				if (user != null) {
 					if (

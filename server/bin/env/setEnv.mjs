@@ -11,7 +11,7 @@ const config = {
 		others: "",
 	},
 	test: {
-		NODE_ENV: "development",
+		NODE_ENV: "test",
 		DATABASEURI: "localhost:27017/testTimesheet",
 		COOKIE_SECRET: "TESTCOOKIESECRET",
 		others: "",

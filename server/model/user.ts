@@ -1,6 +1,7 @@
 import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
-export class BreakClass {
+@modelOptions({ schemaOptions: { _id: false } })
+class BreakClass {
 	@prop()
 	public start: Date;
 	@prop()
@@ -19,6 +20,13 @@ export class DayClass {
 	public duration: number;
 }
 
+@modelOptions({ schemaOptions: { _id: false } })
+class TokenClass {
+	@prop()
+	public key: string;
+	public timeStamp: Date;
+}
+
 @modelOptions({ schemaOptions: { collection: "users" } })
 export class UserClass {
 	@prop({ index: true, unique: true })
@@ -32,7 +40,9 @@ export class UserClass {
 	@prop({ default: false, index: true })
 	public admin: boolean;
 	@prop()
-	public sessionKey?: string;
+	public sessionKey?: TokenClass;
+	@prop()
+	public passwordResetToken?: TokenClass;
 	@prop({ type: () => DayClass })
 	public days: DayClass[];
 
@@ -49,5 +59,6 @@ export class UserClass {
 // Export the model
 export const User = getModelForClass(UserClass);
 export type IUser = DocumentType<UserClass>;
+export type IToken = TokenClass;
 export type IDay = DayClass;
 export type IBreak = BreakClass;

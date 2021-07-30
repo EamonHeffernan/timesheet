@@ -15,7 +15,9 @@ const handle = nextApp.getRequestHandler();
 
 const app = express();
 
-config(app);
-router(app, handle);
+export const setup = () => {
+	config(app);
+	router(app, handle);
+};
 
 export default app;

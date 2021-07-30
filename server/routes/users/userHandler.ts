@@ -3,16 +3,11 @@ import srs from "secure-random-string";
 import { prod, test } from "../../app";
 import { emailInUse } from "../../dataValidation/validateData";
 import { IUser, User } from "../../model/user";
+
 import { checkHash, hashString } from "./hasher";
 
 // By adding check for dev mode, removes chances of leaving this off in prod.
 const removeAdminAuthentication = true && !prod && !test;
-
-export interface IUserHandlerResponse {
-	user?: IUser;
-	sessionKey?: string;
-	error?: string;
-}
 
 export enum AllowedGroups {
 	Staff,
@@ -20,6 +15,11 @@ export enum AllowedGroups {
 	Both,
 }
 
+export interface IUserHandlerResponse {
+	user?: IUser;
+	sessionKey?: string;
+	error?: string;
+}
 export const signUp = async (
 	name: string,
 	email: string,
@@ -67,7 +67,7 @@ const createSessionKey = (user: IUser): string => {
 	const key = srs({ length: 72 });
 
 	// Store key in database.
-	user.sessionKey = key;
+	user.sessionKey = { key, timeStamp: new Date() };
 
 	// Return plaintext key to be sent to the user.
 	return key;
@@ -94,7 +94,7 @@ export const authenticateUser = (
 		allowedGroups === AllowedGroups.Both;
 	return (
 		((user.admin && admin) || (!user.admin && staff)) &&
-		sessionKey == user.sessionKey
+		sessionKey == user.sessionKey.key
 	);
 };
 

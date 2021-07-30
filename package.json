@@ -14,7 +14,7 @@
 	"scripts": {
 		"build": "tsc && cd %npm_package_dirs_next% && next build",
 		"start": "setEnv production node %npm_package_dirs_build%/bin/www.js",
-		"test": "setEnv test ts-mocha %npm_package_dirs_server%/**/validation.test.ts --reporter spec --exit",
+		"test": "setEnv test ts-mocha %npm_package_dirs_server%/**/*.test.ts --reporter spec --exit",
 		"dev": "setEnv development nodemon %npm_package_dirs_server%/bin/www"
 	},
 	"repository": {
