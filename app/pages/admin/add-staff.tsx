@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AdminLayout from "../../components/admin/admin-layout";
 import styles from "../../styles/add-staff.layout.module.css";
-import { parseDateString } from "../_app";
 
 export default function AddStaff() {
 	const [email, setEmail] = useState("");

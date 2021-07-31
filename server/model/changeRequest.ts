@@ -1,13 +1,21 @@
-import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import {
+	DocumentType,
+	getModelForClass,
+	modelOptions,
+	prop,
+	Ref,
+} from "@typegoose/typegoose";
 
-import { DayClass } from "./user";
+import { DayClass, UserClass } from "./user";
 
 @modelOptions({ schemaOptions: { collection: "changeRequests" } })
 export class ChangeRequestClass {
-	@prop()
-	staffId: string;
+	@prop({ ref: () => UserClass })
+	staff: Ref<UserClass>;
 	@prop({ type: () => DayClass })
 	newDay: DayClass;
+	@prop({ type: () => DayClass })
+	oldDay: DayClass;
 	@prop()
 	timestamp: Date;
 }

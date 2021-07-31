@@ -66,16 +66,7 @@ const compareDates = (a, b) => {
 		return -1;
 	}
 	if (!aHasDate && !bHasDate) {
-		const aDOB = new Date(a.dob).getTime();
-		const bDOB = new Date(b.dob).getTime();
-
-		if (aDOB > bDOB) {
-			return 1;
-		}
-		if (aDOB < bDOB) {
-			return -1;
-		}
-		return 0;
+		return tieBreak(a, b);
 	}
 
 	const aTime = new Date(a.days[a.days.length - 1].start).getTime();
@@ -85,6 +76,19 @@ const compareDates = (a, b) => {
 		return 1;
 	}
 	if (aTime < bTime) {
+		return -1;
+	}
+	return tieBreak(a, b);
+};
+
+const tieBreak = (a, b) => {
+	const aDOB = new Date(a.dob).getTime();
+	const bDOB = new Date(b.dob).getTime();
+
+	if (aDOB > bDOB) {
+		return 1;
+	}
+	if (aDOB < bDOB) {
 		return -1;
 	}
 	return 0;

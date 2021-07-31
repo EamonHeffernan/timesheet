@@ -1,11 +1,22 @@
 import express from "express";
 
-import { DataType, emailInUse, InputData, validateBody, validateInput } from "../../dataValidation/validateInput";
+import {
+	DataType,
+	emailInUse,
+	InputData,
+	validateBody,
+	validateInput,
+} from "../../dataValidation/validateInput";
 import errorHandler from "../../errorHandler";
 import { ChangeRequest } from "../../model/changeRequest";
-import { User } from "../../model/user";
+import { IUser, User } from "../../model/user";
 import { AllowedGroups, authenticate } from "../users/middleware";
-import { getPendingChangeRequests, getStaff, resolveChangeRequest, updateStaff } from "./adminHandler";
+import {
+	getPendingChangeRequests,
+	getStaff,
+	resolveChangeRequest,
+	updateStaff,
+} from "./adminHandler";
 
 const router = express.Router();
 
@@ -111,7 +122,9 @@ router.post(
 	]),
 	async (req, res) => {
 		try {
-			const changeRequest = await ChangeRequest.findById(req.body.id);
+			const changeRequest = await (await ChangeRequest.findById(req.body.id))
+				.populate("staff")
+				.execPopulate();
 			if (changeRequest == null) {
 				return res.returnCode(400, "Change request not found.");
 			}

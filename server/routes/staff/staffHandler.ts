@@ -1,4 +1,7 @@
-import { fullDaysSinceDate, startOfDay } from "../../dataValidation/otherValidation";
+import {
+	fullDaysSinceDate,
+	startOfDay,
+} from "../../dataValidation/otherValidation";
 import { ChangeRequest } from "../../model/changeRequest";
 import { IDay, IUser } from "../../model/user";
 
@@ -8,20 +11,22 @@ export const addDay = async (user: IUser, newDay: IDay): Promise<string> => {
 			startOfDay(day.start).getTime() === startOfDay(newDay.start).getTime()
 		) {
 			const pendingChangeRequests = await ChangeRequest.find({
-				staffId: user.id,
+				staff: user,
 			});
 			for (const request of pendingChangeRequests) {
 				if (
 					startOfDay(request.newDay.start).getTime() ===
 					startOfDay(newDay.start).getTime()
 				) {
+					request.oldDay = request.newDay;
 					request.newDay = newDay;
 					request.save();
 					return "Updated existing change request.";
 				}
 			}
 			const changeRequest = new ChangeRequest();
-			changeRequest.staffId = user.id;
+			changeRequest.staff = user;
+			changeRequest.oldDay = day;
 			changeRequest.newDay = newDay;
 			changeRequest.save();
 			return "Created new change request.";

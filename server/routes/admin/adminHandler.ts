@@ -24,7 +24,7 @@ export const updateStaff = (
 };
 
 export const getPendingChangeRequests = async () => {
-	return ChangeRequest.find({});
+	return ChangeRequest.find({}).populate("staff").exec();
 };
 
 export const resolveChangeRequest = async (
@@ -33,7 +33,7 @@ export const resolveChangeRequest = async (
 ): Promise<string | null> => {
 	if (acceptRequest) {
 		// Update user here.
-		const staff = await User.findById(changeRequest.staffId);
+		const staff = changeRequest.staff as IUser;
 
 		if (staff == null) {
 			errorHandler(null, null, "Staff not found for change request");
