@@ -15,7 +15,9 @@
 		"build": "tsc && cd %npm_package_dirs_next% && next build",
 		"start": "setEnv production node %npm_package_dirs_build%/bin/www.js",
 		"test": "setEnv test ts-mocha %npm_package_dirs_server%/**/*.test.ts --reporter spec --exit",
-		"dev": "setEnv development nodemon %npm_package_dirs_server%/bin/www"
+		"dev": "setEnv development nodemon %npm_package_dirs_server%/bin/www",
+		"setupTestDB": "setEnv development ts-node %npm_package_dirs_server%/bin/setup/setupTestDB",
+		"clearDB": "setEnv development ts-node %npm_package_dirs_server%/bin/setup/clearDB"
 	},
 	"repository": {
 		"type": "git",

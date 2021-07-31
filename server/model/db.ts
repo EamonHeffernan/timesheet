@@ -1,5 +1,7 @@
 // Bring Mongoose into the app
 import mongoose from "mongoose";
+import errorHandler from "../errorHandler";
+import { User } from "./user";
 
 const dbURI = process.env.DATABASEURI;
 
@@ -17,6 +19,14 @@ export const initMongoConnection = (): Promise<typeof mongoose> => {
 		// When successfully connected
 		mongoose.connection.on("connected", function () {
 			console.log("Mongoose connection open to " + dbURI);
+			User.countDocuments({ admin: true }, (error, count) => {
+				if (error) return errorHandler(null, error);
+				if (count === 0) {
+					console.warn(
+						"No admin account was found. Please manually add one to the database."
+					);
+				}
+			});
 		});
 
 		// If the connection throws an error

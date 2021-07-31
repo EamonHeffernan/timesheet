@@ -12,6 +12,6 @@ export default (
 		throw "ERROR: " + message;
 	}
 
-	if (res != null) res.returnCode(500, message);
+	if (res != null) res["returnCode"](500, message);
 	// Restarting server may go here.
 };
