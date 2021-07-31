@@ -6,7 +6,7 @@
 	"dirs": {
 		"server": "server",
 		"build": "build",
-		"next": "public"
+		"next": "app"
 	},
 	"bin": {
 		"setEnv": "server/bin/env/setEnv.mjs"
