@@ -1,4 +1,5 @@
 import { expect } from "chai";
+
 import { initMongoConnection } from "../../model/db";
 import { IUser, User } from "../../model/user";
 import { AllowedGroups, authenticateUser, signIn, signUp } from "./userHandler";
@@ -70,11 +71,11 @@ describe("Validate User", () => {
 	it("should authenticate with correct sessionKey", async () => {
 		const user = await User.findOne({ email: email });
 
-		expect(authenticateUser(user, newSessionKey, AllowedGroups.Both)).to.equal(
-			true
-		);
-		expect(authenticateUser(user, sessionKey, AllowedGroups.Both)).to.not.equal(
-			true
+		expect(
+			await authenticateUser(newSessionKey, AllowedGroups.Both)
+		).to.not.equal(false);
+		expect(await authenticateUser(sessionKey, AllowedGroups.Both)).to.equal(
+			false
 		);
 	});
 	it("should delete a user", async () => {

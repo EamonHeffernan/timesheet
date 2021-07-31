@@ -13,16 +13,13 @@ export const authenticate = (allowedGroups: AllowedGroups) => {
 	) {
 		if ("sessionKey" in req.signedCookies) {
 			if (typeof req.signedCookies.sessionKey == "string") {
-				const user: IUser = await User.findOne({
-					"sessionKey.key": req.signedCookies.sessionKey,
-				});
-				if (user != null) {
-					if (
-						authenticateUser(user, req.signedCookies.sessionKey, allowedGroups)
-					) {
-						res.locals.user = user;
-						return next();
-					}
+				const user = await authenticateUser(
+					req.signedCookies.sessionKey,
+					allowedGroups
+				);
+				if (user !== false) {
+					res.locals.user = user;
+					return next();
 				}
 			}
 		}

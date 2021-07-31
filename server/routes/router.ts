@@ -6,7 +6,6 @@ export default (app: express.Application, handle: (...args: any[]) => any) => {
 	app.use("/api/admin", require("./admin/route"));
 
 	app.use("/api", (req, res) => {
-		req["test"]();
 		return res.returnCode(404, `Cannot ${req.method} ${req.url}`);
 	});
 

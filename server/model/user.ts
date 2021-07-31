@@ -49,10 +49,12 @@ export class UserClass {
 
 	public sendableUser(this: IUser) {
 		return {
+			id: this.id,
 			email: this.email,
 			name: this.name,
 			dob: this.dob,
 			admin: this.admin,
+			days: this.days,
 		};
 	}
 }

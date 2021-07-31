@@ -1,9 +1,8 @@
 import srs from "secure-random-string";
 
 import { prod, test } from "../../app";
-import { emailInUse } from "../../dataValidation/validateData";
+import validateData, { emailInUse } from "../../dataValidation/validateData";
 import { IUser, User } from "../../model/user";
-
 import { checkHash, hashString } from "./hasher";
 
 // By adding check for dev mode, removes chances of leaving this off in prod.
@@ -67,23 +66,31 @@ const createSessionKey = (user: IUser): string => {
 	const key = srs({ length: 72 });
 
 	// Store key in database.
-	user.sessionKey = { key, timeStamp: new Date() };	
+	user.sessionKey = { key, timeStamp: new Date() };
 
 	// Return plaintext key to be sent to the user.
 	return key;
 };
 
-export const authenticateUser = (
-	user: IUser,
+export const authenticateUser = async (
 	sessionKey: string,
 	allowedGroups: AllowedGroups
 ) => {
+	if (!validateData({ value: sessionKey, level: "Format", format: "Id" })) {
+		return false;
+	}
+	const user: IUser = await User.findOne({
+		"sessionKey.key": sessionKey,
+	});
+	if (user == null) {
+		return false;
+	}
 	if (
 		removeAdminAuthentication &&
 		(allowedGroups === AllowedGroups.Admin ||
 			allowedGroups === AllowedGroups.Both)
 	) {
-		return true;
+		return user;
 	}
 
 	const admin =
@@ -92,10 +99,15 @@ export const authenticateUser = (
 	const staff =
 		allowedGroups === AllowedGroups.Staff ||
 		allowedGroups === AllowedGroups.Both;
-	return (
+
+	if (
 		((user.admin && admin) || (!user.admin && staff)) &&
 		sessionKey == user.sessionKey.key
-	);
+	) {
+		return user;
+	} else {
+		return false;
+	}
 };
 
 export const signOut = (user: IUser) => {
