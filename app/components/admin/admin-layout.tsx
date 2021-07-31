@@ -4,12 +4,16 @@ import styles from "../../styles/admin-layout.module.css";
 import BaseLayout from "../base-layout";
 import ClearCookies from "../log-out";
 
-export default function AdminLayout({ children, pageName }) {
+export default function AdminLayout({
+	children,
+	pageName,
+	className = styles["main-container"],
+}) {
 	return (
 		<BaseLayout pageName={pageName} backgroundImage={false}>
-			<div className={styles["main-container"]}>
+			<div className={styles["background"]}>
 				<div className={styles["header"]}>
-					<Link href='/admin/'>
+					<Link href='/admin'>
 						<a className={styles["header-items"]}>Home</a>
 					</Link>
 					<p className={styles["header-items"]}>Timesheet</p>
@@ -19,7 +23,7 @@ export default function AdminLayout({ children, pageName }) {
 						</a>
 					</Link>
 				</div>
-				{children}
+				<div className={className}>{children}</div>
 			</div>
 		</BaseLayout>
 	);

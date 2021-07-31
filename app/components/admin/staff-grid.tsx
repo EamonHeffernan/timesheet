@@ -3,8 +3,10 @@ import Link from "next/link";
 import styles from "../../styles/staff-grid.module.css";
 
 export default function StaffGrid({ staffData }) {
+	staffData.sort(compareDates);
+	staffData.reverse();
 	return (
-		<div className={styles["staff-grid-container"]}>
+		<>
 			<div className={styles["header"]}>
 				<div className={styles["header-child"]}>Name</div>
 				<div className={styles["header-child"]}>Last work day</div>
@@ -21,7 +23,7 @@ export default function StaffGrid({ staffData }) {
 							</Link>
 							<div className={styles["staff-info"]}>
 								{e.days.length != 0
-									? e.days[e.days.length - 1].start
+									? new Date(e.days[e.days.length - 1].start).toDateString()
 									: "No recorded days"}
 							</div>
 							<div className={styles["staff-info"]}>{hourInfo.recent}</div>
@@ -30,7 +32,7 @@ export default function StaffGrid({ staffData }) {
 					);
 				})}
 			</div>
-		</div>
+		</>
 	);
 }
 
@@ -51,4 +53,39 @@ const recentHours = (info) => {
 	}
 
 	return { total: Math.ceil(totalHours), recent: Math.ceil(recentHours) };
+};
+
+const compareDates = (a, b) => {
+	const aHasDate = a.days.length != 0;
+	const bHasDate = b.days.length != 0;
+
+	if (aHasDate && !bHasDate) {
+		return 1;
+	}
+	if (!aHasDate && bHasDate) {
+		return -1;
+	}
+	if (!aHasDate && !bHasDate) {
+		const aDOB = new Date(a.dob).getTime();
+		const bDOB = new Date(b.dob).getTime();
+
+		if (aDOB > bDOB) {
+			return 1;
+		}
+		if (aDOB < bDOB) {
+			return -1;
+		}
+		return 0;
+	}
+
+	const aTime = new Date(a.days[a.days.length - 1].start).getTime();
+	const bTime = new Date(b.days[b.days.length - 1].start).getTime();
+
+	if (aTime > bTime) {
+		return 1;
+	}
+	if (aTime < bTime) {
+		return -1;
+	}
+	return 0;
 };

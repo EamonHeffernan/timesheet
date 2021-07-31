@@ -1,9 +1,9 @@
 .staff-grid-container {
-	height: 100%;
-	width: 96%;
-	margin: 2%;
 	user-select: text;
 	overflow-y: auto;
+	margin: 2%;
+	width: 96%;
+	height: 100%;
 }
 
 .header {
@@ -29,6 +29,7 @@
 	display: grid;
 	height: 94%;
 	align-self: center;
+	font-size: large;
 	border-bottom: 3px solid black;
 	border-left: 2px solid black;
 	overflow-y: inherit;
@@ -72,4 +73,5 @@
 }
 .staff-info:first-child {
 	cursor: pointer;
+	text-decoration: underline;
 }

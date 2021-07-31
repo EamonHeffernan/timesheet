@@ -2,15 +2,20 @@ import { GetServerSideProps } from "next";
 import React from "react";
 import useSWR from "swr";
 
-import { fetcher, parseCookies, request } from "../../_app";
-import AdminLayout from "../../../components/admin/admin-layout";
-import StaffGrid from "../../../components/admin/staff-grid";
+import { fetcher, parseCookies, request } from "../_app";
+import AdminLayout from "../../components/admin/admin-layout";
+import StaffGrid from "../../components/admin/staff-grid";
+
+import styles from "../../styles/staff-grid.module.css";
 
 export default function AdminIndex({ data }) {
 	const userData = useSWR("/api/admin/staff", fetcher, { initialData: data });
 	const users: [any] = userData.data.data;
 	return (
-		<AdminLayout pageName='Administrator'>
+		<AdminLayout
+			pageName='Administrator'
+			className={styles["staff-grid-container"]}
+		>
 			<StaffGrid staffData={users} />
 		</AdminLayout>
 	);

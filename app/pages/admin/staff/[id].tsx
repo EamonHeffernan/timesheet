@@ -9,7 +9,7 @@ export default function StaffView({ data }) {
 	const router = useRouter();
 	const { id } = router.query;
 
-	const userData = useSWR("/api/admin/staff/" + id, fetcher, {
+	const userData = useSWR("/api/admin/" + id, fetcher, {
 		initialData: data,
 	});
 

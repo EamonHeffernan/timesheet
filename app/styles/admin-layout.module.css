@@ -1,4 +1,4 @@
-.main-container {
+.background {
 	background-color: pink;
 	height: 100%;
 	width: 100%;
@@ -8,9 +8,16 @@
 	flex-direction: column;
 }
 
+.main-container {
+	height: 100%;
+	width: 96%;
+	margin: 2%;
+	background-color: gray;
+}
+
 .header {
 	background-color: rgb(91, 255, 206);
-	height: 8%;
+	min-height: 8%;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
