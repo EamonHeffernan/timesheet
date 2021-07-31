@@ -1,13 +1,17 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import FormBottomBox from "../../../components/forms/form-bottom-box";
-import FormLayout from "../../../components/forms/form-layout";
 import ResetPasswordForm from "../../../components/forms/reset-password-form";
-import styles from "../../styles/form-page.module.css";
 
 export default function ResetPassword() {
+	const router = useRouter();
+	const { key } = router.query;
+
+	if (key.length !== 72) router.push("/");
+
 	return (
-		<ResetPasswordForm pageName='Reset Password'>
+		<ResetPasswordForm pageName='Reset Password' token={key as string}>
 			<FormBottomBox buttonText='Reset'>
 				<h6 className='no-margin'>
 					<Link href='/'>

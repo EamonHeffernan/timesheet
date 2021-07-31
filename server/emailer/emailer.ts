@@ -28,14 +28,14 @@ export async function sendPasswordReset(
 				text:
 					`Hello ${name},\n
 				Please follow this link to complete your registration to the Riverside Grammar School Timesheet.\n
-				localhost:3000/resetPassword/` + key,
+				http://localhost:3000/user/reset-password/` + key,
 		  }
 		: {
 				subject: "Reset your Timesheet password",
 				text:
 					`Hello ${name},\n
 				Please follow this link to reset your password to the Riverside Grammar School Timesheet.\n
-				http://localhost:3000/user/resetPassword/` + key,
+				http://localhost:3000/user/reset-password/` + key,
 		  };
 
 	// send mail with defined transport object

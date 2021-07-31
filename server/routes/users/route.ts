@@ -90,7 +90,7 @@ router.post(
 	async (req, res) => {
 		try {
 			if (await resetPassword(req.body.key, req.body.password)) {
-				return res.returnCode(200, "Email sent.");
+				return res.returnCode(200, "Password set.");
 			}
 			return res.returnCode(400, "Key not found or expired");
 		} catch (error) {

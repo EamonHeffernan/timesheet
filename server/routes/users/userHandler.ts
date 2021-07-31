@@ -122,6 +122,7 @@ export const forgotPassword = async (email: string) => {
 	user.sessionKey = undefined;
 	generatePasswordReset(user);
 	user.save();
+	return true;
 };
 
 const generatePasswordReset = (user: IUser) => {
