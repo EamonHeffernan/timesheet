@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+
 import styles from "../styles/base-layout.module.css";
 
 export const siteTitle = "Next.js Sample Website";
@@ -7,11 +8,10 @@ export const siteTitle = "Next.js Sample Website";
 export default function BaseLayout({
 	children,
 	pageName,
-	mainContainerStyle = styles["main-container"],
-	backgroundStyle = styles["background"],
+	backgroundImage = true,
 }) {
 	return (
-		<div className={backgroundStyle + " " + styles["background"]}>
+		<div className={styles["background"]}>
 			<Head>
 				<title>{pageName}</title>
 				<link rel='icon' href='/favicon.ico' />
@@ -27,18 +27,18 @@ export default function BaseLayout({
 				/>
 				<meta name='og:title' content={siteTitle} />
 				<meta name='twitter:card' content='summary_large_image' />
-			</Head>{" "}
-			<div className={styles["background-image"]}>
-				<Image
-					src='/images/background.jpg'
-					layout='fill'
-					objectFit='cover'
-					quality={100}
-				/>
-			</div>
-			<div className={mainContainerStyle + " " + styles["main-container"]}>
-				{children}
-			</div>
+			</Head>
+			{backgroundImage && (
+				<div className={styles["background-image"]}>
+					<Image
+						src='/images/background.jpg'
+						layout='fill'
+						objectFit='cover'
+						quality={100}
+					/>
+				</div>
+			)}
+			<div className={styles["main-container"]}>{children}</div>
 		</div>
 	);
 }

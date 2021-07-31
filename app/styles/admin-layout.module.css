@@ -1,11 +1,11 @@
 .main-container {
-	background-color: pink !important;
-	height: 100% !important;
-	justify-content: flex-start !important;
-}
-.background {
-	background-image: none !important;
-	padding: 0% !important; 
+	background-color: pink;
+	height: 100%;
+	width: 100%;
+	justify-content: flex-start;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 
 .header {

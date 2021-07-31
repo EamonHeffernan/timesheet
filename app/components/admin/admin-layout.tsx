@@ -6,23 +6,21 @@ import ClearCookies from "../log-out";
 
 export default function AdminLayout({ children, pageName }) {
 	return (
-		<BaseLayout
-			pageName={pageName}
-			mainContainerStyle={styles["main-container"]}
-			backgroundStyle={styles["background"]}
-		>
-			<div className={styles["header"]}>
-				<Link href='/admin/'>
-					<a className={styles["header-items"]}>Home</a>
-				</Link>
-				<p className={styles["header-items"]}>Timesheet</p>
-				<Link href='/'>
-					<a className={styles["header-items"]} onClick={ClearCookies}>
-						Log out
-					</a>
-				</Link>
+		<BaseLayout pageName={pageName} backgroundImage={false}>
+			<div className={styles["main-container"]}>
+				<div className={styles["header"]}>
+					<Link href='/admin/'>
+						<a className={styles["header-items"]}>Home</a>
+					</Link>
+					<p className={styles["header-items"]}>Timesheet</p>
+					<Link href='/'>
+						<a className={styles["header-items"]} onClick={ClearCookies}>
+							Log out
+						</a>
+					</Link>
+				</div>
+				<div>{children}</div>
 			</div>
-			<main>{children}</main>
 		</BaseLayout>
 	);
 }
