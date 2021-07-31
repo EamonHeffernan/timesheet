@@ -19,6 +19,7 @@ module.exports = router;
 
 router.post(
 	"/signUp",
+	authenticate(AllowedGroups.Admin),
 	validateInput([
 		{ name: "email", level: "Format", format: "Name" },
 		{ name: "name", level: "Format", format: "Name" },

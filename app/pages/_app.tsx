@@ -56,3 +56,15 @@ export const parseDateString = (date: string, time: string = "") => {
 	}
 	return "";
 };
+export const getTime = (input) => {
+	const date = new Date(input);
+	let hours = date.getUTCHours();
+	let pm = false;
+	if (hours > 12) {
+		hours -= 12;
+		pm = true;
+	}
+	return `${hours}:${(date.getUTCMinutes() + "").padStart(2, "0")}${
+		!pm ? "am" : "pm"
+	}`;
+};

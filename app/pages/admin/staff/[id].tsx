@@ -4,6 +4,9 @@ import useSWR from "swr";
 
 import { fetcher, parseCookies, request } from "../../_app";
 import AdminLayout from "../../../components/admin/admin-layout";
+import DayGrid from "../../../components/admin/day-grid";
+import styles from "../../../styles/staff.module.css";
+import gridStyles from "../../../styles/day-grid.module.css";
 
 export default function StaffView({ data }) {
 	const router = useRouter();
@@ -14,9 +17,43 @@ export default function StaffView({ data }) {
 	});
 
 	const user = userData.data.data;
+	const hourInfo = recentHours(user);
 
-	return <AdminLayout pageName='Staff View'>{user.name}</AdminLayout>;
+	return (
+		<AdminLayout pageName='Staff View' className={styles["container"]}>
+			<DayGrid staffData={user} />
+			<div className={styles["sidebar"]}>
+				<div className={styles["sidebar-item"]}>Name: {user.name}</div>
+				<div className={styles["sidebar-item"]}>
+					Recent Hours: {hourInfo.recent}
+				</div>
+				<div className={styles["sidebar-item"]}>
+					Total Hours: {hourInfo.total}
+				</div>
+			</div>
+		</AdminLayout>
+	);
 }
+
+const recentHours = (info) => {
+	let recentHours = 0;
+	let totalHours = 0;
+
+	for (let i = info.days.length - 1; i >= 0; i--) {
+		const date = new Date(info.days[i].start);
+
+		const weekLength = 604800000;
+		const difference = new Date().getTime() - date.getTime();
+
+		if (difference <= weekLength) {
+			recentHours += info.days[i].duration / 60;
+		}
+		totalHours += info.days[i].duration / 60;
+	}
+
+	return { total: Math.ceil(totalHours), recent: Math.ceil(recentHours) };
+};
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	// May be unsafe as host could be inserted.
 	const baseURL = context.req ? context.req.headers.host : "";

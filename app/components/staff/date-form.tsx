@@ -3,6 +3,7 @@ import { useState } from "react";
 import { parseDateString, request } from "../../pages/_app";
 import FormLayout from "../forms/form-layout";
 import styles from "../../styles/form-page.module.css";
+import { useRouter } from "next/router";
 
 export default function DateForm({ children, pageName }) {
 	const [dayComplete, setDayComplete] = useState(false);
@@ -11,21 +12,23 @@ export default function DateForm({ children, pageName }) {
 	const [end, setEnd] = useState("");
 	const [breaks, setBreaks] = useState([{}]);
 
+	const router = useRouter();
+
 	const setCurrentBreak = (key, value) => {
 		const breaksCopy = [...breaks];
 		breaksCopy[breaksCopy.length - 1][key] = value;
 		setBreaks(breaksCopy);
-		console.log(breaks);
 	};
 
-	const submitDay = () => {
+	const submitDay = (event) => {
 		try {
+			event.preventDefault();
 			setStart(parseDateString(date, start));
 			setEnd(parseDateString(date, end));
 			if (confirm("Would you like to add a break?")) {
 				setDayComplete(true);
 			} else {
-				post();
+				post(event);
 			}
 			if (start === "" || end === "") {
 				setDayComplete(false);
@@ -38,14 +41,36 @@ export default function DateForm({ children, pageName }) {
 	};
 
 	const submitBreak = (event) => {
+		event.preventDefault();
 		if (confirm("Would you like to add another break?")) {
-			console.log("Reset");
+			event.currentTarget.reset();
+			setBreaks([...breaks, {}]);
 		} else {
-			post();
+			post(event);
 		}
 	};
 
-	const post = () => {};
+	const post = async (event) => {
+		try {
+			event.preventDefault();
+			const res = await request("/api/staff/submitDay", "POST", {
+				day: {
+					start,
+					end,
+					breaks,
+				},
+			});
+
+			const result = await res.json();
+
+			alert(result.message);
+
+			router.push("/");
+		} catch (err) {
+			console.error(err);
+			alert("Unknown error occurred");
+		}
+	};
 
 	return (
 		<>
@@ -101,7 +126,12 @@ export default function DateForm({ children, pageName }) {
 							Start:{" "}
 						</label>
 						<input
-							onChange={(e) => setCurrentBreak("start", e.currentTarget.value)}
+							onChange={(e) =>
+								setCurrentBreak(
+									"start",
+									parseDateString(date, e.currentTarget.value)
+								)
+							}
 							type='time'
 							required
 							className={styles["input-field"]}
@@ -112,7 +142,12 @@ export default function DateForm({ children, pageName }) {
 							End:{" "}
 						</label>
 						<input
-							onInput={(e) => setCurrentBreak("end", e.currentTarget.value)}
+							onInput={(e) =>
+								setCurrentBreak(
+									"end",
+									parseDateString(date, e.currentTarget.value)
+								)
+							}
 							type='time'
 							required
 							className={styles["input-field"]}

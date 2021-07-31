@@ -8,14 +8,17 @@ export default function AdminLayout({
 	children,
 	pageName,
 	className = styles["main-container"],
+	home = (
+		<Link href='/admin'>
+			<a className={styles["header-items"]}>Home</a>
+		</Link>
+	),
 }) {
 	return (
 		<BaseLayout pageName={pageName} backgroundImage={false}>
 			<div className={styles["background"]}>
 				<div className={styles["header"]}>
-					<Link href='/admin'>
-						<a className={styles["header-items"]}>Home</a>
-					</Link>
+					{home}
 					<p className={styles["header-items"]}>Timesheet</p>
 					<Link href='/'>
 						<a className={styles["header-items"]} onClick={ClearCookies}>

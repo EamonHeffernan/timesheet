@@ -8,7 +8,7 @@ export default function ResetPassword() {
 	const router = useRouter();
 	const { key } = router.query;
 
-	if (key.length !== 72) router.push("/");
+	//if (!key || key.length !== 72) router.push("/");
 
 	return (
 		<ResetPasswordForm pageName='Reset Password' token={key as string}>

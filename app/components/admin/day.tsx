@@ -1,4 +1,5 @@
 import styles from "../../../styles/change-requests-layout.module.css";
+import { getTime } from "../../pages/_app";
 
 export default function Day({ day }) {
 	return (
@@ -18,17 +19,3 @@ export default function Day({ day }) {
 		</div>
 	);
 }
-
-const getTime = (input) => {
-	const date = new Date(input);
-	let hours = date.getUTCHours();
-	let pm = false;
-	if (hours > 12) {
-		hours -= 12;
-		pm = true;
-	}
-
-	return `${hours}:${(date.getUTCMinutes() + "").padStart(2, "0")}${
-		!pm ? "am" : "pm"
-	}`;
-};

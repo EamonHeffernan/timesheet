@@ -7,6 +7,7 @@ import AdminLayout from "../../components/admin/admin-layout";
 import StaffGrid from "../../components/admin/staff-grid";
 
 import styles from "../../styles/staff-grid.module.css";
+import Link from "next/link";
 
 export default function AdminIndex({ data }) {
 	const userData = useSWR("/api/admin/staff", fetcher, { initialData: data });
@@ -15,6 +16,16 @@ export default function AdminIndex({ data }) {
 		<AdminLayout
 			pageName='Administrator'
 			className={styles["staff-grid-container"]}
+			home={
+				<div className={styles["nav-container"]}>
+					<Link href='/admin/add-staff'>
+						<a className={styles["nav-link"]}>Add staff</a>
+					</Link>
+					<Link href='/admin/change-requests'>
+						<a className={styles["nav-link"]}>View change requests</a>
+					</Link>
+				</div>
+			}
 		>
 			<StaffGrid staffData={users} />
 		</AdminLayout>
