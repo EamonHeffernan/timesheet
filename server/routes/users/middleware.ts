@@ -1,6 +1,6 @@
 import express from "express";
 
-import { IUser, User } from "../../model/user";
+import { clearSessionKey } from "./cookieHandler";
 import { AllowedGroups, authenticateUser } from "./userHandler";
 
 export { AllowedGroups } from "./userHandler";
@@ -23,6 +23,7 @@ export const authenticate = (allowedGroups: AllowedGroups) => {
 				}
 			}
 		}
+		clearSessionKey(res);
 		return res.returnCode(401, "Authentication failed");
 	};
 };
