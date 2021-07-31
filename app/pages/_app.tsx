@@ -19,7 +19,7 @@ export const request = async (
 		"Content-Type": "application/json",
 	};
 	headers = {
-		...(method === "POST" ? postHeaders : {}),
+		...(body !== undefined ? postHeaders : {}),
 		...headers,
 	};
 
@@ -47,6 +47,12 @@ export const parseDateString = (date: string, time: string = "") => {
 		if (time != "") {
 			date += "T" + time + "Z";
 		}
-		return new Date(date).toISOString();
+
+		const d = new Date(date);
+
+		if (!isNaN(d.getTime())) {
+			return d.toISOString();
+		}
 	}
+	return "";
 };
