@@ -2,6 +2,7 @@ import srs from "secure-random-string";
 
 import { prod, test } from "../../app";
 import validateData, { emailInUse } from "../../dataValidation/validateData";
+import { sendPasswordReset } from "../../emailer/emailer";
 import { IUser, User } from "../../model/user";
 import { checkHash, hashString } from "./hasher";
 
@@ -22,8 +23,7 @@ export interface IUserHandlerResponse {
 export const signUp = async (
 	name: string,
 	email: string,
-	dob: Date,
-	password: string
+	dob: Date
 ): Promise<IUserHandlerResponse> => {
 	// Existence and type test done in route, bounds test done here.
 	email = email.toLowerCase();
@@ -34,11 +34,11 @@ export const signUp = async (
 	user.name = name;
 	user.email = email;
 	user.dob = dob;
-	user.hash = hashString(password);
 	user.admin = false;
 
 	// has to be called before save otherwise the session key is not saved.
-	const sessionKey = createSessionKey(user);
+	const sessionKey = createToken(user, "sessionKey");
+	generatePasswordReset(user);
 
 	user.save();
 
@@ -52,7 +52,7 @@ export const signIn = async (
 	const user = await User.findOne({ email: email });
 	if (user != null) {
 		if (checkHash(password, user.hash)) {
-			const sessionKey = createSessionKey(user);
+			const sessionKey = createToken(user, "sessionKey");
 			user.save();
 			return { user: user, sessionKey: sessionKey };
 		}
@@ -61,12 +61,15 @@ export const signIn = async (
 	return { error: "Incorrect credentials" };
 };
 
-const createSessionKey = (user: IUser): string => {
+const createToken = (
+	user: IUser,
+	location: "sessionKey" | "passwordResetToken"
+): string => {
 	// Create user key.
 	const key = srs({ length: 72 });
 
 	// Store key in database.
-	user.sessionKey = { key, timeStamp: new Date() };
+	user[location] = { key, timeStamp: new Date() };
 
 	// Return plaintext key to be sent to the user.
 	return key;
@@ -83,6 +86,9 @@ export const authenticateUser = async (
 		"sessionKey.key": sessionKey,
 	});
 	if (user == null) {
+		return false;
+	}
+	if (new Date().getTime() - user.sessionKey.timeStamp.getTime() > 604800000) {
 		return false;
 	}
 	if (
@@ -108,6 +114,38 @@ export const authenticateUser = async (
 	} else {
 		return false;
 	}
+};
+
+export const forgotPassword = async (email: string) => {
+	const user = await User.findOne({ email });
+	if (user === null) return false;
+	user.sessionKey = undefined;
+	generatePasswordReset(user);
+	user.save();
+};
+
+const generatePasswordReset = (user: IUser) => {
+	const key = createToken(user, "passwordResetToken");
+
+	sendPasswordReset(user.email, user.name, key, !user.accountCreated);
+};
+
+export const resetPassword = async (key: string, password: string) => {
+	const user = await User.findOne({ "passwordResetToken.key": key });
+	if (user === null) return false;
+	if (user.accountCreated) {
+		if (
+			new Date().getTime() - user.passwordResetToken.timeStamp.getTime() >
+			900000
+		) {
+			return false;
+		}
+	}
+	user.hash = hashString(password);
+	user.accountCreated = true;
+	user.passwordResetToken = undefined;
+	user.save();
+	return true;
 };
 
 export const signOut = (user: IUser) => {

@@ -41,3 +41,12 @@ export const parseCookies = (input) => {
 	}
 	return returnString;
 };
+
+export const parseDateString = (date: string, time: string = "") => {
+	if (date != "") {
+		if (time != "") {
+			date += "T" + time + "Z";
+		}
+		return new Date(date).toISOString();
+	}
+};
