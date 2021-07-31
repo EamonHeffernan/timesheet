@@ -1,7 +1,8 @@
+import Link from "next/link";
+
+import ForgotPasswordForm from "../../components/forgot-password-form";
 import FormLayout from "../../components/form-layout";
 import styles from "../../styles/form-page.module.css";
-import ForgotPasswordForm from "../../components/forgot-password-form";
-import Link from "next/link";
 
 export default function ForgotPassword() {
 	return (

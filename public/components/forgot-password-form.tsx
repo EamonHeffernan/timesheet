@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { request } from "../pages/_app";
 
 export default function ForgotPasswordForm() {
 	const [email, setEmail] = useState("");
@@ -6,19 +7,10 @@ export default function ForgotPasswordForm() {
 		try {
 			event.preventDefault();
 
-			const res = await fetch(
-				"http://localhost:5000/api/users/forgotPassword",
-				{
-					body: JSON.stringify({
-						email: email,
-					}),
-					headers: {
-						"Content-Type": "application/json",
-					},
-					method: "POST",
-					credentials: "include",
-				}
-			);
+			const res = await request("/api/users/forgotPassword", "POST", {
+				email: email,
+			});
+
 
 			const result = await res.json();
 

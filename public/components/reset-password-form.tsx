@@ -1,21 +1,14 @@
 import { useState } from "react";
+import { request } from "../pages/_app";
 
 export default function ResetPasswordForm() {
 	const [password, setPassword] = useState("");
 	const resetPassword = async (event) => {
 		try {
 			event.preventDefault();
-
-			const res = await fetch("http://localhost:5000/api/users/resetPassword", {
-				body: JSON.stringify({
-					password: password,
-				}),
-				headers: {
-					"Content-Type": "application/json",
-				},
-				method: "POST",
-				credentials: "include",
-			});
+			const res = await request("/api/users/resetPassword", "POST", {
+				password: password,
+			})
 
 			const result = await res.json();
 

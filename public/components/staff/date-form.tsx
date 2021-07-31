@@ -1,4 +1,6 @@
 import { useState } from "react";
+
+import { request } from "../../pages/_app";
 import BreakForm from "./break-form";
 
 export default function DateForm() {
@@ -11,19 +13,9 @@ export default function DateForm() {
 		try {
 			event.preventDefault();
 
-			const res = await fetch(
-				"http://localhost:5000/api/users/forgotPassword",
-				{
-					body: JSON.stringify({
-						email: start,
-					}),
-					headers: {
-						"Content-Type": "application/json",
-					},
-					method: "POST",
-					credentials: "include",
-				}
-			);
+			const res = await request("/api/users/forgotPassword", "POST", {
+				email: start,
+			});
 
 			const result = await res.json();
 
@@ -55,10 +47,6 @@ export default function DateForm() {
 				type='time'
 				required
 			/>
-			<br />
-			{[...Array(breaks)].map((e, i) => (
-				<BreakForm />
-			))}
 			<button type='submit'>Reset Password</button>
 		</form>
 	);

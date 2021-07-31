@@ -1,7 +1,8 @@
-import styles from "./admin-layout.module.css";
-import BaseLayout from "./base-layout";
 import Link from "next/link";
-import ClearCookies from "./log-out";
+
+import styles from "../../styles/admin-layout.module.css";
+import BaseLayout from "../base-layout";
+import ClearCookies from "../log-out";
 
 export default function AdminLayout({ children, pageName }) {
 	return (

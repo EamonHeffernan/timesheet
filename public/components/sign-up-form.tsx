@@ -1,18 +1,13 @@
+import { request } from "../pages/_app";
+
 export default function SignUpForm() {
 	const signUp = async (event) => {
 		try {
 			event.preventDefault();
 
-			const res = await fetch("http://localhost:5000/api/users/signup", {
-				body: JSON.stringify({
-					email: event.target.email.value,
-					password: event.target.password.value,
-				}),
-				headers: {
-					"Content-Type": "application/json",
-				},
-				method: "POST",
-				credentials: "include",
+			const res = await request("/api/users/signup", "POST", {
+				email: event.target.email.value,
+				password: event.target.password.value,
 			});
 
 			const result = await res.json();

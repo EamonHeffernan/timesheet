@@ -1,7 +1,8 @@
-import FormLayout from "../../components/form-layout";
-import styles from "../../styles/form-page.module.css";
 import Link from "next/link";
+
+import FormLayout from "../../components/form-layout";
 import ResetPasswordForm from "../../components/reset-password-form";
+import styles from "../../styles/form-page.module.css";
 
 export default function ResetPassword() {
 	return (

@@ -1,13 +1,12 @@
-import React, { useState } from "react";
 import Link from "next/link";
-import styles from "../../styles/form-page.module.css";
-import FormLayout from "../../components/form-layout";
-import useSWR from "swr";
 import { useRouter } from "next/router";
-import DateForm from "../../components/date-form";
-import { request } from "../_app";
+import React, { useState } from "react";
+import useSWR from "swr";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import { fetcher, request } from "../_app";
+import DateForm from "../../components/staff/date-form";
+import FormLayout from "../../components/form-layout";
+import styles from "../../styles/form-page.module.css";
 
 export default function StaffSubmit() {
 	const { data, error } = useSWR("/api/staff", fetcher);

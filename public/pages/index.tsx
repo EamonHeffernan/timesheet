@@ -1,7 +1,8 @@
 import Link from "next/link";
-import styles from "../styles/form-page.module.css";
-import SignInForm from "../components/sign-in-form";
+
 import FormLayout from "../components/form-layout";
+import SignInForm from "../components/sign-in-form";
+import styles from "../styles/form-page.module.css";
 
 export default function Index() {
 	return (

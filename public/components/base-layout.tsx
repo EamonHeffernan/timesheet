@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "./base-layout.module.css";
+import styles from "../styles/base-layout.module.css";
 
 export const siteTitle = "Next.js Sample Website";
 

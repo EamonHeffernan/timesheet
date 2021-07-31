@@ -1,5 +1,5 @@
 import Image from "next/image";
-import style from "./title.module.css";
+import style from "../styles/title.module.css";
 
 export default function Title() {
 	return (
