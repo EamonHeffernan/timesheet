@@ -64,8 +64,10 @@ export default function DateForm({ children, pageName }) {
 			const result = await res.json();
 
 			alert(result.message);
-
-			router.push("/");
+			if (res.ok) {
+				request("/api/users/signOut", "POST");
+				router.push("/");
+			}
 		} catch (err) {
 			console.error(err);
 			alert("Unknown error occurred");

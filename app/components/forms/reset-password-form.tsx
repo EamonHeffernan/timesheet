@@ -17,10 +17,14 @@ export default function ResetPasswordForm({ children, pageName, token }) {
 			});
 
 			const result = await res.json();
-
-			alert(result.message);
-
-			router.push("/");
+			if (result.message === "BAD REQUEST: password is not valid.") {
+				alert(
+					"Password must have between 8 and 72 characters, upper and lowercase and at least one number"
+				);
+			} else {
+				alert(result.message);
+			}
+			if (res.ok) router.push("/");
 		} catch (err) {
 			console.error(err);
 			alert("Unknown error occurred");
