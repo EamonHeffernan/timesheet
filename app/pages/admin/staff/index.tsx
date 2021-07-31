@@ -2,9 +2,9 @@ import { GetServerSideProps } from "next";
 import React from "react";
 import useSWR from "swr";
 
-import { fetcher, parseCookies, request } from "../_app";
-import AdminLayout from "../../components/admin/admin-layout";
-import StaffGrid from "../../components/admin/staff-grid";
+import { fetcher, parseCookies, request } from "../../_app";
+import AdminLayout from "../../../components/admin/admin-layout";
+import StaffGrid from "../../../components/admin/staff-grid";
 
 export default function AdminIndex({ data }) {
 	const userData = useSWR("/api/admin/staff", fetcher, { initialData: data });
@@ -30,7 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		}
 	);
 	if (result.status !== 200) {
-		console.log(result.status);
 		return {
 			redirect: {
 				destination: "/",
