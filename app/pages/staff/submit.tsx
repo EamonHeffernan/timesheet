@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import useSWR from "swr";
 
 import { fetcher, request } from "../_app";
+import FormLayout from "../../components/forms/form-layout";
 import DateForm from "../../components/staff/date-form";
-import FormLayout from "../../components/form-layout";
-import styles from "../../styles/form-page.module.css";
 
 export default function StaffSubmit() {
 	const { data, error } = useSWR("/api/staff", fetcher);
@@ -19,10 +18,10 @@ export default function StaffSubmit() {
 		<FormLayout
 			pageName={data && data.statusCode === 200 ? `Hi ${data.data.name}!` : ""}
 		>
-			<h2 className={styles["no-margin"]}>
+			<h2 className='no-margin'>
 				<DateForm />
 			</h2>
-			<h6 className={styles["no-margin"]}>
+			<h6 className='no-margin'>
 				<Link href='/'>
 					<a onClick={signOut}>Sign out</a>
 				</Link>

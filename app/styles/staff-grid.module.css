@@ -1,0 +1,75 @@
+.staff-grid-container {
+	height: 100%;
+	width: 96%;
+	margin: 2%;
+	user-select: text;
+	overflow-y: auto;
+}
+
+.header {
+	background-color: white;
+	border-top: 3px solid black;
+	border-right: 2px solid black;
+	height: 6%;
+	grid-auto-flow: column;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+}
+
+.header-child {
+	border-left: 2px solid black;
+	width: 100%;
+}
+
+.staff-grid {
+	grid-template-columns: auto;
+	display: grid;
+	height: 94%;
+	align-self: center;
+	border-bottom: 3px solid black;
+	border-left: 2px solid black;
+	overflow-y: inherit;
+	overflow-x: hidden;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.staff-grid::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+.single-staff-container {
+	height: 100%;
+	width: 100%;
+	grid-auto-flow: column;
+	display: flex;
+	flex-direction: row;
+	min-height: 60px;
+}
+
+.single-staff-container:nth-child(odd) {
+	background-color: grey;
+}
+
+.single-staff-container:nth-child(even) {
+	background-color: white;
+}
+
+.staff-info {
+	border-top: 3px solid black;
+	border-right: 2px solid black;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
+	text-align: center;
+}
+.staff-info:first-child {
+	cursor: pointer;
+}

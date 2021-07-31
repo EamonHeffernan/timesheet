@@ -13,12 +13,9 @@ export default function BaseLayout({
 	return (
 		<div className={styles["background"]}>
 			<Head>
-				<title>{pageName}</title>
+				<title>{"RSG Timesheet: " + pageName}</title>
 				<link rel='icon' href='/favicon.ico' />
-				<meta
-					name='description'
-					content='learn how to build a website with next.js'
-				/>
+				<meta name='description' content='Riverside Grammar School Timesheet' />
 				<meta
 					property='og:image'
 					content={`https://og-image.vercel.app/${encodeURI(

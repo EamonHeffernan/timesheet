@@ -4,20 +4,14 @@ import useSWR from "swr";
 
 import { fetcher, parseCookies, request } from "../_app";
 import AdminLayout from "../../components/admin/admin-layout";
-import StaffInfo from "../../components/admin/staff-info";
+import StaffGrid from "../../components/admin/staff-grid";
 
 export default function AdminIndex({ data }) {
 	const userData = useSWR("/api/admin/staff", fetcher, { initialData: data });
 	const users: [any] = userData.data.data;
 	return (
-		<AdminLayout pageName='admin'>
-			<div>
-				{users.map((e, i) => (
-					<div key={e.id}>
-						<StaffInfo staffInfo={e} />
-					</div>
-				))}
-			</div>
+		<AdminLayout pageName='Administrator'>
+			<StaffGrid staffData={users} />
 		</AdminLayout>
 	);
 }

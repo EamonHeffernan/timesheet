@@ -19,7 +19,7 @@ export default function AdminLayout({ children, pageName }) {
 						</a>
 					</Link>
 				</div>
-				<div>{children}</div>
+				{children}
 			</div>
 		</BaseLayout>
 	);
