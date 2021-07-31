@@ -7,6 +7,7 @@ import router from "./routes/router";
 export * from "./config";
 
 import "./httpResponses";
+import { sendPasswordReset } from "./emailer/emailer";
 
 const nodePackage = require("../package.json");
 

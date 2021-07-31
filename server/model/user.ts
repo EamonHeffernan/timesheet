@@ -1,4 +1,9 @@
-import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import {
+	DocumentType,
+	getModelForClass,
+	modelOptions,
+	prop,
+} from "@typegoose/typegoose";
 
 @modelOptions({ schemaOptions: { _id: false } })
 class BreakClass {
@@ -42,6 +47,8 @@ export class UserClass {
 	public admin: boolean;
 	@prop()
 	public sessionKey?: TokenClass;
+	@prop()
+	public accountCreated: boolean;
 	@prop()
 	public passwordResetToken?: TokenClass;
 	@prop({ type: () => DayClass })

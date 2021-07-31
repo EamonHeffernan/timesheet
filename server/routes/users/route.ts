@@ -4,7 +4,14 @@ import { DataType, validateInput } from "../../dataValidation/validateInput";
 import errorHandler from "../../errorHandler";
 import { clearSessionKey, saveSessionKey } from "./cookieHandler";
 import { authenticate } from "./middleware";
-import { AllowedGroups, signIn, signOut, signUp } from "./userHandler";
+import {
+	AllowedGroups,
+	forgotPassword,
+	resetPassword,
+	signIn,
+	signOut,
+	signUp,
+} from "./userHandler";
 
 const router = express.Router();
 
@@ -15,16 +22,10 @@ router.post(
 	validateInput([
 		{ name: "email", level: "Format", format: "Name" },
 		{ name: "name", level: "Format", format: "Name" },
-		{ name: "password", level: "Format", format: "Password" },
 	]),
 	async (req, res) => {
 		try {
-			const response = await signUp(
-				req.body.name,
-				req.body.email,
-				new Date(),
-				req.body.password
-			);
+			const response = await signUp(req.body.name, req.body.email, new Date());
 			if ("user" in response) {
 				saveSessionKey(res, response.user.id, response.sessionKey);
 				return res.returnCode(
@@ -61,6 +62,39 @@ router.post(
 			return errorHandler(res, null, "An unknown error has occurred");
 		} catch (err) {
 			return errorHandler(res, err);
+		}
+	}
+);
+
+router.post(
+	"/forgotPassword",
+	validateInput([{ name: "email", level: "Format", format: "Email" }]),
+	async (req, res) => {
+		try {
+			if (await forgotPassword(req.body.email)) {
+				return res.returnCode(200, "Email sent.");
+			}
+			return res.returnCode(400, "Email not found");
+		} catch (error) {
+			errorHandler(res, error);
+		}
+	}
+);
+
+router.post(
+	"/resetPassword",
+	validateInput([
+		{ name: "key", level: "Type", dataType: DataType.String },
+		{ name: "password", level: "Format", format: "Password" },
+	]),
+	async (req, res) => {
+		try {
+			if (await resetPassword(req.body.key, req.body.password)) {
+				return res.returnCode(200, "Email sent.");
+			}
+			return res.returnCode(400, "Key not found or expired");
+		} catch (error) {
+			errorHandler(res, error);
 		}
 	}
 );
