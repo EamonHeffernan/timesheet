@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-14 11:36:09
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 13:59:31
+ * @Last Modified At: 2021-08-01 17:13:22
  * @Description: Receives and handles everything relating to admins.
  */
 
@@ -12,6 +12,10 @@ import { startOfDay } from "../../dataValidation/validateData";
 import { ChangeRequest, IChangeRequest } from "../../model/changeRequest";
 import { IUser, User } from "../../model/user";
 
+/**
+ * Get all staff. (admin = false)
+ * @returns All staff in sendable form.
+ */
 export const getStaff = async () => {
 	const staff = await User.find({ admin: false });
 	const sendableStaff = [];
@@ -21,6 +25,12 @@ export const getStaff = async () => {
 	return sendableStaff;
 };
 
+/**
+ * Update the staff with the given changes.
+ * @param staff Staff to update
+ * @param changes Changes to make
+ * @returns Successful
+ */
 export const updateStaff = (
 	staff: IUser,
 	changes: { name: string; value: any }[]
@@ -32,14 +42,26 @@ export const updateStaff = (
 	return true;
 };
 
+/**
+ * Get all change requests, with populated staff objects
+ * @returns Change Requests
+ */
 export const getPendingChangeRequests = async () => {
 	return ChangeRequest.find({}).populate("staff").exec();
 };
 
+/**
+ *
+ * @param changeRequest The request to resolve.
+ * @param acceptRequest Accept or decline request.
+ * @returns Reason or null.
+ */
 export const resolveChangeRequest = async (
 	changeRequest: IChangeRequest,
 	acceptRequest
 ): Promise<string | null> => {
+	// There are many throws here due to many pathways not are meant to happen
+	// But it is better to handle them just in case.
 	if (acceptRequest) {
 		// Update user here.
 		const staff = changeRequest.staff as IUser;
@@ -59,9 +81,8 @@ export const resolveChangeRequest = async (
 				return "Applied change request.";
 			}
 		}
-		//changeRequest.remove();
+		changeRequest.remove();
 		throw "Day not found for change request";
-		return null;
 	} else {
 		changeRequest.remove();
 		return "Removed change request.";

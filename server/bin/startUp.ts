@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-08-01 11:46:20
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:11:13
+ * @Last Modified At: 2021-08-01 18:17:32
  * @Description: Runs before any other script.
  */
 

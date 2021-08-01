@@ -4,12 +4,17 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-29 17:56:49
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:18:07
+ * @Last Modified At: 2021-08-01 18:11:02
  * @Description: Contains specific format checks.
  */
 
 import { validationResult, ValidationResult } from "../validateData";
 
+/**
+ * Check if value is formatted as a password
+ * @param value Value to check format
+ * @returns Validation Result
+ */
 export const validPassword = (value: string): ValidationResult => {
 	return validationResult(
 		value.length >= 8 &&
@@ -21,6 +26,11 @@ export const validPassword = (value: string): ValidationResult => {
 	);
 };
 
+/**
+ * Check if value is formatted as a email
+ * @param value Value to check format
+ * @returns Validation Result
+ */
 export const validEmail = (value: string): ValidationResult => {
 	// Testing email structure via RegEx sourced from https://stackoverflow.com/a/201378
 	value = value.toLowerCase();
@@ -32,6 +42,11 @@ export const validEmail = (value: string): ValidationResult => {
 	);
 };
 
+/**
+ * Check if value is formatted as a name
+ * @param value Value to check format
+ * @returns Validation Result
+ */
 export const validName = (value: string): ValidationResult => {
 	return validationResult(
 		value === value.trim() && value.length < 24 && !stringHasNumber(value),
@@ -39,11 +54,21 @@ export const validName = (value: string): ValidationResult => {
 	);
 };
 
+/**
+ * Check if value is formatted as a id
+ * @param value Value to check format
+ * @returns Validation Result
+ */
 export const validId = (value: string): ValidationResult => {
 	// Testing email structure via RegEx sourced from https://stackoverflow.com/a/201378
 	return validationResult(value.length >= 12, value);
 };
 
+/**
+ * Does string have number.
+ * @param input String to check has number
+ * @returns Whether the string has a number.
+ */
 const stringHasNumber = (input: string): boolean => {
 	return /\d/.test(input);
 };

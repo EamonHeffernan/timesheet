@@ -1,15 +1,14 @@
 /*
- * @Script: base-layout.module.css
+ * @Script: admin-layout.module.css
  * @Author: Eamon Heffernan
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-26 17:13:50
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:43:37
+ * @Last Modified At: 2021-08-01 18:04:11
  * @Description: Styling for admin layout.
  */
 
 .background {
-	background-color: pink;
 	height: 100%;
 	width: 100%;
 	justify-content: flex-start;
@@ -26,7 +25,7 @@
 }
 
 .header {
-	background-color: rgb(91, 255, 206);
+	background-color: rgba(255, 255, 255, 0.5);
 	min-height: 8%;
 	width: 100%;
 	display: flex;

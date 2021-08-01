@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-12 14:29:52
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 13:57:59
+ * @Last Modified At: 2021-08-01 16:10:55
  * @Description: Handles the route for api/staff.
  */
 
@@ -22,6 +22,7 @@ module.exports = router;
 
 router.get("/", authenticate(AllowedGroups.Staff), (req, res) => {
 	const user: IUser = res.locals.user;
+	// Return staff info.
 	return res.returnCode(200, "", user.sendableUser());
 });
 
@@ -32,7 +33,10 @@ router.post(
 		{ name: "day", level: "Reasonability", validDataType: "Day" },
 	]),
 	async (req, res) => {
+		// Get day from body.
 		const day = req.body.day as IDay;
+
+		// Get response from staffHandler.
 		const response = await addDay(res.locals.user, day);
 		return res.returnCode(200, response);
 	}
@@ -45,12 +49,14 @@ router.get(
 		{ name: "duration", level: "Type", dataType: DataType.Number },
 	]),
 	(req, res) => {
-		if (req.body.duration <= 30)
+		// Max duration = 30.
+		if (req.body.duration <= 30) {
 			return res.returnCode(
 				200,
 				"",
 				getDays(res.locals.user, req.body.duration)
 			);
+		}
 		return res.returnCode(400, "Duration size is greater than allowed.");
 	}
 );

@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-29 17:56:49
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:07:12
+ * @Last Modified At: 2021-08-01 17:51:41
  * @Description: Performs reasonability tests.
  */
 
@@ -26,6 +26,12 @@ const dataTypes: Record<ValidDataType, ValidDataInfo> = {
 	Break: { type: DataType.Break, valid: validateBreak },
 };
 
+/**
+ * Check one value against the dataType.
+ * @param value Value to check.
+ * @param dataType Type value is required to be.
+ * @returns ValidationResult
+ */
 export const reasonabilityCheck = (
 	value: any,
 	dataType: ValidDataType

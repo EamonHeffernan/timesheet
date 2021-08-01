@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-31 08:06:02
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:29:34
+ * @Last Modified At: 2021-08-01 16:45:36
  * @Description: Admin view of single user.
  */
 
@@ -16,7 +16,6 @@ import { fetcher, parseCookies, request } from "../../_app";
 import AdminLayout from "../../../components/admin/admin-layout";
 import DayGrid from "../../../components/admin/day-grid";
 import styles from "../../../styles/staff.module.css";
-import gridStyles from "../../../styles/day-grid.module.css";
 
 export default function StaffView({ data }) {
 	const router = useRouter();

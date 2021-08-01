@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-06-16 12:44:02
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:01:49
+ * @Last Modified At: 2021-08-01 17:35:06
  * @Description: The mongoose connection code.
  */
 
@@ -56,6 +56,7 @@ export const initMongoConnection = (): Promise<typeof mongoose> => {
 
 		// BRING IN SCHEMAS & MODELS
 		require("./user");
+		require("./changeRequest");
 
 		return connectionPromise;
 	} else {

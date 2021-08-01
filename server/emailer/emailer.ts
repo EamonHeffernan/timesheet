@@ -4,15 +4,22 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-08-01 02:36:07
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:03:39
+ * @Last Modified At: 2021-08-01 17:41:01
  * @Description: Handles emailing users.
  */
 
 import nodemailer from "nodemailer";
 
-import logger, { LogLevel } from "../logger";
+import logger from "../logger";
 
-// async..await is not allowed in global scope, must use a wrapper
+/**
+ * Send an email to a user with a password reset link.
+ * Is formatted based on whether the recipient is a new user
+ * @param email Recipient Email
+ * @param name Recipient Name
+ * @param key Key to send
+ * @param signUp Has the user just signed up?
+ */
 export async function sendPasswordReset(
 	email: string,
 	name: string,

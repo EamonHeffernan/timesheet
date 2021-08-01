@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-08-01 09:11:31
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:11:56
+ * @Last Modified At: 2021-08-01 18:13:39
  * @Description: Sets up the database with test users.
  */
 
@@ -14,10 +14,13 @@ import { IUser, User } from "../../model/user";
 import { hashString } from "../../routes/users/hasher";
 
 const main = async () => {
+	// Connect to mongo.
 	await initMongoConnection();
-	const admin: IUser = new User();
 
-	//Information sourced from https://www.fakenamegenerator.com/gen-random-au-au.php
+	// Create 4 users.
+	// Information sourced from https://www.fakenamegenerator.com/gen-random-au-au.php
+
+	const admin: IUser = new User();
 	admin.email = "seantregurtha@teleworm.us";
 	admin.name = "Sean Tregurtha";
 	admin.dob = new Date("1960-08-29Z");
@@ -57,8 +60,10 @@ const main = async () => {
 	user3.days = [];
 	logger("Added User2 to the database");
 
+	// Wait for all to save.
 	await Promise.all([admin.save(), user1.save(), user2.save(), user3.save()]);
 	logger("Saved database with test information.");
+	// Stop the process.
 	process.kill(process.pid, "SIGTERM");
 };
 main();

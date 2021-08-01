@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-29 17:56:49
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:06:13
+ * @Last Modified At: 2021-08-01 17:50:02
  * @Description: Routes validation requests to the right targets.
  */
 
@@ -34,6 +34,11 @@ export interface ValidationResult {
 	value?: any;
 }
 
+/**
+ * Validate a single value.
+ * @param input Data to validate.
+ * @returns Results from validation.
+ */
 export default (input: ValidationData): ValidationResult => {
 	switch (input.level) {
 		case "Existence":
@@ -47,6 +52,12 @@ export default (input: ValidationData): ValidationResult => {
 	}
 };
 
+/**
+ * Function to build validationResults
+ * @param passed Validation passed
+ * @param value New value
+ * @returns ValidationResult
+ */
 export const validationResult = (
 	passed: boolean,
 	value: any = undefined

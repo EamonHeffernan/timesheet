@@ -4,12 +4,13 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-06-16 12:44:51
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 13:46:54
+ * @Last Modified At: 2021-08-01 15:02:25
  * @Description: Adds function to res that handles responding to client.
  */
 
 import express from "express";
 
+// Adding custom function to existing type declaration from express.
 declare global {
 	namespace Express {
 		export interface Response {
@@ -30,17 +31,22 @@ express.response["returnCode"] = function (
 	message: string = "",
 	data: object = {}
 ): void {
+	// Adding prefix to message if it has content
+	// in order to look correct.
 	if (message != "") {
 		message = ": " + message;
 	}
 
+	// Formats the data to include a timestamp.
 	let sendData: any = {
 		timeStamp: new Date().toUTCString(),
 		statusCode: code,
 		message: statusCodeToMessage(code) + message,
 	};
 
-	// Checks if there is data
+	// Checks if the string version of data is the same
+	// as the string version of an empty object, to check
+	// if data is empty.
 	if (JSON.stringify(data) != JSON.stringify({})) {
 		sendData.data = data;
 	}
@@ -48,6 +54,11 @@ express.response["returnCode"] = function (
 	return this.status(code).json(sendData);
 };
 
+/**
+ * Turns status code into message for use in place of a custom message.
+ * @param code HTTP status code
+ * @returns string of corresponding method.
+ */
 const statusCodeToMessage = (code: number): string => {
 	switch (code) {
 		case 100:

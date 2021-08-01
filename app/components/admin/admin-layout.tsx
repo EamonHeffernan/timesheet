@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-26 14:24:40
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:24:40
+ * @Last Modified At: 2021-08-01 17:59:18
  * @Description: Layout for admin pages.
  */
 
@@ -25,7 +25,7 @@ export default function AdminLayout({
 	),
 }) {
 	return (
-		<BaseLayout pageName={pageName} backgroundImage={false}>
+		<BaseLayout pageName={pageName} backgroundImage={true}>
 			<div className={styles["background"]}>
 				<div className={styles["header"]}>
 					{home}

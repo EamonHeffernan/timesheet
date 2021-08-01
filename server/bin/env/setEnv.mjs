@@ -5,7 +5,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-26 17:04:43
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:13:39
+ * @Last Modified At: 2021-08-01 18:17:13
  * @Description: Sets environment variables and runs startUp, before running as normal.
  */
 
@@ -13,6 +13,7 @@ import shell from "shelljs";
 
 const [, , ...processArgs] = process.argv;
 
+// Set base env vars.
 const config = {
 	development: {
 		NODE_ENV: "development",
@@ -40,7 +41,13 @@ const config = {
 	},
 };
 
+/**
+ * Load env vars and run program.
+ * @param args env vars
+ * @returns void
+ */
 export const runServer = (args) => {
+	// If logging is enabled.
 	const log = args[0] === "true";
 	if (args[0] === "true" || args[0] === "false") {
 		args.splice(0, 1);
@@ -48,6 +55,7 @@ export const runServer = (args) => {
 	const env = args[0];
 
 	if (args.length > 1) {
+		// Apply env vars from config.
 		let envVars;
 		if (env in config) {
 			const info = config[args[0]];
@@ -71,6 +79,7 @@ export const runServer = (args) => {
 			const varsArray = envVars.split(" ");
 
 			for (const envVar of varsArray) {
+				// Go from string to array of 2.
 				const values = envVar.split("=");
 				if (values.length != 2) {
 					console.error(`${env} was not set properly.`);
@@ -78,11 +87,12 @@ export const runServer = (args) => {
 				}
 				const index = values[0];
 				const value = values[1];
-
+				// Apply env vars to process.
 				shell.env[index] = value;
 			}
 		}
 		if (env !== "test") {
+			// Run startup before everything.
 			const folder = args[1].split("/")[0];
 			args.splice(1, 0, folder + "/bin/startUp");
 		}
@@ -91,6 +101,7 @@ export const runServer = (args) => {
 			runScript += args[i];
 			if (i == args.length - 1) {
 				if (log) console.log(`Running "${runScript}"`);
+				// Run script.
 				return shell.exec(runScript);
 			}
 			runScript += " ";
