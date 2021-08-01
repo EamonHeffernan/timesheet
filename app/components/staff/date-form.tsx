@@ -157,7 +157,6 @@ export default function DateForm({ children, pageName }) {
 					</div>
 				</FormLayout>
 			)}
-			<div>P</div>
 		</>
 	);
 }
