@@ -10,7 +10,7 @@ export default function DateForm({ children, pageName }) {
 	const [date, setDate] = useState("");
 	const [start, setStart] = useState("");
 	const [end, setEnd] = useState("");
-	const [breaks, setBreaks] = useState([{}]);
+	const [breaks, setBreaks] = useState([]);
 
 	const router = useRouter();
 
@@ -23,10 +23,9 @@ export default function DateForm({ children, pageName }) {
 	const submitDay = (event) => {
 		try {
 			event.preventDefault();
-			setStart(parseDateString(date, start));
-			setEnd(parseDateString(date, end));
 			if (confirm("Would you like to add a break?")) {
 				setDayComplete(true);
+				setBreaks([{}]);
 			} else {
 				post(event);
 			}
@@ -55,8 +54,8 @@ export default function DateForm({ children, pageName }) {
 			event.preventDefault();
 			const res = await request("/api/staff/submitDay", "POST", {
 				day: {
-					start,
-					end,
+					start: parseDateString(date, start),
+					end: parseDateString(date, end),
 					breaks,
 				},
 			});
