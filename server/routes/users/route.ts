@@ -16,6 +16,10 @@ const router = express.Router();
 
 module.exports = router;
 
+router.get("/", authenticate(AllowedGroups.Both), async (req, res) => {
+	return res.returnCode(200, "", { admin: res.locals.user.admin });
+});
+
 router.post(
 	"/signUp",
 	authenticate(AllowedGroups.Admin),

@@ -1,4 +1,5 @@
+import { request } from "../pages/_app";
+
 export default function LogOut() {
-	// Call fetch to the logout endpoint
-	// Will remove cookies from user and remove session key from db.
+	request("/api/users/signOut", "POST");
 }

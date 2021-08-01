@@ -48,8 +48,10 @@ export const signIn = async (
 	password: string
 ): Promise<IUserHandlerResponse> => {
 	const user = await User.findOne({ email: email });
+	console.log(user);
 	if (user != null) {
 		if (checkHash(password, user.hash)) {
+			console.log(user);
 			const sessionKey = createToken(user, "sessionKey");
 			user.save();
 			return { user: user, sessionKey: sessionKey };

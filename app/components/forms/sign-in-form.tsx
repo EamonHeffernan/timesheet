@@ -10,6 +10,19 @@ export default function SignInForm({ children, pageName }) {
 	const [password, setPassword] = useState("");
 	const router = useRouter();
 
+	const checkAccount = async () => {
+		const res = await request("/api/users", "GET");
+		if (res.ok) {
+			const result = await res.json();
+			if (result.data.admin) {
+				router.push("/admin");
+			} else {
+				router.push("/staff/submit");
+			}
+		}
+	};
+	checkAccount();
+
 	const signIn = async (event) => {
 		try {
 			event.preventDefault();
@@ -18,9 +31,13 @@ export default function SignInForm({ children, pageName }) {
 				email,
 				password,
 			});
-
+			const response = await res.json();
 			if (res.status == 200) {
-				router.push("/staff/submit");
+				if (response.data.admin) {
+					router.push("/admin");
+				} else {
+					router.push("/staff/submit");
+				}
 			} else if (res.status == 400) {
 				alert("Username and password incorrect");
 			} else {

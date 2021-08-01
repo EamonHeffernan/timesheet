@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import FormBottomBox from "../components/forms/form-bottom-box";
-import FormLayout from "../components/forms/form-layout";
 import SignInForm from "../components/forms/sign-in-form";
 
 export default function Index() {

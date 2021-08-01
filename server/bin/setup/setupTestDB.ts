@@ -8,7 +8,7 @@ const main = async () => {
 	const admin: IUser = new User();
 
 	//Information sourced from https://www.fakenamegenerator.com/gen-random-au-au.php
-	admin.email = "SeanTregurtha@teleworm.us";
+	admin.email = "seantregurtha@teleworm.us";
 	admin.name = "Sean Tregurtha";
 	admin.dob = new Date("1960-08-29Z");
 	admin.hash = hashString("ooChieB4Egh");
@@ -18,7 +18,7 @@ const main = async () => {
 	logger("Added Admin to the database");
 
 	const user1: IUser = new User();
-	user1.email = "GabrielleCaron@rhyta.com";
+	user1.email = "gabriellecaron@rhyta.com";
 	user1.name = "Gabrielle Caron";
 	user1.dob = new Date("1947-06-24Z");
 	user1.hash = hashString("deiPh0piqu");
@@ -28,7 +28,7 @@ const main = async () => {
 	logger("Added User1 to the database");
 
 	const user2: IUser = new User();
-	user2.email = "GeorgiaTonkin@jourrapide.com";
+	user2.email = "georgiatonkin@jourrapide.com";
 	user2.name = "Georgia Tonkin";
 	user2.dob = new Date("1983-02-22Z");
 	user2.hash = hashString("pa0Ei6iejah");
@@ -38,7 +38,7 @@ const main = async () => {
 	logger("Added User2 to the database");
 
 	const user3: IUser = new User();
-	user3.email = "LaylaPryor@jourrapide.com";
+	user3.email = "laylapryor@jourrapide.com";
 	user3.name = "Layla Pryor";
 	user3.dob = new Date("1948-07-02Z");
 	user3.hash = hashString("pu1aet0Xei");
