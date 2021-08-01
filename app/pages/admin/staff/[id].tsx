@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-31 08:06:02
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 16:45:36
+ * @Last Modified At: 2021-08-01 18:30:01
  * @Description: Admin view of single user.
  */
 
@@ -44,6 +44,11 @@ export default function StaffView({ data }) {
 	);
 }
 
+/**
+ * Get hours user has worked in the last 7 days
+ * @param info User to get recent hours of.
+ * @returns Hours worked in the last 7 days
+ */
 const recentHours = (info) => {
 	let recentHours = 0;
 	let totalHours = 0;

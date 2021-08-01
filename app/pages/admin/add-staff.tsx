@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-08-01 01:46:36
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:32:49
+ * @Last Modified At: 2021-08-01 18:31:50
  * @Description: Page for adding new staff.
  */
 
@@ -21,9 +21,11 @@ export default function AddStaff() {
 
 	const router = useRouter();
 
+	/**
+	 * Post to add staff endpoint with state.
+	 */
 	const addStaff = async (event) => {
 		try {
-			console.log(parseDateString(dob));
 			event.preventDefault();
 			const res = await request("/api/users/signUp", "POST", {
 				email,

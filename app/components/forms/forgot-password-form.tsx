@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-19 17:52:54
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:19:21
+ * @Last Modified At: 2021-08-01 18:34:33
  * @Description: Contains the form for forgot-password.
  */
 
@@ -16,6 +16,9 @@ import FormLayout from "./form-layout";
 
 export default function ForgotPasswordForm({ children, pageName }) {
 	const [email, setEmail] = useState("");
+	/**
+	 * Post to the forgot password endpoint with state.
+	 */
 	const forgotPassword = async (event) => {
 		try {
 			event.preventDefault();

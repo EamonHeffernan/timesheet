@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-31 08:06:02
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:28:52
+ * @Last Modified At: 2021-08-01 18:38:39
  * @Description: Grid off staff, shown to admin.
  */
 
@@ -46,6 +46,11 @@ export default function StaffGrid({ staffData }) {
 	);
 }
 
+/**
+ * Get total and recent hours of work from the user object.
+ * @param info Staff data to get days from.
+ * @returns Total and recent hours of work.
+ */
 const recentHours = (info) => {
 	let recentHours = 0;
 	let totalHours = 0;
@@ -65,6 +70,12 @@ const recentHours = (info) => {
 	return { total: Math.ceil(totalHours), recent: Math.ceil(recentHours) };
 };
 
+/**
+ * Sort compare function.
+ * Takes 2 inputs and
+ * returns who has more value. Sorts based
+ * on how recent their last day was.
+ */
 const compareDates = (a, b) => {
 	const aHasDate = a.days.length != 0;
 	const bHasDate = b.days.length != 0;
@@ -91,6 +102,11 @@ const compareDates = (a, b) => {
 	return tieBreak(a, b);
 };
 
+/**
+ * Tie break for compareDates function.
+ * Returns who has a younger age.
+ * This ensures a consistent order on the admin page.
+ */
 const tieBreak = (a, b) => {
 	const aDOB = new Date(a.dob).getTime();
 	const bDOB = new Date(b.dob).getTime();

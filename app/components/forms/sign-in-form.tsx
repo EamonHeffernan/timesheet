@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-19 17:52:54
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:20:44
+ * @Last Modified At: 2021-08-01 21:43:23
  * @Description: Form to sign in.
  */
 import { useRouter } from "next/router";
@@ -19,6 +19,9 @@ export default function SignInForm({ children, pageName }) {
 	const [password, setPassword] = useState("");
 	const router = useRouter();
 
+	/**
+	 * Check if user is signed in and redirect if so.
+	 */
 	const checkAccount = async () => {
 		const res = await request("/api/users", "GET");
 		if (res.ok) {
@@ -30,8 +33,11 @@ export default function SignInForm({ children, pageName }) {
 			}
 		}
 	};
-	checkAccount();
+	if (typeof window !== "undefined") checkAccount();
 
+	/**
+	 * Post to the sign in endpoint with state.
+	 */
 	const signIn = async (event) => {
 		try {
 			event.preventDefault();

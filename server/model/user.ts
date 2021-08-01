@@ -1,10 +1,10 @@
 /*
- * @Script: user.ts
+ * @Script: validateInput.ts
  * @Author: Eamon Heffernan
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-06-16 12:44:59
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 17:34:28
+ * @Last Modified At: 2021-08-01 20:02:07
  * @Description: Lays out the schematic for the User class.
  */
 

@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-19 17:52:54
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:20:29
+ * @Last Modified At: 2021-08-01 18:34:11
  * @Description: The form for password resets.
  */
 import { useRouter } from "next/router";
@@ -17,6 +17,9 @@ import FormLayout from "./form-layout";
 export default function ResetPasswordForm({ children, pageName, token }) {
 	const router = useRouter();
 	const [password, setPassword] = useState("");
+	/**
+	 * Post to the reset password endpoint with state.
+	 */
 	const resetPassword = async (event) => {
 		try {
 			event.preventDefault();

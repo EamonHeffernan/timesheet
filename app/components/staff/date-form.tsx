@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-27 01:20:44
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:27:04
+ * @Last Modified At: 2021-08-01 18:33:19
  * @Description: Form for submitting dates.
  */
 
@@ -29,7 +29,10 @@ export default function DateForm({ children, pageName }) {
 		breaksCopy[breaksCopy.length - 1][key] = value;
 		setBreaks(breaksCopy);
 	};
-
+	/**
+	 * Save day to state and ask if the user
+	 * would like to add a break.
+	 */
 	const submitDay = (event) => {
 		try {
 			event.preventDefault();
@@ -49,6 +52,10 @@ export default function DateForm({ children, pageName }) {
 		}
 	};
 
+	/**
+	 * Save break and ask the user if they
+	 * would like another break.
+	 */
 	const submitBreak = (event) => {
 		event.preventDefault();
 		if (confirm("Would you like to add another break?")) {
@@ -59,6 +66,9 @@ export default function DateForm({ children, pageName }) {
 		}
 	};
 
+	/**
+	 * Post to the submit day endpoint with state.
+	 */
 	const post = async (event) => {
 		try {
 			event.preventDefault();

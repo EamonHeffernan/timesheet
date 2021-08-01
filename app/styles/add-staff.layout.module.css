@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-08-01 01:46:36
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:31:59
+ * @Last Modified At: 2021-08-01 22:32:48
  * @Description: Styling for the add-staff page.
  */
 
@@ -26,7 +26,7 @@
 }
 
 .form-container {
-	background: greenyellow;
+	background: gray;
 	width: 50%;
 	height: 25%;
 	padding: 6%;

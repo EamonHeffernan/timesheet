@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-29 17:56:49
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 17:53:04
+ * @Last Modified At: 2021-08-01 19:00:09
  * @Description: Performs an existence check.
  */
 
@@ -20,5 +20,8 @@ export const existenceCheck = (
 	value: any,
 	allowNull: boolean = false
 ): ValidationResult => {
-	return validationResult(value !== undefined && (allowNull || value !== null));
+	return validationResult(
+		value !== undefined && (allowNull || value !== null),
+		value
+	);
 };

@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-08-01 08:27:06
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:36:43
+ * @Last Modified At: 2021-08-01 18:35:16
  * @Description: Grid holding all days of user.
  */
 
@@ -55,6 +55,11 @@ export default function DayGrid({ staffData }) {
 	);
 }
 
+/**
+ * Get minutes of break in day.
+ * @param info Day input
+ * @returns Minutes of break.
+ */
 const breakTime = (info) => {
 	const start = new Date(info.start);
 	const end = new Date(info.end);

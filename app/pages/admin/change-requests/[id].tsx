@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-08-01 06:55:55
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 14:35:15
+ * @Last Modified At: 2021-08-01 18:30:52
  * @Description: Page to view a single change request
  */
 
@@ -28,6 +28,10 @@ export default function StaffView({ data }) {
 
 	const req = requestData.data.data.find((e) => e._id == id);
 
+	/**
+	 * Resolve a request by accepting or denying it.
+	 * @param accept Accept request
+	 */
 	const resolveRequest = async (accept: boolean) => {
 		try {
 			const res = await request("/api/admin/resolveChangeRequest", "POST", {
