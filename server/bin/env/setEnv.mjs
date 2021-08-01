@@ -8,18 +8,24 @@ const config = {
 		NODE_ENV: "development",
 		DATABASEURI: "localhost:27017/timesheet",
 		COOKIE_SECRET: "DEVELOPMENTCOOKIESECRET",
+		LOG_LEVEL: "2",
+		CONSOLE_LOG_LEVEL: "0",
 		others: "",
 	},
 	test: {
 		NODE_ENV: "test",
 		DATABASEURI: "localhost:27017/testTimesheet",
 		COOKIE_SECRET: "TESTCOOKIESECRET",
+		LOG_LEVEL: "2",
+		CONSOLE_LOG_LEVEL: "0",
 		others: "",
 	},
 	production: {
 		NODE_ENV: "production",
 		DATABASEURI: "localhost:27017/timesheet",
 		COOKIE_SECRET: "PRODCOOKIESECRET",
+		LOG_LEVEL: "0",
+		CONSOLE_LOG_LEVEL: "0",
 		others: "PORT=5000",
 	},
 };
@@ -29,10 +35,11 @@ export const runServer = (args) => {
 	if (args[0] === "true" || args[0] === "false") {
 		args.splice(0, 1);
 	}
+	const env = args[0];
 
 	if (args.length > 1) {
 		let envVars;
-		if (args[0] in config) {
+		if (env in config) {
 			const info = config[args[0]];
 
 			envVars = `NODE_ENV=${info.NODE_ENV} DATABASEURI=mongodb://${
@@ -46,7 +53,7 @@ export const runServer = (args) => {
 
 		if (envVars !== undefined) {
 			if (log) {
-				console.log(`Loaded "${args[0]}" environment`);
+				console.log(`Loaded "${env}" environment`);
 				console.log(`Loaded ENV variables: "${envVars}"`);
 			}
 			args.splice(0, 1);
@@ -56,7 +63,7 @@ export const runServer = (args) => {
 			for (const envVar of varsArray) {
 				const values = envVar.split("=");
 				if (values.length != 2) {
-					console.error(`${values[0]} was not set properly.`);
+					console.error(`${env} was not set properly.`);
 					break;
 				}
 				const index = values[0];
@@ -65,7 +72,10 @@ export const runServer = (args) => {
 				shell.env[index] = value;
 			}
 		}
-
+		if (env !== "test") {
+			const folder = args[1].split("/")[0];
+			args.splice(1, 0, folder + "/bin/startUp");
+		}
 		let runScript = "";
 		for (let i = 0; i < args.length; i++) {
 			runScript += args[i];

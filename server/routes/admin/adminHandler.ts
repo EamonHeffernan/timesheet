@@ -1,5 +1,4 @@
 import { startOfDay } from "../../dataValidation/validateData";
-import errorHandler from "../../errorHandler";
 import { ChangeRequest, IChangeRequest } from "../../model/changeRequest";
 import { IUser, User } from "../../model/user";
 
@@ -36,8 +35,7 @@ export const resolveChangeRequest = async (
 		const staff = changeRequest.staff as IUser;
 
 		if (staff == null) {
-			errorHandler(null, null, "Staff not found for change request");
-			return null;
+			throw "Staff not found for change request";
 		}
 
 		for (let i = 0; i < staff.days.length; i++) {
@@ -52,7 +50,7 @@ export const resolveChangeRequest = async (
 			}
 		}
 		//changeRequest.remove();
-		errorHandler(null, null, "Day not found for change request");
+		throw "Day not found for change request";
 		return null;
 	} else {
 		changeRequest.remove();

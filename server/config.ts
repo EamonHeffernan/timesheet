@@ -1,6 +1,7 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { CookieOptions } from "express";
+import { errorCatcher } from "./logger";
 
 export const prod = process.env.NODE_ENV === "production";
 export const test = process.env.NODE_ENV === "test";

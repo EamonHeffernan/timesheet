@@ -36,13 +36,11 @@ export const signUp = async (
 	user.dob = dob;
 	user.admin = false;
 
-	// has to be called before save otherwise the session key is not saved.
-	const sessionKey = createToken(user, "sessionKey");
 	generatePasswordReset(user);
 
 	user.save();
 
-	return { user: user, sessionKey: sessionKey };
+	return { user: user };
 };
 
 export const signIn = async (

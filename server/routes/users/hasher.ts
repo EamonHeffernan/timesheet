@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import logger, { LogLevel } from "../../logger";
 
 /**
  * Check if hash was created from string

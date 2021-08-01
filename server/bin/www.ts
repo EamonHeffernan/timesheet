@@ -1,4 +1,5 @@
 import app, { nextApp, setup } from "../app";
+import logger, { LogLevel } from "../logger";
 import { initMongoConnection } from "../model/db";
 
 const initApp = async () => {
@@ -7,7 +8,7 @@ const initApp = async () => {
 
 	const PORT = process.env.PORT || 3000;
 
-	app.listen(PORT, () => console.log(`Server started on ${PORT}`));
+	app.listen(PORT, () => logger(`Server started on ${PORT}`));
 };
 
 initApp();

@@ -7,7 +7,7 @@ import router from "./routes/router";
 export * from "./config";
 
 import "./httpResponses";
-import { sendPasswordReset } from "./emailer/emailer";
+import { errorCatcher } from "./logger";
 
 const nodePackage = require("../package.json");
 
@@ -19,6 +19,7 @@ const app = express();
 export const setup = () => {
 	config(app);
 	router(app, handle);
+	app.use(errorCatcher);
 };
 
 export default app;

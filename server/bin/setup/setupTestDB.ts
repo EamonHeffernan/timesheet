@@ -1,3 +1,4 @@
+import logger, { LogLevel } from "../../logger";
 import { initMongoConnection } from "../../model/db";
 import { IUser, User } from "../../model/user";
 import { hashString } from "../../routes/users/hasher";
@@ -14,7 +15,7 @@ const main = async () => {
 	admin.admin = true;
 	admin.accountCreated = true;
 	admin.days = [];
-	console.log("Added Admin to the database");
+	logger("Added Admin to the database");
 
 	const user1: IUser = new User();
 	user1.email = "GabrielleCaron@rhyta.com";
@@ -24,7 +25,7 @@ const main = async () => {
 	user1.admin = false;
 	user1.accountCreated = true;
 	user1.days = [];
-	console.log("Added User1 to the database");
+	logger("Added User1 to the database");
 
 	const user2: IUser = new User();
 	user2.email = "GeorgiaTonkin@jourrapide.com";
@@ -34,7 +35,7 @@ const main = async () => {
 	user2.admin = false;
 	user2.accountCreated = true;
 	user2.days = [];
-	console.log("Added User2 to the database");
+	logger("Added User2 to the database");
 
 	const user3: IUser = new User();
 	user3.email = "LaylaPryor@jourrapide.com";
@@ -44,10 +45,10 @@ const main = async () => {
 	user3.admin = false;
 	user3.accountCreated = true;
 	user3.days = [];
-	console.log("Added User2 to the database");
+	logger("Added User2 to the database");
 
 	await Promise.all([admin.save(), user1.save(), user2.save(), user3.save()]);
-	console.log("Saved database with test information.");
+	logger("Saved database with test information.");
 	process.kill(process.pid, "SIGTERM");
 };
 main();
