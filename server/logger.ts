@@ -74,6 +74,13 @@ const getTimestamp = (file: boolean) => {
 		return `${day}/${month} ${hour}:${minute}:${second}`;
 	}
 };
+
+const dir = path.join(__dirname, "../", "logs");
+
+if (!fs.existsSync(dir)) {
+	fs.mkdirSync(dir);
+}
+
 const writeStream = fs.createWriteStream(
-	path.join(__dirname, "../", "logs", `${getTimestamp(true)}.log`)
+	path.join(dir, `${getTimestamp(true)}.log`)
 );
