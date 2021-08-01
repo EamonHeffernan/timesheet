@@ -1,3 +1,13 @@
+/*
+ * @Script: reasonabilityChecks.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At:2021-07-29 17:56:49
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:09:04
+ * @Description: Contains specific reasonability tests.
+ */
+
 import { IBreak, IDay } from "../../model/user";
 import { fullDaysSinceDate } from "../otherValidation";
 import { reasonabilityCheck } from "../reasonabilityCheck";

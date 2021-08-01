@@ -1,8 +1,19 @@
+/*
+ * @Script: db.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-06-16 12:44:02
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:01:49
+ * @Description: The mongoose connection code.
+ */
+
 // Bring Mongoose into the app
 import mongoose from "mongoose";
+
+import { test } from "../config";
 import logger from "../logger";
 import errorHandler, { LogLevel } from "../logger";
-import { test } from "../config";
 import { User } from "./user";
 
 const dbURI = process.env.DATABASEURI;

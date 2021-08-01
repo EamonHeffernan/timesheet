@@ -1,4 +1,14 @@
-import logger, { LogLevel } from "../../logger";
+/*
+ * @Script: setupTestDB.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-08-01 09:11:31
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:11:56
+ * @Description: Sets up the database with test users.
+ */
+
+import logger from "../../logger";
 import { initMongoConnection } from "../../model/db";
 import { IUser, User } from "../../model/user";
 import { hashString } from "../../routes/users/hasher";

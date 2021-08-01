@@ -1,12 +1,22 @@
+/*
+ * @Script: users.test.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-08 12:47:51
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:49:28
+ * @Description: Contains tests for users.
+ */
+
 import { expect } from "chai";
 
+import logger from "../../logger";
 import { initMongoConnection } from "../../model/db";
 import { IUser, User } from "../../model/user";
+import { hashString } from "./hasher";
 import { AllowedGroups, authenticateUser, signIn, signUp } from "./userHandler";
 
 import "mocha";
-import logger, { LogLevel } from "../../logger";
-import { hashString } from "./hasher";
 
 describe("Validate User", () => {
 	before("connect", initMongoConnection);

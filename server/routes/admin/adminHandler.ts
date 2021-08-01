@@ -1,3 +1,13 @@
+/*
+ * @Script: adminHandler.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-14 11:36:09
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:59:31
+ * @Description: Receives and handles everything relating to admins.
+ */
+
 import { startOfDay } from "../../dataValidation/validateData";
 import { ChangeRequest, IChangeRequest } from "../../model/changeRequest";
 import { IUser, User } from "../../model/user";

@@ -1,21 +1,20 @@
+/*
+ * @Script: route.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-14 11:36:19
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:59:00
+ * @Description: Handles the route for api/admin.
+ */
+
 import express from "express";
 
-import {
-	DataType,
-	emailInUse,
-	InputData,
-	validateBody,
-	validateInput,
-} from "../../dataValidation/validateInput";
+import { DataType, emailInUse, InputData, validateBody, validateInput } from "../../dataValidation/validateInput";
 import { ChangeRequest } from "../../model/changeRequest";
 import { IUser, User } from "../../model/user";
 import { AllowedGroups, authenticate } from "../users/middleware";
-import {
-	getPendingChangeRequests,
-	getStaff,
-	resolveChangeRequest,
-	updateStaff,
-} from "./adminHandler";
+import { getPendingChangeRequests, getStaff, resolveChangeRequest, updateStaff } from "./adminHandler";
 
 const router = express.Router();
 

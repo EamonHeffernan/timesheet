@@ -1,4 +1,14 @@
 #! /usr/bin/env node
+/*
+ * @Script: setEnv.mjs
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-26 17:04:43
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:13:39
+ * @Description: Sets environment variables and runs startUp, before running as normal.
+ */
+
 import shell from "shelljs";
 
 const [, , ...processArgs] = process.argv;

@@ -1,7 +1,14 @@
-import {
-	fullDaysSinceDate,
-	startOfDay,
-} from "../../dataValidation/otherValidation";
+/*
+ * @Script: staffHandler.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-12 14:29:37
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:56:28
+ * @Description: Handles adding and getting days.
+ */
+
+import { fullDaysSinceDate, startOfDay } from "../../dataValidation/otherValidation";
 import { ChangeRequest } from "../../model/changeRequest";
 import { IDay, IUser } from "../../model/user";
 

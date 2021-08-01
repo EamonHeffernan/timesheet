@@ -1,3 +1,13 @@
+/*
+ * @Script: route.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-12 14:29:52
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:57:59
+ * @Description: Handles the route for api/staff.
+ */
+
 import express from "express";
 
 import { DataType, validateInput } from "../../dataValidation/validateInput";

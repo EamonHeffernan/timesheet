@@ -1,3 +1,13 @@
+/*
+ * @Script: httpResponses.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-06-16 12:44:51
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:46:54
+ * @Description: Adds function to res that handles responding to client.
+ */
+
 import express from "express";
 
 declare global {

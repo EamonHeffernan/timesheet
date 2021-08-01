@@ -1,3 +1,13 @@
+/*
+ * @Script: validateInput.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-29 17:56:49
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:05:31
+ * @Description: Middleware for validating request bodies.
+ */
+
 import express from "express";
 
 import validateData, { ValidationData, ValidationResult } from "./validateData";

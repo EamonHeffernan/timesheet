@@ -1,3 +1,13 @@
+/*
+ * @Script: otherValidation.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-29 17:56:49
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:07:57
+ * @Description: Holds functions that are related to data validation.
+ */
+
 import { User } from "../model/user";
 
 export const emailInUse = async (email: string): Promise<boolean> => {

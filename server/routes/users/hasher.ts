@@ -1,5 +1,14 @@
+/*
+ * @Script: hasher.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-06-16 12:44:12
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:53:52
+ * @Description: Hashes and checks hashes for passwords.
+ */
+
 import bcrypt from "bcrypt";
-import logger, { LogLevel } from "../../logger";
 
 /**
  * Check if hash was created from string

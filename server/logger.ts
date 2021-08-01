@@ -1,4 +1,14 @@
-import { Request, Response, NextFunction } from "express";
+/*
+ * @Script: logger.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-08-01 11:46:17
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:47:49
+ * @Description: Handles the logging and saving of information.
+ */
+
+import { NextFunction, Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 

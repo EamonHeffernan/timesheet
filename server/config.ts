@@ -1,7 +1,16 @@
+/*
+ * @Script: config.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-30 14:22:08
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:46:03
+ * @Description: Holds config and middleware for express.
+ */
+
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { CookieOptions } from "express";
-import { errorCatcher } from "./logger";
 
 export const prod = process.env.NODE_ENV === "production";
 export const test = process.env.NODE_ENV === "test";

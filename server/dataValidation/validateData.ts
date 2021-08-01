@@ -1,3 +1,13 @@
+/*
+ * @Script: validateData.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-29 17:56:49
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:06:13
+ * @Description: Routes validation requests to the right targets.
+ */
+
 import { existenceCheck } from "./existenceCheck";
 import { Format, formatCheck } from "./formatCheck";
 import { reasonabilityCheck, ValidDataType } from "./reasonabilityCheck";

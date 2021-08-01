@@ -1,3 +1,13 @@
+/*
+ * @Script: validation.test.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-12 14:29:57
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:04:36
+ * @Description: Tests for data validation.
+ */
+
 import { expect } from "chai";
 
 import { DataType, reasonabilityCheck, typeCheck } from "./validateData";

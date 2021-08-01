@@ -1,10 +1,16 @@
+/*
+ * @Script: reasonabilityCheck.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-29 17:56:49
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:07:12
+ * @Description: Performs reasonability tests.
+ */
+
 import { validateBreak, validateDate, validateDay } from "./checks/reasonabilityChecks";
 import { DataType, typeCheck } from "./typeCheck";
 import { validationResult, ValidationResult } from "./validateData";
-
-const noCheckImplemented = (input: any) => {
-	return true;
-};
 
 export * from "./checks/reasonabilityChecks";
 export type ValidDataType = "DateOfBirth" | "Day" | "Break";

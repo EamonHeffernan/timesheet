@@ -1,3 +1,13 @@
+/*
+ * @Script: userHandler.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-06-16 12:44:51
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:59:39
+ * @Description: Receives and handles everything relating to users.
+ */
+
 import srs from "secure-random-string";
 
 import { prod, test } from "../../app";

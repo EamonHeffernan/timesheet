@@ -1,3 +1,13 @@
+/*
+ * @Script: middleware.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-08 06:57:07
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:52:50
+ * @Description: Contains the authentication middleware.
+ */
+
 import express from "express";
 
 import { clearSessionKey } from "./cookieHandler";

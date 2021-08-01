@@ -1,16 +1,19 @@
+/*
+ * @Script: route.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-06-16 12:44:09
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 13:54:20
+ * @Description: Handles the route for /api/users.
+ */
+
 import express from "express";
 
 import { DataType, validateInput } from "../../dataValidation/validateInput";
 import { clearSessionKey, saveSessionKey } from "./cookieHandler";
 import { authenticate } from "./middleware";
-import {
-	AllowedGroups,
-	forgotPassword,
-	resetPassword,
-	signIn,
-	signOut,
-	signUp,
-} from "./userHandler";
+import { AllowedGroups, forgotPassword, resetPassword, signIn, signOut, signUp } from "./userHandler";
 
 const router = express.Router();
 
@@ -49,7 +52,7 @@ router.post(
 		// Validate existence and type here
 		const response = await signIn(req.body.email, req.body.password);
 		if ("user" in response) {
-			saveSessionKey(res, response.user.id, response.sessionKey);
+			saveSessionKey(res, response.sessionKey);
 			return res.returnCode(200, "Signed in", response.user.sendableUser());
 		} else if ("error" in response) {
 			return res.returnCode(400, response.error);

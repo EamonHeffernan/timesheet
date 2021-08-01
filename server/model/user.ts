@@ -1,9 +1,14 @@
-import {
-	DocumentType,
-	getModelForClass,
-	modelOptions,
-	prop,
-} from "@typegoose/typegoose";
+/*
+ * @Script: user.ts
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-06-16 12:44:59
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:00:37
+ * @Description: Lays out the schematic for the User class.
+ */
+
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
 @modelOptions({ schemaOptions: { _id: false } })
 class BreakClass {
