@@ -1,3 +1,13 @@
+/*
+ * @Script: admin-layout.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-26 14:24:40
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:24:40
+ * @Description: Layout for admin pages.
+ */
+
 import Link from "next/link";
 
 import styles from "../../styles/admin-layout.module.css";

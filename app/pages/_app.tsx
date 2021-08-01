@@ -1,4 +1,12 @@
-import path from "path";
+/*
+ * @Script: _app.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-19 17:52:54
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:22:32
+ * @Description: Global code, always loaded.
+ */
 
 import "../styles/global.css";
 

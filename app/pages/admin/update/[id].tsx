@@ -1,3 +1,13 @@
+/*
+ * @Script: [id].tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-08-01 14:33:43
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:34:05
+ * @Description: Page for editing staff.
+ */
+
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";

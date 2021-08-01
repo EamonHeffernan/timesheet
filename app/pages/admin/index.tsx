@@ -1,3 +1,13 @@
+/*
+ * @Script: index.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-26 14:24:40
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:25:35
+ * @Description: Main admin page. Shows staff.
+ */
+
 import { GetServerSideProps } from "next";
 import React from "react";
 import useSWR from "swr";

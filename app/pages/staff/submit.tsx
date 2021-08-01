@@ -1,3 +1,13 @@
+/*
+ * @Script: submit.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-27 01:20:35
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:39:39
+ * @Description: Page for staff submitting times.
+ */
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";

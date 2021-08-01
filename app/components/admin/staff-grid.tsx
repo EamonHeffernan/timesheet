@@ -1,3 +1,13 @@
+/*
+ * @Script: staff-grid.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-31 08:06:02
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:28:52
+ * @Description: Grid off staff, shown to admin.
+ */
+
 import Link from "next/link";
 
 import styles from "../../styles/staff-grid.module.css";

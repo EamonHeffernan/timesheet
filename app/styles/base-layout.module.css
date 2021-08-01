@@ -1,3 +1,13 @@
+/*
+ * @Script: base-layout.module.css
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-19 17:52:41
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:41:34
+ * @Description: Styling for base-layout.
+ */
+
 .main-container {
 	display: flex;
 	justify-content: space-evenly;

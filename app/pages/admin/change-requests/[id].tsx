@@ -1,3 +1,13 @@
+/*
+ * @Script: [id].tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-08-01 06:55:55
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:35:15
+ * @Description: Page to view a single change request
+ */
+
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import styles from "../../../styles/change-requests-layout.module.css";

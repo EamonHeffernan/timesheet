@@ -1,4 +1,13 @@
-import styles from "../../../styles/change-requests-layout.module.css";
+/*
+ * @Script: day.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-08-01 06:66:54
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:38:17
+ * @Description: Formatted Day for change request.
+ */
+
 import { getTime } from "../../pages/_app";
 
 export default function Day({ day }) {

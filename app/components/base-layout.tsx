@@ -1,3 +1,13 @@
+/*
+ * @Script: base-layout.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-19 17:52:54
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:19:47
+ * @Description: Contains the layout most of the site uses.
+ */
+
 import Head from "next/head";
 import Image from "next/image";
 

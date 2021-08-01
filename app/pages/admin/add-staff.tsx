@@ -1,3 +1,13 @@
+/*
+ * @Script: add-staff.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-08-01 01:46:36
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:32:49
+ * @Description: Page for adding new staff.
+ */
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 import AdminLayout from "../../components/admin/admin-layout";

@@ -1,5 +1,13 @@
-import e from "express";
-import Link from "next/link";
+/*
+ * @Script: day-grid.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-08-01 08:27:06
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:36:43
+ * @Description: Grid holding all days of user.
+ */
+
 import { getTime } from "../../pages/_app";
 
 import styles from "../../styles/day-grid.module.css";

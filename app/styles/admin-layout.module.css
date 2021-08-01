@@ -1,3 +1,13 @@
+/*
+ * @Script: base-layout.module.css
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-26 17:13:50
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:43:37
+ * @Description: Styling for admin layout.
+ */
+
 .background {
 	background-color: pink;
 	height: 100%;

@@ -1,3 +1,13 @@
+/*
+ * @Script: [id].tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-31 08:06:02
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:29:34
+ * @Description: Admin view of single user.
+ */
+
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";

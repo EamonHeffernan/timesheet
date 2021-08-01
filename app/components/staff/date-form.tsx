@@ -1,3 +1,13 @@
+/*
+ * @Script: date-form.tsx
+ * @Author: Eamon Heffernan
+ * @Email: eamonrheffernan@gmail.com
+ * @Created At: 2021-07-27 01:20:44
+ * @Last Modified By: Eamon Heffernan
+ * @Last Modified At: 2021-08-01 14:27:04
+ * @Description: Form for submitting dates.
+ */
+
 import { useState } from "react";
 
 import { parseDateString, request } from "../../pages/_app";
