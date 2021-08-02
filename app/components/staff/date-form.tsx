@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 /*
  * @Script: date-form.tsx
  * @Author: Eamon Heffernan
@@ -11,9 +12,8 @@
 import { useState } from "react";
 
 import { parseDateString, request } from "../../pages/_app";
-import FormLayout from "../forms/form-layout";
 import styles from "../../styles/form-page.module.css";
-import { useRouter } from "next/router";
+import FormLayout from "../forms/form-layout";
 
 export default function DateForm({ children, pageName }) {
 	const [dayComplete, setDayComplete] = useState(false);
@@ -86,10 +86,13 @@ export default function DateForm({ children, pageName }) {
 			if (res.ok) {
 				request("/api/users/signOut", "POST");
 				router.push("/");
+			} else {
+				router.reload();
 			}
 		} catch (err) {
 			console.error(err);
 			alert("Unknown error occurred");
+			router.reload();
 		}
 	};
 

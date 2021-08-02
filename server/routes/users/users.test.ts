@@ -1,10 +1,10 @@
 /*
- * @Script: router.tst.ts
+ * @Script: users.test.ts
  * @Author: Eamon Heffernan
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-08 12:47:51
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 15:15:28
+ * @Last Modified At: 2021-08-02 21:33:09
  * @Description: Contains tests for users.
  */
 

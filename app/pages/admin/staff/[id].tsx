@@ -4,12 +4,14 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-31 08:06:02
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 18:30:01
+ * @Last Modified At: 2021-08-02 22:51:12
  * @Description: Admin view of single user.
  */
 
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
 import useSWR from "swr";
 
 import { fetcher, parseCookies, request } from "../../_app";
@@ -38,6 +40,11 @@ export default function StaffView({ data }) {
 				</div>
 				<div className={styles["sidebar-item"]}>
 					Total Hours: {hourInfo.total}
+				</div>
+				<div className={styles["sidebar-item"]}>
+					<Link href={"/admin/update/" + id}>
+						<a>Update user</a>
+					</Link>
 				</div>
 			</div>
 		</AdminLayout>

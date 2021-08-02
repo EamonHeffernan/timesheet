@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-12 14:29:52
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 16:10:55
+ * @Last Modified At: 2021-08-02 23:22:39
  * @Description: Handles the route for api/staff.
  */
 
@@ -36,6 +36,26 @@ router.post(
 		// Get day from body.
 		const day = req.body.day as IDay;
 
+		// Check if date is in the future by getting the current time
+		// if it were in UTC time and checking against that.
+		const d = new Date();
+		const utcDate = new Date(
+			Date.UTC(
+				d.getFullYear(),
+				d.getMonth(),
+				d.getDate(),
+				d.getHours(),
+				d.getMinutes(),
+				d.getSeconds(),
+				d.getMilliseconds()
+			)
+		);
+		if (
+			day.start.getTime() > utcDate.getTime() ||
+			day.end.getTime() > utcDate.getTime()
+		) {
+			return res.returnCode(400, "Date is in the future.");
+		}
 		// Get response from staffHandler.
 		const response = await addDay(res.locals.user, day);
 		return res.returnCode(200, response);

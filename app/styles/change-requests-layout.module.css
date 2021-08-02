@@ -33,7 +33,7 @@
 }
 
 .grid-container:nth-child(even) {
-	background-color: greenyellow;
+	background-color: white;
 }
 
 .grid-item {
@@ -55,7 +55,8 @@
 }
 
 .day-container {
-	background-color: blue;
+	background-color: grey;
+	margin: 10%;
 	width: 80%;
 	display: flex;
 	justify-content: space-between;

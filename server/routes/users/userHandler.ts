@@ -16,8 +16,9 @@ import { sendPasswordReset } from "../../emailer/emailer";
 import { IUser, User } from "../../model/user";
 import { checkHash, hashString } from "./hasher";
 
+// Testing value
 // By adding check for dev mode, removes chances of leaving this off in prod.
-const removeAdminAuthentication = true && !prod && !test;
+const removeAdminAuthentication = false && !prod && !test;
 
 export enum AllowedGroups {
 	Staff,

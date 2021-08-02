@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-19 17:52:54
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 21:43:23
+ * @Last Modified At: 2021-08-02 22:12:56
  * @Description: Form to sign in.
  */
 import { useRouter } from "next/router";
@@ -75,6 +75,7 @@ export default function SignInForm({ children, pageName }) {
 					autoComplete='email'
 					required
 					className={styles["input-field"]}
+					maxLength={72}
 				/>
 			</div>
 			<div className={styles["input"]}>
@@ -86,6 +87,7 @@ export default function SignInForm({ children, pageName }) {
 					type='password'
 					required
 					className={styles["input-field"]}
+					maxLength={72}
 				/>
 			</div>
 		</FormLayout>

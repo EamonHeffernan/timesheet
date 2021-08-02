@@ -4,17 +4,28 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-07-14 11:36:19
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 16:45:55
+ * @Last Modified At: 2021-08-02 23:06:27
  * @Description: Handles the route for api/admin.
  */
 
 import express from "express";
 
-import { DataType, emailInUse, InputData, validateBody, validateInput } from "../../dataValidation/validateInput";
+import {
+	DataType,
+	emailInUse,
+	InputData,
+	validateBody,
+	validateInput,
+} from "../../dataValidation/validateInput";
 import { ChangeRequest } from "../../model/changeRequest";
 import { User } from "../../model/user";
 import { AllowedGroups, authenticate } from "../users/middleware";
-import { getPendingChangeRequests, getStaff, resolveChangeRequest, updateStaff } from "./adminHandler";
+import {
+	getPendingChangeRequests,
+	getStaff,
+	resolveChangeRequest,
+	updateStaff,
+} from "./adminHandler";
 
 const router = express.Router();
 
@@ -80,7 +91,10 @@ router.put(
 
 			// Specific check for email.
 			if (info.name === "email") {
-				if (await emailInUse(req.body["email"])) {
+				if (
+					validationResult.value !== staff.email ||
+					(await emailInUse(req.body["email"]))
+				) {
 					return res.returnCode(400, "Email in use.");
 				}
 			}
@@ -88,7 +102,7 @@ router.put(
 			// Add correct value to values to change.
 			valuesToChange.push({
 				name: info.name,
-				value: req.body[info.name],
+				value: validationResult.value,
 			});
 		}
 		// If values have been set

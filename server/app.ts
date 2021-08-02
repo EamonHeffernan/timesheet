@@ -4,7 +4,7 @@
  * @Email: eamonrheffernan@gmail.com
  * @Created At: 2021-06-01 13:11:41
  * @Last Modified By: Eamon Heffernan
- * @Last Modified At: 2021-08-01 15:10:54
+ * @Last Modified At: 2021-08-02 21:39:25
  * @Description: Base file that calls the routes for express.
  */
 
@@ -35,6 +35,7 @@ const app = express();
 export const setup = () => {
 	config(app);
 	router(app, handle);
+
 	app.use(errorCatcher);
 };
 
