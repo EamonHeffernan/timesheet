@@ -10,22 +10,11 @@
 
 import express from "express";
 
-import {
-	DataType,
-	emailInUse,
-	InputData,
-	validateBody,
-	validateInput,
-} from "../../dataValidation/validateInput";
+import { DataType, emailInUse, InputData, validateBody, validateInput } from "../../dataValidation/validateInput";
 import { ChangeRequest } from "../../model/changeRequest";
 import { User } from "../../model/user";
 import { AllowedGroups, authenticate } from "../users/middleware";
-import {
-	getPendingChangeRequests,
-	getStaff,
-	resolveChangeRequest,
-	updateStaff,
-} from "./adminHandler";
+import { getPendingChangeRequests, getStaff, resolveChangeRequest, updateStaff } from "./adminHandler";
 
 const router = express.Router();
 
@@ -92,7 +81,7 @@ router.put(
 			// Specific check for email.
 			if (info.name === "email") {
 				if (
-					validationResult.value !== staff.email ||
+					validationResult.value !== staff.email &&
 					(await emailInUse(req.body["email"]))
 				) {
 					return res.returnCode(400, "Email in use.");
